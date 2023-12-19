@@ -1,0 +1,42 @@
+# place this file at ~/.xbindkeysrc
+
+# To reset:
+# killall -HUP xbindkeys && xbindkeys
+
+# Settings ------------------------
+
+"kquitapp5 plasmashell && kstart5 plasmashell"
+Mod4+Q
+
+# Apps -----------------------------
+# "konsole -e tmux new -As0 -s main"
+"konsole -e ~/Apps/bashScripts/tools/launch_tmux.sh"
+control+Mod4+T
+
+
+# rofi -----------------------------
+"rofi -show"
+Mod4+space
+
+"rofi -show run"
+control+Mod4+space
+
+"rofi -show emoji"
+Shift+Mod4+space
+
+# Reader ---------------------------
+# Basic read command
+"~/Apps/bashScripts/reader/read.sh"
+Alt+R
+
+# Read pdfs with line breaks in paragraphs
+"~/Apps/bashScripts/reader/read_lineBreaks.sh"
+Alt+Control+R
+
+# Read Latex documents (work in progress)
+"~/Apps/bashScripts/reader/read_latex.sh"
+Alt+Shift+R
+
+# Kill play task to stop reading
+"pkill play"
+Alt+T

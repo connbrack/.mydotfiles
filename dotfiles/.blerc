@@ -1,0 +1,6 @@
+
+# Disable auto-complete (Note: auto-complete is enabled by default in bash-4.0+)
+bleopt complete_auto_complete=
+
+# Disable auto-complete based on the command history
+bleopt complete_auto_history=
