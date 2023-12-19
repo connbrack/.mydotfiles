@@ -1,0 +1,139 @@
+# Resources
+# https://github.com/gokcehan/lf/blob/master/etc/lfrc.example  
+# https://github.com/ericmurphyxyz/dotfiles/blob/master/.config/lf/lfrc
+
+# Basic Settings
+# set hidden true
+set ignorecase true
+# set icons true
+
+# -------------- Open functions --------
+
+cmd open &{{
+#   case $(file --mime-type -Lb "$f") in
+    case $(xdg-mime query filetype "$f") in
+      text/*) lf -remote "send $id \$$EDITOR \"\$fx\"";;
+      application/json) lf -remote "send $id \$$EDITOR \"\$fx\"";;
+      application/x-shellscript) lf -remote "send $id \$$EDITOR \"\$fx\"";;
+      application/x-zerosize) lf -remote "send $id \$$EDITOR \"\$fx\"";;
+
+      *) for f in "$fx"; do $OPENER "$f" > /dev/null 2> /dev/null & done;;
+   esac
+}}
+
+cmd mytest ${{
+  file --mime-type -Lb "$f" | echo
+}}
+
+
+cmd file_explorer ${{
+  xdg-open . > /dev/null 2>&1 &
+}}
+
+cmd edit ${{
+    if [ -d "$f" ] ; then
+        codium "$f" > /dev/null 2>&1 &
+    fi 
+
+    case $(file --mime-type -Lb "$f") in
+        text/*) codium "$f" > /dev/null 2>&1 &;;
+    esac
+
+    case "$f" in
+        *.svg) inkscape "$f" > /dev/null 2>&1 &;;
+        *.png|*.jpeg|*.jpg) org.gimp.GIMP "$f" > /dev/null 2>&1 &;;
+    esac
+}}
+
+
+# ------------------- Basic functionaly -----------------
+cmd mkdir ${{
+  printf "Directory Name: "
+  read ans
+  mkdir $ans
+}}
+
+cmd touch ${{
+  printf "File Name: "
+  read ans
+  $EDITOR $ans
+}}
+
+cmd extract ${{
+    set -f
+    case $f in
+        *.tar.bz|*.tar.bz2|*.tbz|*.tbz2) tar xjvf $f;;
+        *.tar.gz|*.tgz) tar xzvf $f;;
+        *.tar.xz|*.txz) tar xJvf $f;;
+        *.zip) unzip $f;;
+        *.rar) unrar x $f;;
+        *.7z) 7z x $f;;
+    esac
+}}
+
+cmd zip ${{
+    set -f
+    mkdir $1
+    cp -r $fx $1
+    zip -r $1.zip $1
+    rm -rf $1
+}}
+
+cmd trash ${{
+  files=$(printf "$fx" | tr '\n' ';')
+  while [ "$files" ]; do
+    file=${files%%;*}
+
+    trash-put "$(basename "$file")"
+    if [ "$files" = "$file" ]; then
+      files=''
+    else
+      files="${files#*;}"
+    fi
+  done
+}}
+
+cmd restore_trash ${{
+  trash-restore
+}}
+
+
+# -------------- Mapping --------------
+# Custom
+map o file_explorer
+map e edit
+map du restore_trash
+map t mytest
+
+# Basic Functions
+map d
+map . set hidden!
+map dd cut
+map dt trash
+map R reload
+map mf mkfile
+map md mkdir
+
+# Movement
+map gh cd ~
+map ge cd /etc
+map gu cd /usr
+map gd cd /dev
+map go cd /opt
+map gv cd /var
+map gm cd /media
+map gM cd /mnt
+map gs cd /srv
+map gp cd /tmp
+map g/ cd /
+map gp cd '~/Documents/projects'
+map gd cd '~/Downloads'
+map gt cd '~/.local/share/Trash/files/'
+map gk cd '~/Apps/kali'
+map gww cd '~/Documents/PhD'
+map gwco cd '~/Documents/PhD/Coding'
+map gwap cd '~/Documents/PhD/Application'
+map gwpa cd '~/Documents/PhD/Papers and Conferences'
+map gwpr cd '~/Documents/PhD/Presentations'
+map gwid cd '~/Documents/PhD/ideas'
+map gwta cd '~/Documents/PhD/_TA/TA_BLDG371'
