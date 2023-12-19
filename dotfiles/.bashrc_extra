@@ -1,0 +1,27 @@
+
+
+
+# ----------- program upgrades -----------------------------------
+alias program-upgrade='echo && echo -e "\x1b[30;42m Updating flatpak \x1b[m" && flatpak update -y && echo && echo -e "\x1b[30;42m Updating nix \x1b[m" && nix-channel --update && echo "checking for package updates (this may take a while)" && nix-env -u'
+alias all-upgrade='apt-upgrade && program-upgrade'
+
+# ----------- starship -----------------------------------
+eval "$(starship init bash)"
+
+# ----------- conda -----------------------------------
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('~/Apps/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "~/Apps/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "~/Apps/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="~/Apps/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+
