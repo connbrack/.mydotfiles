@@ -2,24 +2,37 @@
 
 # ----------------------------- Install tools -------------------------------------------
 
-sudo apt install tldr
-sudo apt install fzf
-sudo apt install trash-cli
+sudo apt install fzf -y
+sudo apt install trash-cli -y
 
 
 # Install neovim
-sudo apt install neovim
+sudo add-apt-repository ppa:neovim-ppa/unstable -y
+sudo apt update
+sudo apt install neovim -y
 
 # Install lf
-sudo apt install golang-go
+sudo apt install golang-go -y
 env CGO_ENABLED=0 go install -ldflags="-s -w" github.com/gokcehan/lf@latest
 
 # Install ble
-sudo apt install make
+sudo apt install make -y
 git clone --recursive --depth 1 --shallow-submodules https://github.com/akinomyoga/ble.sh.git
 make -C ble.sh install PREFIX=~/.local
 
 
-sudo apt install gtk3-nocsd
-export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libgtk3-nocsd.so.0
+# ----------------------------- Optional installs -------------------------------------------
 
+## Install miniconda - https://www.youtube.com/watch?v=i7q8JbNK-9s
+#mkdir -p ~/miniconda3
+#wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh
+#bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
+#rm -rf ~/miniconda3/miniconda.sh
+#~/miniconda3/bin/conda init bash
+#
+#
+## Create swap storage - https://www.youtube.com/watch?v=i7q8JbNK-9s
+#sudo dd if=/dev/zero of=/mnt/swapfile bs=1024 count=2097152
+#sudo fallocate --length 2GiB /mnt/swapfile
+#sudo mkswap /mnt/swapfile
+#sudo swapon /mnt/swapfile
