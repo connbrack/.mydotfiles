@@ -2,6 +2,7 @@
 
 # ----------------------------- Install tools -------------------------------------------
 
+sudo apt install gtk3-nocsd
 sudo apt install fzf -y
 sudo apt install trash-cli -y
 
