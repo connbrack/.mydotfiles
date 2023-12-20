@@ -11,7 +11,7 @@ link_file_to_home() {
     if [ -L "$target_link" ]; then
         # Check if the existing link points to the same file
         if [ "$(readlink -f "$target_link")" == "$source_file" ]; then
-            echo "The link for '$file' already exists. No further action is needed."
+            :
         else
             echo "A link for '$file' already exists but points to a different file. Please remove link and re-run script."
         fi
