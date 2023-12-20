@@ -146,6 +146,8 @@ mkmv ()
 }
 
 # ----------- terminal setup --------------------------
+export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libgtk3-nocsd.so.0
+
 source ~/.local/share/blesh/ble.sh
 
 export VISUAL=nvim;
