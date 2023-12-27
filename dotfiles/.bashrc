@@ -107,8 +107,8 @@ alias vim='nvim'
 alias bat='bat --theme=TwoDark'
 
 # Fuzzy file exploring
-alias cdf="cd \"\$(find ~/ -type d | awk -F'/' '{print NF-1 \" \" \$0}' | sort -n | cut -d' ' -f2- | fzf)\""
-alias lff="cd \"\$(find ~/ -type d | awk -F'/' '{print NF-1 \" \" \$0}' | sort -n | cut -d' ' -f2- | fzf)\" && lf"
+alias cdf="cd \"\$(find ~/ -type d |  fzf)\""
+alias lff="dir=\$(find ~/ -type d | fzf) && [ -n \"\$dir\" ] && cd \"\$dir\" && lf"
 
 # ---------------------- misc --------------------------------
 alias nix-search='bash -c "xdg-open https://search.nixos.org" 2> /dev/null'
