@@ -1,5 +1,10 @@
 #!/bin/bash
 
+
+# upgrade system
+sudo apt update && 
+sudo apt upgrade -y &&
+
 # ----------------------------- Install tools -------------------------------------------
 
 sudo apt install gtk3-nocsd
@@ -12,9 +17,11 @@ sudo add-apt-repository ppa:neovim-ppa/unstable -y
 sudo apt update
 sudo apt install neovim -y
 
+
 # Install lf
 sudo apt install golang-go -y
 env CGO_ENABLED=0 go install -ldflags="-s -w" github.com/gokcehan/lf@latest
+
 
 # Install ble
 sudo apt install make -y
@@ -24,6 +31,12 @@ make -C ble.sh install PREFIX=~/.local
 
 # ----------------------------- Optional installs -------------------------------------------
 
+## npm packages 
+#sudo apt install npm
+#sudo apt install nodejs
+#npm install --global yarn
+#npm install tldr
+#
 ## Install miniconda - https://www.youtube.com/watch?v=i7q8JbNK-9s
 #mkdir -p ~/miniconda3
 #wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh
