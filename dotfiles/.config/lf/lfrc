@@ -40,7 +40,7 @@ cmd edit ${{
     esac
 
     case "$f" in
-        *.svg) inkscape "$f" > /dev/null 2>&1 &;;
+        *.svg) org.inkscape.Inkscape "$f" > /dev/null 2>&1 &;;
         *.png|*.jpeg|*.jpg) org.gimp.GIMP "$f" > /dev/null 2>&1 &;;
     esac
 }}
