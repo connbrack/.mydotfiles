@@ -7,6 +7,7 @@ local M = {
 }
 
 M.config = function()
+
  -- Some servers have issues with backup files, see #649
 vim.opt.backup = false
 vim.opt.writebackup = false
