@@ -129,7 +129,7 @@ map g/ cd /
 map gp cd '~/Documents/projects'
 map gd cd '~/Downloads'
 map gt cd '~/.local/share/Trash/files/'
-map gk cd '~/Apps/kali'
+map gk cd '~/Apps/VMs/kali'
 map gww cd '~/Documents/PhD'
 map gwco cd '~/Documents/PhD/Coding'
 map gwap cd '~/Documents/PhD/Application'
