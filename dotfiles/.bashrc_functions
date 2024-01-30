@@ -1,0 +1,38 @@
+
+
+# ---------------------------------- fuzzy functions --------------------------------------
+
+
+
+lff() {
+    local selection
+
+    selection=$(
+      find ~/Documents ~/.config/ ~/.mydotfiles -type d | fzf --prompt 'Main> ' \
+            --header 'C-h: home' \
+            --bind 'ctrl-h:reload(find ~/ -type d)' \
+            --height=40% --layout=reverse --info=inline --border --margin=1 --padding=1 \
+    )
+
+    if [ -n "$selection" ]; then
+        cd "$selection"
+        lf
+    fi
+}
+
+
+cdf() {
+    local selection
+    local main_locations=("$HOME/Documents" "$HOME/.config/" "$HOME/.mydotfiles")
+
+    selection=$(
+      find ~/Documents ~/.config/ ~/.mydotfiles -type d | fzf --prompt 'Main> ' \
+            --header 'C-h: home' \
+            --bind 'ctrl-h:reload(find ~/ -type d)' \
+            --height=40% --layout=reverse --info=inline --border --margin=1 --padding=1 \
+    )
+
+    if [ -n "$selection" ]; then
+        cd "$selection"
+    fi
+}
