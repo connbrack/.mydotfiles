@@ -96,8 +96,6 @@ fi
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
-
-# ---------------------- System upgrades --------------------------------
 alias apt-upgrade='echo && echo -e "\x1b[30;42m Updating apt \x1b[m" && sudo apt update && sudo apt upgrade -y'
 
 
@@ -106,9 +104,6 @@ alias lf='lfcd'
 alias vim='nvim'
 alias bat='bat --theme=TwoDark'
 
-# Fuzzy file exploring
-alias cdf="cd \"\$(find ~/ -type d |  fzf)\""
-alias lff="dir=\$(find ~/ -type d | fzf) && [ -n \"\$dir\" ] && cd \"\$dir\" && lf"
 
 # ---------------------- misc --------------------------------
 alias nix-search='bash -c "xdg-open https://search.nixos.org" 2> /dev/null'
@@ -173,6 +168,11 @@ fi
 
 
 # -------------------------- Extra files ---------------------------
+#
+
+if [ -e "$HOME/.bashrc_functions" ] || [ -L "$HOME/.bashrc_functions" ]; then
+    source $HOME/.bashrc_functions
+fi
 if [ -e "$HOME/.bashrc_extra" ] || [ -L "$HOME/.bashrc_extra" ]; then
     source $HOME/.bashrc_extra
 fi
