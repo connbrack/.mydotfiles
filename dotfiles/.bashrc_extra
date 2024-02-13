@@ -2,8 +2,9 @@
 
 
 # ----------- program upgrades -----------------------------------
-alias program-upgrade='echo && echo -e "\x1b[30;42m Updating flatpak \x1b[m" && flatpak update -y && echo && echo -e "\x1b[30;42m Updating nix \x1b[m" && nix-channel --update && echo "checking for package updates (this may take a while)" && nix-env -u'
-alias all-upgrade='apt-upgrade && program-upgrade'
+alias upgrade-flatpak='echo && echo -e "\x1b[30;42m Updating flatpak \x1b[m" && flatpak update -y && echo'
+alias upgrade-nix='echo && echo -e "\x1b[30;42m Updating nix \x1b[m" && nix-channel --update && echo "checking for package updates (this may take a while)" && nix-env -u && echo "cleaning" && nix-env --delete-generations 14d && nix-env --delete-generations old && echo'
+alias upgrade-all='upgrade-apt && upgrade-flatpak && upgrade-nix'
 
 # ----------- starship -----------------------------------
 eval "$(starship init bash)"
@@ -23,5 +24,3 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
-
-
