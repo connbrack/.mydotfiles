@@ -96,7 +96,7 @@ fi
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
-alias apt-upgrade='echo && echo -e "\x1b[30;42m Updating apt \x1b[m" && sudo apt update && sudo apt upgrade -y'
+alias upgrade-apt='echo && echo -e "\x1b[30;42m Updating apt \x1b[m" && sudo apt update && sudo apt upgrade -y && echo'
 
 
 # ---------------------- File exploring --------------------------------
