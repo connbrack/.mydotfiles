@@ -19,7 +19,8 @@ sudo apt install neovim -y
 
 
 # Install lf
-sudo apt install lf
+sudo apt install golang-go -y
+env CGO_ENABLED=0 go install -ldflags="-s -w" github.com/gokcehan/lf@latest
 
 
 # Install ble
