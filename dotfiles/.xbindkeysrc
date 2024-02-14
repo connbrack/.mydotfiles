@@ -8,12 +8,6 @@
 "kquitapp5 plasmashell && kstart5 plasmashell"
 Mod4+Q
 
-# Apps -----------------------------
-# "konsole -e tmux new -As0 -s main"
-"konsole -e ~/Apps/bashScripts/tools/launch_tmux.sh"
-control+Mod4+T
-
-
 # rofi -----------------------------
 "rofi -show"
 Mod4+space
