@@ -5,6 +5,7 @@
 # Basic Settings
 # set hidden true
 set ignorecase true
+set preview true
 # set icons true
 
 # -------------- Open functions --------
