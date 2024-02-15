@@ -3,15 +3,14 @@
 # https://github.com/ericmurphyxyz/dotfiles/blob/master/.config/lf/lfrc
 
 # Basic Settings
-# set hidden true
+set hidden true
 set ignorecase true
 set preview true
-# set icons true
+set icons true
 
 # -------------- Open functions --------
 
 cmd open &{{
-#   case $(file --mime-type -Lb "$f") in
     case $(xdg-mime query filetype "$f") in
       text/*) lf -remote "send $id \$$EDITOR \"\$fx\"";;
       application/json) lf -remote "send $id \$$EDITOR \"\$fx\"";;
@@ -49,15 +48,11 @@ cmd edit ${{
 
 # ------------------- Basic functionaly -----------------
 cmd mkdir ${{
-  printf "Directory Name: "
-  read ans
-  mkdir $ans
+  mkdir $1
 }}
 
 cmd touch ${{
-  printf "File Name: "
-  read ans
-  $EDITOR $ans
+  touch $1
 }}
 
 cmd extract ${{
@@ -127,14 +122,3 @@ map gM cd /mnt
 map gs cd /srv
 map gp cd /tmp
 map g/ cd /
-map gp cd '~/Documents/projects'
-map gd cd '~/Downloads'
-map gt cd '~/.local/share/Trash/files/'
-map gk cd '~/Apps/VMs/kali'
-map gww cd '~/Documents/PhD'
-map gwco cd '~/Documents/PhD/Coding'
-map gwap cd '~/Documents/PhD/Application'
-map gwpa cd '~/Documents/PhD/Papers and Conferences'
-map gwpr cd '~/Documents/PhD/Presentations'
-map gwid cd '~/Documents/PhD/ideas'
-map gwta cd '~/Documents/PhD/_TA/TA_BLDG371'
