@@ -20,15 +20,11 @@ Shift+Mod4+space
 
 # Reader ---------------------------
 # Basic read command
-"~/Apps/bashScripts/reader/read.sh"
+"ttsclip -ct 1.5"
 Alt+R
 
 # Read pdfs with line breaks in paragraphs
-"~/Apps/bashScripts/reader/read_lineBreaks.sh"
-Alt+Control+R
-
-# Read Latex documents (work in progress)
-"~/Apps/bashScripts/reader/read_latex.sh"
+"ttsclip -cst 1.5"
 Alt+Shift+R
 
 # Kill play task to stop reading
