@@ -52,3 +52,9 @@ f() {
       $1 $selection
     fi
 }
+
+
+
+lfcd () { 
+  \lf -print-last-dir $@ > /tmp/lfcd && cd $(cat /tmp/lfcd); 
+}
