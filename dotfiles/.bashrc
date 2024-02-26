@@ -141,7 +141,7 @@ mkmv ()
 }
 
 # ----------- terminal setup --------------------------
-export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libgtk3-nocsd.so.0
+# export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libgtk3-nocsd.so.0
 
 source ~/.local/share/blesh/ble.sh
 
@@ -159,13 +159,6 @@ esac
 
 # --------------------------lf setup ---------------------------
 export PATH="$(go env GOPATH)/bin:$PATH"
-
-LFCD="$HOME/.config/lf/lfcd.sh"
-if [ -f "$LFCD" ]; then
-    source "$LFCD"
-fi
-
-
 
 # -------------------------- Extra files ---------------------------
 #
