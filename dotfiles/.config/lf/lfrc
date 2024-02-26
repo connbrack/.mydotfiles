@@ -16,6 +16,7 @@ cmd open &{{
       application/json) lf -remote "send $id \$$EDITOR \"\$fx\"";;
       application/x-shellscript) lf -remote "send $id \$$EDITOR \"\$fx\"";;
       application/x-zerosize) lf -remote "send $id \$$EDITOR \"\$fx\"";;
+      application/javascript) lf -remote "send $id \$$EDITOR \"\$fx\"";;
 
       *) for f in "$fx"; do $OPENER "$f" > /dev/null 2> /dev/null & done;;
    esac
@@ -97,6 +98,7 @@ cmd restore_trash ${{
 # -------------- Mapping --------------
 # Custom
 map o file_explorer
+map <enter> shell
 map e edit
 map du restore_trash
 map t mytest
