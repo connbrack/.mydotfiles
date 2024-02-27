@@ -96,7 +96,13 @@ fi
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
+
+
+# ----------- program upgrades -----------------------------------
 alias upgrade-apt='echo && echo -e "\x1b[30;42m Updating apt \x1b[m" && sudo apt update && sudo apt upgrade -y && echo'
+alias upgrade-flatpak='echo && echo -e "\x1b[30;42m Updating flatpak \x1b[m" && flatpak update -y && echo'
+alias upgrade-nix='echo && echo -e "\x1b[30;42m Updating nix \x1b[m" && nix-channel --update && echo "checking for package updates (this may take a while)" && nix-env -u && echo "cleaning" && nix-env --delete-generations 14d && nix-env --delete-generations old && echo'
+alias upgrade-all='upgrade-apt && upgrade-flatpak && upgrade-nix'
 
 
 # ---------------------- File exploring --------------------------------
@@ -127,18 +133,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# ----------- custom funcitons --------------------------
-mkcd ()
-{
-    mkdir -p -- "$1" &&
-       cd -P -- "$1"
-}
-
-mkmv ()
-{
-    mkdir -p -- "$2" &&
-    mv "$1 $2/"
-}
 
 # ----------- terminal setup --------------------------
 # export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libgtk3-nocsd.so.0
@@ -158,6 +152,7 @@ case ":$PATH:" in
 esac
 
 # --------------------------lf setup ---------------------------
+#
 export PATH="$(go env GOPATH)/bin:$PATH"
 
 # -------------------------- Extra files ---------------------------
