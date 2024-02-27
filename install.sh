@@ -32,11 +32,12 @@ make -C ble.sh install PREFIX=~/.local
 # ----------------------------- Optional installs -------------------------------------------
 
 ## npm packages 
-#sudo apt install npm
-#sudo apt install nodejs
-#npm install --global yarn
+#curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+#export NVM_DIR="$HOME/.nvm"
+#source ~/.bashrc
+#nvm install --lts
 #npm install tldr
-#
+
 ## Install miniconda - https://www.youtube.com/watch?v=i7q8JbNK-9s
 #mkdir -p ~/miniconda3
 #wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh
