@@ -1,5 +1,28 @@
 
 
+# ----------- custom funcitons --------------------------
+
+mkcd ()
+{
+    mkdir -p -- "$1" &&
+       cd -P -- "$1"
+}
+
+mkmv ()
+{
+    mkdir -p -- "$2" &&
+    mv "$1 $2/"
+}
+
+
+lfcd () { 
+    TMPFILE=$(mktemp /tmp/lfcd-XXXXXX)
+    \lf -print-last-dir $@ > $TMPFILE 
+    cd $(cat $TMPFILE) 
+    rm $TMPFILE
+}
+
+
 # ---------------------------------- fuzzy functions --------------------------------------
 
 lff() {
@@ -55,6 +78,3 @@ f() {
 
 
 
-lfcd () { 
-  \lf -print-last-dir $@ > /tmp/lfcd && cd $(cat /tmp/lfcd); 
-}
