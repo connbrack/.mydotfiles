@@ -1,0 +1,43 @@
+
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
+
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
+
+# some more ls aliases
+# ----------- Basics-----------------------------------
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+
+# ----------- program upgrades -----------------------------------
+alias upgrade-apt='echo && echo -e "\x1b[30;42m Updating apt \x1b[m" && sudo apt update && sudo apt upgrade -y && echo'
+alias upgrade-flatpak='echo && echo -e "\x1b[30;42m Updating flatpak \x1b[m" && flatpak update -y && echo'
+alias upgrade-nix='echo && echo -e "\x1b[30;42m Updating nix \x1b[m" && nix-channel --update && echo "checking for package updates (this may take a while)" && nix-env -u && echo "cleaning" && nix-env --delete-generations 14d && nix-env --delete-generations old && echo'
+alias upgrade-all='upgrade-apt && upgrade-flatpak && upgrade-nix'
+
+
+# ---------------------- File exploring --------------------------------
+alias lf='lfcd'
+alias vim='nvim'
+alias bat='batcat --theme="Catppuccin-mocha"'
+
+# ---------------------- misc --------------------------------
+alias nix-search='bash -c "xdg-open https://search.nixos.org" 2> /dev/null'
+alias tkill='tmux kill-server'
+alias sleep='systemctl suspend'
+
+# Add an "alert" alias for long running commands.  Use like so:
+#   sleep 10; alert
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+
