@@ -25,6 +25,7 @@ dotfilelocations="$HOME/.mydotfiles/dotfiles/"
 files_to_link=(
 	".bashrc" 
 	".bashrc_functions" 
+	".bashrc_alias" 
 	".blerc" 
 	".config/nvim" 
 	".config/lf" 
