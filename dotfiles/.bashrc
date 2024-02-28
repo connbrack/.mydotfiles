@@ -1,6 +1,4 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
-# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
-# for examples
 
 # If not running interactively, don't do anything
 case $- in
@@ -8,14 +6,9 @@ case $- in
       *) return;;
 esac
 
-# don't put duplicate lines or lines starting with space in the history.
-# See bash(1) for more options
+# History
 HISTCONTROL=ignoreboth
-
-# append to the history file, don't overwrite it
 shopt -s histappend
-
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=1000
 HISTFILESIZE=2000
 
@@ -49,12 +42,8 @@ esac
 
 bind '"\C-b": unix-filename-rubout'
 
-
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
 	color_prompt=yes
     else
 	color_prompt=
@@ -77,50 +66,6 @@ xterm*|rxvt*)
     ;;
 esac
 
-# enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
-
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
-fi
-
-# colored GCC warnings and errors
-#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-
-# some more ls aliases
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
-
-
-# ----------- program upgrades -----------------------------------
-alias upgrade-apt='echo && echo -e "\x1b[30;42m Updating apt \x1b[m" && sudo apt update && sudo apt upgrade -y && echo'
-alias upgrade-flatpak='echo && echo -e "\x1b[30;42m Updating flatpak \x1b[m" && flatpak update -y && echo'
-alias upgrade-nix='echo && echo -e "\x1b[30;42m Updating nix \x1b[m" && nix-channel --update && echo "checking for package updates (this may take a while)" && nix-env -u && echo "cleaning" && nix-env --delete-generations 14d && nix-env --delete-generations old && echo'
-alias upgrade-all='upgrade-apt && upgrade-flatpak && upgrade-nix'
-
-
-# ---------------------- File exploring --------------------------------
-alias lf='lfcd'
-alias vim='nvim'
-alias bat='bat --theme=TwoDark'
-
-
-# ---------------------- misc --------------------------------
-alias nix-search='bash -c "xdg-open https://search.nixos.org" 2> /dev/null'
-alias tkill='tmux kill-server'
-alias sleep='systemctl suspend'
-
-# Add an "alert" alias for long running commands.  Use like so:
-#   sleep 10; alert
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
-
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
@@ -135,7 +80,14 @@ fi
 
 
 # ----------- terminal setup --------------------------
-# export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libgtk3-nocsd.so.0
+#
+if [ -f /usr/lib/x86_64-linux-gnu/libgtk3-nocsd.so.0 ]; then
+    export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libgtk3-nocsd.so.0
+fi
+
+if command -V starship >/dev/null 2>&1; then
+  eval "$(starship init bash)"
+fi
 
 source ~/.local/share/blesh/ble.sh
 
@@ -144,30 +96,17 @@ export EDITOR=nvim;
 
 [[ -s ~/.autojump/etc/profile.d/autojump.sh ]] && source ~/.autojump/etc/profile.d/autojump.sh
 
-# ----------- ppm -----------------------------------
-export PNPM_HOME="~/.local/share/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
+# -------------------------- Programs ---------------------------
 
-# --------------------------lf setup ---------------------------
-#
-export PATH="$(go env GOPATH)/bin:$PATH"
 
-# -------------------------- Extra files ---------------------------
-#
-
-if [ -e "$HOME/.bashrc_functions" ] || [ -L "$HOME/.bashrc_functions" ]; then
-    source $HOME/.bashrc_functions
-fi
-if [ -e "$HOME/.bashrc_extra" ] || [ -L "$HOME/.bashrc_extra" ]; then
-    source $HOME/.bashrc_extra
+if command -v go &> /dev/null; then
+  export PATH="$(go env GOPATH)/bin:$PATH"
 fi
 
-if [ -e "$HOME/.bashrc_private" ] || [ -L "$HOME/.bashrc_private" ]; then
-    source $HOME/.bashrc_private
-fi
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
@@ -183,4 +122,18 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
+
+# -------------------------- Extra files ---------------------------
+
+if [ -e "$HOME/.bashrc_alias" ] || [ -L "$HOME/.bashrc_alias" ]; then
+    source $HOME/.bashrc_alias
+fi
+
+if [ -e "$HOME/.bashrc_functions" ] || [ -L "$HOME/.bashrc_functions" ]; then
+    source $HOME/.bashrc_functions
+fi
+
+if [ -e "$HOME/.bashrc_private" ] || [ -L "$HOME/.bashrc_private" ]; then
+    source $HOME/.bashrc_private
+fi
 
