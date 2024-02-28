@@ -16,7 +16,7 @@ make -C ble.sh install PREFIX=~/.local
 
 
 # ----------------------------- Nix installs ------------------------------------------------
-curl -L https://nixos.org/nix/install | sh
+curl -L https://nixos.org/nix/install | sh -s -- --no-daemon
 . $HOME/.nix-profile/etc/profile.d/nix.sh
 nix-env -iA nixpkgs.neovim
 nix-env -iA nixpkgs.lf
