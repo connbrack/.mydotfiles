@@ -31,7 +31,7 @@ files_to_link=(
 	".config/lf" 
 )
 
-if [ -d "$HOME/.config" ]; then
+if ! [ -d "$HOME/.config" ]; then
   mkdir $HOME/.config
 fi
 
