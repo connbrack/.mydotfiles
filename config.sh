@@ -31,6 +31,11 @@ files_to_link=(
 	".config/lf" 
 )
 
+if [ -d "$HOME/.config" ]; then
+  mkdir $HOME/.config
+fi
+
+
 for file in "${files_to_link[@]}"; do
     link_file_to_home "$dotfilelocations" "$file"
 done
