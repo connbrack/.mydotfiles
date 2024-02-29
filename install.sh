@@ -7,6 +7,8 @@ sudo apt upgrade -y &&
 
 # ----------------------------- Install tools -------------------------------------------
 
+sudo apt install build-essential -y
+sudo apt install gawk -y
 sudo apt install fzf -y
 sudo apt install trash-cli -y
 
