@@ -6,6 +6,8 @@ sudo apt update &&
 sudo apt upgrade -y &&
 
 # ----------------------------- Basic Install -------------------------------------------
+sudo apt install build-essential -y
+sudo apt install gawk -y
 sudo apt install fzf -y
 sudo apt install trash-cli -y
 
