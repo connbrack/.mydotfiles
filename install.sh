@@ -5,7 +5,6 @@ skipupdate=0
 nixless=0
 node=0
 conda=0
-swap=0
 
 # Process flags
 for arg in "$@"; do
@@ -14,7 +13,6 @@ for arg in "$@"; do
       --nixless) nixless=1 ;;
       --node) node=1 ;;
       --conda) conda=1 ;;
-      --swap) swap=1 ;;
       *) echo "Unknown option: $arg" exit 1 ;;
   esac
 done
@@ -59,7 +57,7 @@ else
   apt-install make
   git clone --recursive --depth 1 --shallow-submodules https://github.com/akinomyoga/ble.sh.git
   make -C ble.sh install PREFIX=~/.local
-  rm -r $HOME/.mydotfiles/ble.sh
+  sudo rm -r $HOME/.mydotfiles/ble.sh
 fi
 
 # -------------------------- Packages installs --------------------------------------------
@@ -110,7 +108,7 @@ fi
 if [ $conda -eq 1 ]; then
   header "Installing conda"
 
-  if command -v node >/dev/null 2>&1; then
+  if command -v conda >/dev/null 2>&1; then
       echo "conda is installed"
   else
     mkdir -p ~/miniconda3
