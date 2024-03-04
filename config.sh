@@ -54,3 +54,7 @@ fi
 for file in "${files_to_link[@]}"; do
     link_file_to_home "$dotfilelocations" "$file"
 done
+
+if [ -d $HOME/miniconda3 ]; then
+    ~/miniconda3/bin/conda init bash
+fi
