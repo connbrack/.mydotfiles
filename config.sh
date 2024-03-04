@@ -17,7 +17,13 @@ link_file_to_home() {
     local source_file=$1$2
     local target_link="$HOME/$2"
 
-    if [ force -eq 1 ]; then
+    if [ "$(readlink -f "$target_link")" == "$source_file" ]; then
+      # The link already exists
+      return 0
+    fi
+    
+
+    if [ $force -eq 1 ]; then
       ln -sf "$source_file" "$target_link" && echo "Link created: $target_link -> $source_file"
     else
       ln -s "$source_file" "$target_link" && echo "Link created: $target_link -> $source_file"
@@ -48,8 +54,3 @@ fi
 for file in "${files_to_link[@]}"; do
     link_file_to_home "$dotfilelocations" "$file"
 done
-
-# run conda init if conda is not installed
-if command -v node >/dev/null 2>&1; then
-  conda init
-fi
