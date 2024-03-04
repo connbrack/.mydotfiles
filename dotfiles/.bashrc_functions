@@ -16,11 +16,9 @@ mkmv ()
 
 
 lfcd () { 
-    TMPFILE=$(mktemp /tmp/lfcd-XXXXXX)
-    \lf -print-last-dir $@ > $TMPFILE 
-    cd $(cat $TMPFILE) 
-    rm $TMPFILE
+  cd "$(command lf -print-last-dir "$@")"
 }
+
 
 
 # ---------------------------------- fuzzy functions --------------------------------------

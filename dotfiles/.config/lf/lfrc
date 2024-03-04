@@ -95,6 +95,21 @@ cmd restore_trash ${{
 }}
 
 
+# -------------- lfcd --------------
+# set pane_path when changing directory
+cmd on-cd &{{
+    printf "\e]7;$PWD\e\\" > /dev/tty
+}}
+
+# unset pane_path when quitting
+cmd on-quit &{{
+    printf "\e]7;\e\\" > /dev/tty
+}}
+
+# trigger on-cd upon startup
+on-cd
+
+
 # -------------- Mapping --------------
 # Custom
 map o file_explorer
