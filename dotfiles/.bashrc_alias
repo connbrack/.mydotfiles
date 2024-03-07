@@ -26,6 +26,10 @@ alias upgrade-nix='echo && echo -e "\x1b[30;42m Updating nix \x1b[m" && nix-chan
 alias upgrade-all='upgrade-apt && upgrade-flatpak && upgrade-nix'
 
 
+# ----------------------------- kali alias's --------------------------
+alias ffuf="ffuf -c -ic"
+
+
 # ---------------------- File exploring --------------------------------
 alias lf='lfcd'
 alias vim='nvim'
