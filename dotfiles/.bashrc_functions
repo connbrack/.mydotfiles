@@ -27,7 +27,7 @@ lff() {
     local selection
 
     selection=$(
-      find ~/Documents ~/.config/ ~/.mydotfiles -type d | fzf --prompt 'Main> ' \
+      find ~/Documents ~/.config/ ~/.mydotfiles -type d | fzf -e --prompt 'Main> ' \
             --header 'C-h: home' \
             --bind 'ctrl-h:reload(find ~/ -type d)' \
             --height=20 --layout=reverse --info=inline --border --margin=1 --padding=1 \
@@ -45,7 +45,7 @@ cdf() {
     local main_locations=("$HOME/Documents" "$HOME/.config/" "$HOME/.mydotfiles")
 
     selection=$(
-      find ~/Documents ~/.config/ ~/.mydotfiles -type d | fzf --prompt 'Main> ' \
+      find ~/Documents ~/.config/ ~/.mydotfiles -type d | -e fzf --prompt 'Main> ' \
             --header 'C-h: home' \
             --bind 'ctrl-h:reload(find ~/ -type d)' \
             --height=20 --layout=reverse --info=inline --border --margin=1 --padding=1 \
