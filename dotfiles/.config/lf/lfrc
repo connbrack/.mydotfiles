@@ -6,7 +6,10 @@
 set hidden true
 set ignorecase true
 set preview true
+set previewer ~/.config/lf/preview
 set icons true
+set ifs "\n"
+
 
 # -------------- Open functions --------
 
@@ -20,10 +23,6 @@ cmd open &{{
 
       *) for f in "$fx"; do $OPENER "$f" > /dev/null 2> /dev/null & done;;
    esac
-}}
-
-cmd mytest ${{
-  file --mime-type -Lb "$f" | echo
 }}
 
 
@@ -108,6 +107,40 @@ cmd on-quit &{{
 
 # trigger on-cd upon startup
 on-cd
+
+
+# -------------- extended functionality --------------
+cmd bulk-rename ${{
+    old="$(mktemp)"
+    new="$(mktemp)"
+    if [ -n "$fs" ]; then
+        fs="$(basename -a $fs)"
+    else
+        fs="$(ls)"
+    fi
+    printf '%s\n' "$fs" >"$old"
+    printf '%s\n' "$fs" >"$new"
+    $EDITOR "$new"
+    [ "$(wc -l < "$new")" -ne "$(wc -l < "$old")" ] && exit
+    paste "$old" "$new" | while IFS= read -r "names"; do
+        src="$(printf '%s' "$names" | cut -f1)"
+        dst="$(printf '%s' "$names" | cut -f2)"
+        if [ "$src" = "$dst" ] || [ -e "$dst" ]; then
+            continue
+        fi
+        mv -- "$src" "$dst"
+    done
+    rm -- "$old" "$new"
+    lf -remote "send $id unselect"
+}}
+
+cmd mytest ${{
+        fs_flat=$(echo "$fs" | sed "s/^/'/; s/$/'/")
+        fs=$(basename -a "$fs_flat")
+        echo $fs
+
+}}
+
 
 
 # -------------- Mapping --------------
