@@ -81,10 +81,6 @@ fi
 
 # ----------- terminal setup --------------------------
 #
-if [ -f /usr/lib/x86_64-linux-gnu/libgtk3-nocsd.so.0 ]; then
-    export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libgtk3-nocsd.so.0
-fi
-
 if command -V starship >/dev/null 2>&1; then
   eval "$(starship init bash)"
 fi
@@ -101,6 +97,10 @@ export EDITOR=nvim;
 
 if command -v go &> /dev/null; then
   export PATH="$(go env GOPATH)/bin:$PATH"
+fi
+
+if command -v yarn &> /dev/null; then
+  export PATH="$(yarn global bin):$PATH"
 fi
 
 export NVM_DIR="$HOME/.nvm"
