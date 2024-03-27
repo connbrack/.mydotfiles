@@ -4,7 +4,7 @@ vim.cmd("set softtabstop=2")
 vim.cmd("set shiftwidth=2")
 
 vim.cmd("inoremap jj <ESC>")
-vim.g.mapleader = " "
+vim.g.mapleader = ","
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
