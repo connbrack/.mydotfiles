@@ -12,28 +12,21 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 
-# some more ls aliases
 # ----------- Basics-----------------------------------
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
+alias copy="xclip -i -r -selection clipboard"
 
 
-# ----------- program upgrades -----------------------------------
-alias upgrade-apt='echo && echo -e "\x1b[30;42m Updating apt \x1b[m" && sudo apt update && sudo apt upgrade -y && echo'
+# ----------- Package Management -----------------------------------
+alias apt-upgrade='echo && echo -e "\x1b[30;42m Updating apt \x1b[m" && sudo apt update && sudo apt upgrade -y && echo'
 alias flatpak-upgrade='echo && echo -e "\x1b[30;42m Updating flatpak \x1b[m" && flatpak update -y && echo'
-alias nix-upgrade='echo && echo -e "\x1b[30;42m Updating nix \x1b[m" && ~/nix/my-home-manager.sh'
-alias all-upgrade='upgrade-apt && upgrade-flatpak && upgrade-nix'
+alias nix-upgrade='echo && echo -e "\x1b[30;42m Updating nix \x1b[m" && ~/Apps/nix/my-home-manager.sh'
+alias upgrade-all='apt-upgrade && flatpak-upgrade && nix-upgrade'
 
-alias nix-packages='nvim ~/nix/packages.sh'
+alias nix-packages='nvim ~/Apps/nix/packages.sh'
 alias nix-clean='nix profile wipe-history && nix store gc'
-
-# alias upgrade-nix='echo && echo -e "\x1b[30;42m Updating nix \x1b[m" && nix flake update --flake ~/nix && nix run nixpkgs#home-manager -- switch --flake ~/nix/#$USER'
-
-
-# ----------------------------- kali alias's --------------------------
-alias ffuf="ffuf -c -ic"
-
 
 # ---------------------- File exploring --------------------------------
 alias lf='lfcd'
@@ -45,8 +38,12 @@ alias nix-search='bash -c "xdg-open https://search.nixos.org" 2> /dev/null'
 alias tkill='tmux kill-server'
 alias sleep='systemctl suspend'
 
+alias ipad="ip -brief -f inet address | fzf +m --reverse --height 10 | awk '{gsub(\"/.*\",\"\",\$3);print\$3}' | tee /dev/tty | xclip -r -in -selection clipboard"
+
 # Add an "alert" alias for long running commands.  Use like so:
-#   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+# ----------------------------- kali alias's --------------------------
+alias ffuf="ffuf -c -ic"
 
 
