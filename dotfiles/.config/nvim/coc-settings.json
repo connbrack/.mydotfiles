@@ -1,6 +1,5 @@
 {
-  "snippets.ultisnips.pythonPrompt": false,
-  "pyright.inlayHints.variableTypes": false,
-  "pyright.inlayHints.parameterTypes": false
-
+  "codeLens.enable": true,
+  "suggest.insertMode": "insert"
 }
+
