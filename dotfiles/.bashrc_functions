@@ -19,6 +19,17 @@ lfcd () {
   cd "$(command lf -print-last-dir "$@")"
 }
 
+copyf (){
+  if [[ $# == 0 ]]; then
+    xargs -d '\n' realpath | sed 's/.*/file:\/\/&/' | xclip -i -selection clipboard -t text/uri-list
+  else
+    printf "%s\n" "${@}" | xargs -d '\n' realpath | sed 's/.*/file:\/\/&/' | xclip -i -selection clipboard -t text/uri-list
+  fi
+}
+
+test (){
+  printf "%s\n" "${@}"
+}
 
 
 # ---------------------------------- fuzzy functions --------------------------------------
@@ -27,7 +38,7 @@ lff() {
     local selection
 
     selection=$(
-      find ~/Documents ~/Apps/ ~/.mydotfiles -type d | fzf -e --prompt 'Main> ' \
+        find ~/Documents ~/Apps/ ~/.mydotfiles -type d \( -name .git -o -name node_modules -o -name cache \) -prune -o -print | fzf -e --prompt 'Main> ' \
             --header 'C-h: home' \
             --bind 'ctrl-h:reload(find ~/ -type d)' \
             --height=20 --layout=reverse --info=inline --border --margin=1 --padding=1 \
@@ -44,7 +55,7 @@ cdf() {
     local selection
 
     selection=$(
-      find ~/Documents ~/Apps/ ~/.mydotfiles -type d | -e fzf --prompt 'Main> ' \
+        find ~/Documents ~/Apps/ ~/.mydotfiles -type d \( -name .git -o -name node_modules -o -name cache \) -prune -o -print | fzf -e --prompt 'Main> ' \
             --header 'C-h: home' \
             --bind 'ctrl-h:reload(find ~/ -type d)' \
             --height=20 --layout=reverse --info=inline --border --margin=1 --padding=1 \
