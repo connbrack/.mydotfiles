@@ -1,6 +1,7 @@
 # Resources
 # https://github.com/gokcehan/lf/blob/master/etc/lfrc.example  
 # https://github.com/ericmurphyxyz/dotfiles/blob/master/.config/lf/lfrc
+# vim:ft=conf
 
 # Basic Settings
 set hidden true
@@ -94,6 +95,11 @@ cmd restore_trash ${{
   trash-restore
 }}
 
+cmd copyf &{{
+  printf "%s\n" "$fx" | xargs -d '\n' realpath | sed 's/.*/file:\/\/&/' | xclip -i -selection clipboard -t text/uri-list
+  lf --remote "send $id unselect"
+}}
+
 
 # -------------- lfcd --------------
 # set pane_path when changing directory
@@ -135,12 +141,6 @@ cmd bulk-rename ${{
     lf -remote "send $id unselect"
 }}
 
-cmd mytest ${{
-        fs_flat=$(echo "$fs" | sed "s/^/'/; s/$/'/")
-        fs=$(basename -a "$fs_flat")
-        echo $fs
-
-}}
 
 
 
@@ -160,6 +160,7 @@ map dt trash
 map R reload
 map mf mkfile
 map md mkdir
+map Y copyf
 
 # Movement
 map gh cd ~
@@ -173,3 +174,4 @@ map gM cd /mnt
 map gs cd /srv
 map gp cd /tmp
 map g/ cd /
+
