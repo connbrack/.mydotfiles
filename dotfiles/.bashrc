@@ -81,6 +81,7 @@ fi
 
 # ----------- terminal setup --------------------------
 #
+
 if command -V starship >/dev/null 2>&1; then
   eval "$(starship init bash)"
 fi
@@ -94,6 +95,9 @@ export EDITOR=nvim;
 
 # -------------------------- Programs ---------------------------
 
+if [ -d "$HOME/Scripts" ]; then
+  export PATH=$PATH:"$HOME/Scripts/"
+fi
 
 if command -v go &> /dev/null; then
   export PATH="$(go env GOPATH)/bin:$PATH"
