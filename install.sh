@@ -14,7 +14,7 @@ for arg in "$@"; do
   case $arg in
       --skip-update) skipupdate=1 ;;
       --blesh) blesh=1 ;;
-      --nix-packages) nixpac=1 ;;
+      --nixpac) nixpac=1 ;;
       --apt-packages) aptpac=1 ;;
       --desktop) desktop=1 ;;
       --node) node=1 ;;
@@ -47,10 +47,12 @@ fi
 
 header "Installing Basic Packages"
 
+apt-install curl
+apt-install build-essential
 apt-install build-essential
 apt-install gawk
 apt-install trash-cli
-apt-install batcat
+apt-install bat
 apt-install tmux
 
 if [ $blesh -eq 1 ]; then
@@ -71,6 +73,9 @@ if [ $desktop -eq 1 ]; then
   apt-install xsel
   apt-install xdotool
   apt-install xbindkeys
+  apt-install latte
+  apt-install rofi
+  sudo apt install rofi-dev autoconf automake libtool-bin libtool
 fi
 
 # -------------------------- Packages installs --------------------------------------------

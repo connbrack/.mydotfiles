@@ -38,9 +38,13 @@ files_to_link=(
 	".bashrc_functions" 
 	".bashrc_alias" 
 	".blerc" 
+	".xbindkeysrc" 
 	".config/tmux" 
 	".config/nvim" 
 	".config/lf" 
+	".config/nix" 
+	".config/rofi" 
+	".config/starship.toml" 
 )
 
 # --------------------------------- Run script -------------------------------------------------
