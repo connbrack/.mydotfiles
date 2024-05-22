@@ -17,10 +17,12 @@ set ifs "\n"
 cmd open &{{
     case $(xdg-mime query filetype "$f") in
       text/*) lf -remote "send $id \$$EDITOR \"\$fx\"";;
+      text/plain) lf -remote "send $id \$$EDITOR \"\$fx\"";;
       application/json) lf -remote "send $id \$$EDITOR \"\$fx\"";;
       application/x-shellscript) lf -remote "send $id \$$EDITOR \"\$fx\"";;
       application/x-zerosize) lf -remote "send $id \$$EDITOR \"\$fx\"";;
       application/javascript) lf -remote "send $id \$$EDITOR \"\$fx\"";;
+      application/json) lf -remote "send $id \$$EDITOR \"\$fx\"";;
       application/json) lf -remote "send $id \$$EDITOR \"\$fx\"";;
 
       *) for f in "$fx"; do $OPENER "$f" > /dev/null 2> /dev/null & done;;
