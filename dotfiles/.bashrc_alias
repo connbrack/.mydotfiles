@@ -7,14 +7,13 @@ alias la='ls -A'
 alias l='ls -CF'
 alias copy="xclip -i -r -selection clipboard"
 
-
 # ----------- Package Management -----------------------------------
 alias apt-upgrade='echo && echo -e "\x1b[30;42m Updating apt \x1b[m" && sudo apt update && sudo apt upgrade -y && echo'
 alias flatpak-upgrade='echo && echo -e "\x1b[30;42m Updating flatpak \x1b[m" && flatpak update -y && echo'
 alias upgrade-all='apt-upgrade && flatpak-upgrade && nix-upgrade'
 
-alias nix-upgrade='echo && echo -e "\x1b[30;42m Updating nix \x1b[m" && ~/Apps/nix/my-home-manager.sh'
-alias nix-packages='nvim ~/Apps/nix/packages.sh'
+alias nix-upgrade='echo && echo -e "\x1b[30;42m Updating nix \x1b[m" && ~/Nix/my-home-manager.sh'
+alias nix-packages='nvim ~/Nix/packages.sh'
 alias nix-clean='nix profile wipe-history && nix store gc'
 alias nix-search='bash -c "xdg-open https://search.nixos.org" 2> /dev/null'
 
