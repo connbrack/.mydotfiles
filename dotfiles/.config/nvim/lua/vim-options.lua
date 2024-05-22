@@ -7,6 +7,9 @@ vim.cmd("set modeline")
 vim.cmd("inoremap jj <ESC>")
 vim.g.mapleader = ","
 
+
+vim.cmd("nnoremap <Leader>b <C-o>")
+
 -- [[ Setting options ]]
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
