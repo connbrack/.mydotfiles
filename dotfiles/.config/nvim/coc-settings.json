@@ -1,5 +1,9 @@
 {
   "codeLens.enable": true,
-  "suggest.insertMode": "insert"
+  "suggest.insertMode": "insert",
+  "cSpell.userWords": [
+    "Brackley",
+    "Connor"
+  ]
 }
 
