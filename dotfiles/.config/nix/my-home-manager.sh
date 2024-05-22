@@ -1,4 +1,4 @@
-#!/bin/bash
+#/bin/bash
 
 
 
@@ -22,29 +22,43 @@ echo
 echo -e "----- ${txtblu}Syncing packages${NO_FORMAT} -----"
 echo
 
-sync=true
 # Find items in packages not in current_packages
+new_packages=false
+combined=""
+combined_label=""
 for package in "${packages[@]}"; do
     if [[ ! " ${current_packages[*]} " =~ " $package " ]]; then
-
-        echo -e "-> ${txtcyn}Installing${NO_FORMAT} $package"
-        nix profile install nixpkgs\#$package
-        sync=false
-        echo
+        combined_label+="${package} "
+        combined+="nixpkgs#${package} "
+        new_packages=true
     fi
 done
+
+if [[  "$new_packages" == true  ]]; then
+  echo -e "-> Installing: ${txtcyn}$combined_label${NO_FORMAT}"
+  nix profile install $combined
+  echo
+fi
 
 # Find items in current_packages not in packages
+packages_removed=false
+combined=""
+combined_label=""
 for current_package in "${current_packages[@]}"; do
     if [[ ! " ${packages[*]} " =~ " $current_package " ]]; then
-        echo -e "-> ${txtred}Removing${NO_FORMAT} $current_package"
-        nix profile remove $current_package
-        sync=false
-        echo
+        combined_label+="${current_package} "
+        combined+="${current_package} "
+        packages_removed=true
     fi
 done
 
-if [ "$sync" = true ]; then
+if [[ "$packages_removed" == true ]]; then
+  echo -e "-> Removing: ${txtred}$combined${NO_FORMAT}"
+  nix profile remove $combined
+  echo
+fi
+
+if [[ "$new_packages" == false || "$packages_removed" == true ]]; then
     echo -e "-> ${txtgrn}Package library already up to date${NO_FORMAT}"
     echo
 fi
@@ -52,10 +66,11 @@ fi
 # Upgrade all packages:
 echo -e "----- ${txtblu}Upgrading packages${NO_FORMAT} -----"
 echo
-for package in "${packages[@]}"; do
-    nix profile upgrade $package
 
+combined=""
+for package in "${packages[@]}"; do
+    combined+="${package} "
 done
+nix profile upgrade $combined
 
 echo -e "-> ${txtgrn}All packages up to date${NO_FORMAT}"
-
