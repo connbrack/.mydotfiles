@@ -2,17 +2,23 @@
 
 # Default behavior
 skipupdate=0
-nixless=0
+blesh=0
+nixpac=0
+aptpac=0
+desktop=0
 node=0
-conda=0
+pyenv=0
 
 # Process flags
 for arg in "$@"; do
   case $arg in
       --skip-update) skipupdate=1 ;;
-      --nixless) nixless=1 ;;
+      --blesh) blesh=1 ;;
+      --nix-packages) nixpac=1 ;;
+      --apt-packages) aptpac=1 ;;
+      --desktop) desktop=1 ;;
       --node) node=1 ;;
-      --conda) conda=1 ;;
+      --pyenv) pyenv=1 ;;
       *) echo "Unknown option: $arg" exit 1 ;;
   esac
 done
@@ -25,10 +31,6 @@ header() {
 
 apt-install() {
   dpkg -l | grep -qw $1 && echo $1 is already installed || sudo apt install $1 -y ; 
-}
-
-nix-install() {
-  if nix-env -q $1 > /dev/null; then echo $1 is already installed; else nix-env -iA nixpkgs.$1; fi
 }
 
 # ----------------------------- Upgrade System ------------------------------------------
@@ -47,45 +49,53 @@ header "Installing Basic Packages"
 
 apt-install build-essential
 apt-install gawk
-apt-install fzf
 apt-install trash-cli
+apt-install batcat
 apt-install tmux
 
-if [ -f "$HOME/.local/share/blesh/ble.sh" ]; then
-  echo blesh is already installed
-else
-  apt-install make
-  git clone --recursive --depth 1 --shallow-submodules https://github.com/akinomyoga/ble.sh.git
-  make -C ble.sh install PREFIX=~/.local
-  sudo rm -r $HOME/.mydotfiles/ble.sh
+if [ $blesh -eq 1 ]; then
+  header "Installing blesh"
+  if [ -f "$HOME/.local/share/blesh/ble.sh" ]; then
+    echo blesh is already installed
+  else
+    apt-install make
+    git clone --recursive --depth 1 --shallow-submodules https://github.com/akinomyoga/ble.sh.git
+    make -C ble.sh install PREFIX=~/.local
+    sudo rm -r $HOME/.mydotfiles/ble.sh
+  fi
+fi
+
+if [ $desktop -eq 1 ]; then
+  header "Installing Desktop Packages"
+  apt-install xclip
+  apt-install xsel
+  apt-install xdotool
+  apt-install xbindkeys
 fi
 
 # -------------------------- Packages installs --------------------------------------------
 
-header "Installing Main Packages"
-
-if [ $nixless -eq 1 ]; then
-
+if [ $aptpac -eq 1 ]; then
+  header "Installing apt packages"
   sudo add-apt-repository ppa:neovim-ppa/unstable -y
   sudo apt update
   sudo apt install neovim -y
 
   sudo apt install golang-go -y
   env CGO_ENABLED=0 go install -ldflags="-s -w" github.com/gokcehan/lf@latest
+fi
 
-else
 
-  if command -v nix-env >/dev/null; then
-      echo "nix-env is already installed."
+if [ $nixpac -eq 1 ]; then
+  header "Installing Nix"
+  if command -v nix >/dev/null; then
+      echo "nix is already installed."
   else
-    curl -L https://nixos.org/nix/install | sh -s -- --no-daemon
-    . $HOME/.nix-profile/etc/profile.d/nix.sh
+    curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
+    . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+    cp -r ~/.mydotfiles/Nix/ ~/
+    ~/Nix/my-home-manager.sh
   fi
-
-  nix-install neovim
-  nix-install lf
-  nix-install tldr
-
 fi
 
 # ----------------------------- Optional installs -------------------------------------------
@@ -93,7 +103,6 @@ fi
 
 if [ $node -eq 1 ]; then
   header "Installing node"
-
   if command -v node >/dev/null 2>&1; then
       echo "Node.js is installed"
   else
@@ -106,20 +115,18 @@ if [ $node -eq 1 ]; then
   fi
 fi
 
-if [ $conda -eq 1 ]; then
-  header "Installing conda"
+if [ $pyenv -eq 1 ]; then
+  header "Installing pyenv"
 
-  if command -v conda >/dev/null 2>&1; then
-      echo "conda is installed"
+  if command -v pyenv >/dev/null 2>&1; then
+      echo "pyenv is installed"
   else
-    mkdir -p ~/miniconda3
-    wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh
-    bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
-    rm -rf ~/miniconda3/miniconda.sh
-    ~/miniconda3/bin/conda init bash
+    curl https://pyenv.run | bash
+    sudo apt install build-essential libssl-dev zlib1g-dev \
+    libbz2-dev libreadline-dev libsqlite3-dev curl git \
+    libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev -y
   fi
 fi
-
 
 
 # ------------------------ Other usefull install scripts --------------------------------------
