@@ -60,7 +60,7 @@ fi
 header "Installing Basic Packages"
 
 sudo apt install \
-  curl make build-essential gawk trash-cli bat \ 
+  curl make build-essential gawk trash-cli bat \
   xclip xsel xdotool -y
 
 if [ $blesh -eq 1 ]; then
