@@ -60,7 +60,7 @@ fi
 header "Installing Basic Packages"
 
 sudo apt install \
-  curl build-essential gawk trash-cli bat \ 
+  curl make build-essential gawk trash-cli bat \ 
   xclip xsel xdotool -y
 
 if [ $blesh -eq 1 ]; then
@@ -68,7 +68,6 @@ if [ $blesh -eq 1 ]; then
   if [ -f "$HOME/.local/share/blesh/ble.sh" ]; then
     echo blesh is already installed
   else
-    apt-install make
     git clone --recursive --depth 1 --shallow-submodules https://github.com/akinomyoga/ble.sh.git
     make -C ble.sh install PREFIX=~/.local
     sudo rm -r $HOME/.mydotfiles/ble.sh
