@@ -60,7 +60,7 @@ fi
 header "Installing Basic Packages"
 
 sudo apt install \
-  curl build-essential gawk trash-cli bat tmux \
+  curl build-essential gawk trash-cli bat \ 
   xclip xsel xdotool -y
 
 if [ $blesh -eq 1 ]; then

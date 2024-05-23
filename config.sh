@@ -38,13 +38,13 @@ files_to_link=(
 	".bashrc_functions" 
 	".bashrc_alias" 
 	".blerc" 
-	".xbindkeysrc" 
 	".config/tmux" 
 	".config/nvim" 
 	".config/lf" 
 	".config/nix" 
-	".config/rofi" 
-	".config/starship.toml" 
+	#".xbindkeysrc" 
+	#".config/rofi" 
+	#".config/starship.toml" 
 )
 
 # --------------------------------- Run script -------------------------------------------------
@@ -58,6 +58,13 @@ fi
 for file in "${files_to_link[@]}"; do
     link_file_to_home "$dotfilelocations" "$file"
 done
+
+if [ command -v tmux ]; then
+  if ! [ -d $HOME/.local/share/tmux/plugins ]; then
+    mkdir -p $HOME/.local/share/tmux/plugins
+    git clone https://github.com/tmux-plugins/tpm $HOME/.local/share/tmux/plugins/tpm
+  fi
+fi
 
 if [ -d $HOME/miniconda3 ]; then
     ~/miniconda3/bin/conda init bash
