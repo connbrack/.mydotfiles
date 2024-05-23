@@ -1,5 +1,21 @@
 #!/bin/bash
 
+# ----------------------------- Example Uses ------------------------------------------
+
+# all flags:
+# ./install.sh --skip-update --blesh --nix-packages --apt-packages --desktop --node --pyenv
+
+# Terminal setup:
+# ./install.sh --blesh --nix-packages --apt-packages
+
+# Desktop setup:
+# ./install.sh --blesh --nix-packages --apt-packages --desktop
+
+# Additional setup:
+# ./install.sh --skipupdate --node --pyenv
+
+# ----------------------------- Flags ------------------------------------------
+
 # Default behavior
 skipupdate=0
 blesh=0
@@ -14,7 +30,7 @@ for arg in "$@"; do
   case $arg in
       --skip-update) skipupdate=1 ;;
       --blesh) blesh=1 ;;
-      --nixpac) nixpac=1 ;;
+      --nix-packages) nixpac=1 ;;
       --apt-packages) aptpac=1 ;;
       --desktop) desktop=1 ;;
       --node) node=1 ;;
@@ -27,10 +43,6 @@ done
 
 header() {
   echo && echo -e "\x1b[30;42m $1 \x1b[m"
-}
-
-apt-install() {
-  dpkg -l | grep -qw $1 && echo $1 is already installed || sudo apt install $1 -y ; 
 }
 
 # ----------------------------- Upgrade System ------------------------------------------
@@ -47,13 +59,9 @@ fi
 
 header "Installing Basic Packages"
 
-apt-install curl
-apt-install build-essential
-apt-install build-essential
-apt-install gawk
-apt-install trash-cli
-apt-install bat
-apt-install tmux
+sudo apt install \
+  curl build-essential gawk trash-cli bat tmux \
+  xclip xsel xdotool -y
 
 if [ $blesh -eq 1 ]; then
   header "Installing blesh"
@@ -69,13 +77,10 @@ fi
 
 if [ $desktop -eq 1 ]; then
   header "Installing Desktop Packages"
-  apt-install xclip
-  apt-install xsel
-  apt-install xdotool
-  apt-install xbindkeys
-  apt-install latte
-  apt-install rofi
-  sudo apt install rofi-dev autoconf automake libtool-bin libtool
+
+  sudo apt install \
+    xbindkeys latte-dock \
+    rofi rofi-dev autoconf automake libtool-bin libtool -y
 fi
 
 # -------------------------- Packages installs --------------------------------------------
@@ -96,7 +101,7 @@ if [ $nixpac -eq 1 ]; then
   if command -v nix >/dev/null; then
       echo "nix is already installed."
   else
-    curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
+    curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --no-confirm
     . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
     cp -r ~/.mydotfiles/Nix/ ~/
     ~/Nix/my-home-manager.sh
@@ -109,7 +114,7 @@ fi
 if [ $node -eq 1 ]; then
   header "Installing node"
   if command -v node >/dev/null 2>&1; then
-      echo "Node.js is installed"
+      echo "Node.js is already installed"
   else
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
     export NVM_DIR="$HOME/.nvm"
@@ -124,7 +129,7 @@ if [ $pyenv -eq 1 ]; then
   header "Installing pyenv"
 
   if command -v pyenv >/dev/null 2>&1; then
-      echo "pyenv is installed"
+      echo "pyenv is already installed"
   else
     curl https://pyenv.run | bash
     sudo apt install build-essential libssl-dev zlib1g-dev \
@@ -135,6 +140,13 @@ fi
 
 
 # ------------------------ Other usefull install scripts --------------------------------------
+
+## Install miniconda 
+#mkdir -p ~/miniconda3
+#wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh
+#bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
+#rm -rf ~/miniconda3/miniconda.sh
+#~/miniconda3/bin/conda init bash
 
 
 ## Create swap storage - https://www.youtube.com/watch?v=i7q8JbNK-9s
