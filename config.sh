@@ -59,7 +59,7 @@ for file in "${files_to_link[@]}"; do
     link_file_to_home "$dotfilelocations" "$file"
 done
 
-if [ command -v tmux ]; then
+if command -v tmux >/dev/null 2>&1; then
   if ! [ -d $HOME/.local/share/tmux/plugins ]; then
     mkdir -p $HOME/.local/share/tmux/plugins
     git clone https://github.com/tmux-plugins/tpm $HOME/.local/share/tmux/plugins/tpm
