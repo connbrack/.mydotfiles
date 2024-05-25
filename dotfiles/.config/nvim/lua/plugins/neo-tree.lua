@@ -26,6 +26,7 @@ return {
           hide_dotfiles = true,
           hide_gitignored = false,
           hide_by_name = {
+            ".git",
             "node_modules",
             "__pycache__",
             "venv",
@@ -38,9 +39,8 @@ return {
           always_show = { -- remains visible even if other settings would normally hide it
             ".env",
           },
-          never_show = { -- remains hidden even if visible is toggled to true, this overrides always_show
-            --".DS_Store",
-            --"thumbs.db"
+          never_show = {
+            ".git"
           },
           never_show_by_pattern = { -- uses glob style patterns
             --".null-ls_*",
