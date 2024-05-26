@@ -29,7 +29,7 @@ return {
             ".git",
             "node_modules",
             "__pycache__",
-            "venv",
+            ".venv",
             "build",
           },
           hide_by_pattern = { -- uses glob style patterns
