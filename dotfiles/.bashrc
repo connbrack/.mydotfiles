@@ -86,7 +86,9 @@ if command -V starship >/dev/null 2>&1; then
   eval "$(starship init bash)"
 fi
 
-source ~/.local/share/blesh/ble.sh
+if [ -d "$HOME/.local/share/blesh/" ]; then
+  source ~/.local/share/blesh/ble.sh
+fi
 
 export VISUAL=nvim;
 export EDITOR=nvim;
@@ -112,7 +114,11 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
 
+<<<<<<< HEAD
 if command -v pyenv &> /dev/null; then
+=======
+if [ -d "$HOME/.pyenv" ]; then
+>>>>>>> 690fa47a43cc6abf84e6de43ac97b6339962f2ec
   export PYENV_ROOT="$HOME/.pyenv"
   export PATH="$PYENV_ROOT/bin:$PATH"
   eval "$(pyenv init -)"

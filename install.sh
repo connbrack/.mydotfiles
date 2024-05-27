@@ -3,6 +3,7 @@
 # ----------------------------- Example Uses ------------------------------------------
 
 # all flags:
+<<<<<<< HEAD
 # ./install.sh --skip-update --blesh --nix-packages --apt-packages --desktop --node --pyenv
 
 # Terminal setup:
@@ -13,11 +14,27 @@
 
 # Additional setup:
 # ./install.sh --skipupdate --node --pyenv
+=======
+# ./install.sh --update-apt --basic-packages --nix-packages --apt-packages --blesh --desktop --node --pyenv
+
+# Terminal setup:
+# ./install.sh --update-apt --basic-packages --nix-packages --blesh
+
+# Nixless terminal setup:
+# ./install.sh --update-apt --basic-packages --apt-packages --blesh
+
+# Desktop setup:
+# ./install.sh --update-apt --basic-packages --nix-packages --blesh --desktop
+
+# Coding setup:
+# ./install.sh --node --pyenv
+>>>>>>> 690fa47a43cc6abf84e6de43ac97b6339962f2ec
 
 # ----------------------------- Flags ------------------------------------------
 
 # Default behavior
-skipupdate=0
+updateapt=0
+basic=0
 blesh=0
 nixpac=0
 aptpac=0
@@ -28,10 +45,11 @@ pyenv=0
 # Process flags
 for arg in "$@"; do
   case $arg in
-      --skip-update) skipupdate=1 ;;
-      --blesh) blesh=1 ;;
+      --update-apt) updateapt=1 ;;
+      --basic-packages) basic=1 ;;
       --nix-packages) nixpac=1 ;;
       --apt-packages) aptpac=1 ;;
+      --blesh) blesh=1 ;;
       --desktop) desktop=1 ;;
       --node) node=1 ;;
       --pyenv) pyenv=1 ;;
@@ -48,7 +66,7 @@ header() {
 # ----------------------------- Upgrade System ------------------------------------------
 
 
-if [ ! $skipupdate -eq 1 ]; then
+if [ $updateapt -eq 1 ]; then
   header "Updating apt"
 
   sudo apt update
@@ -57,11 +75,27 @@ fi
 
 # ----------------------------- Basic Install -------------------------------------------
 
-header "Installing Basic Packages"
+if [ $basic -eq 1 ]; then
+  header "Installing Basic Packages"
+  sudo apt install \
+    curl make build-essential gawk trash-cli bat \
+    xclip xsel xdotool -y
+fi
 
+<<<<<<< HEAD
 sudo apt install \
   curl make build-essential gawk trash-cli bat \
   xclip xsel xdotool -y
+=======
+
+if [ $desktop -eq 1 ]; then
+  header "Installing Desktop Packages"
+
+  sudo apt install \
+    xbindkeys latte-dock \
+    rofi rofi-dev autoconf automake libtool-bin libtool -y
+fi
+>>>>>>> 690fa47a43cc6abf84e6de43ac97b6339962f2ec
 
 if [ $blesh -eq 1 ]; then
   header "Installing blesh"
@@ -74,6 +108,7 @@ if [ $blesh -eq 1 ]; then
   fi
 fi
 
+<<<<<<< HEAD
 if [ $desktop -eq 1 ]; then
   header "Installing Desktop Packages"
 
@@ -82,6 +117,8 @@ if [ $desktop -eq 1 ]; then
     rofi rofi-dev autoconf automake libtool-bin libtool -y
 fi
 
+=======
+>>>>>>> 690fa47a43cc6abf84e6de43ac97b6339962f2ec
 # -------------------------- Packages installs --------------------------------------------
 
 if [ $aptpac -eq 1 ]; then
