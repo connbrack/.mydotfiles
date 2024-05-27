@@ -3,18 +3,6 @@
 # ----------------------------- Example Uses ------------------------------------------
 
 # all flags:
-<<<<<<< HEAD
-# ./install.sh --skip-update --blesh --nix-packages --apt-packages --desktop --node --pyenv
-
-# Terminal setup:
-# ./install.sh --blesh --nix-packages --apt-packages
-
-# Desktop setup:
-# ./install.sh --blesh --nix-packages --apt-packages --desktop
-
-# Additional setup:
-# ./install.sh --skipupdate --node --pyenv
-=======
 # ./install.sh --update-apt --basic-packages --nix-packages --apt-packages --blesh --desktop --node --pyenv
 
 # Terminal setup:
@@ -28,7 +16,6 @@
 
 # Coding setup:
 # ./install.sh --node --pyenv
->>>>>>> 690fa47a43cc6abf84e6de43ac97b6339962f2ec
 
 # ----------------------------- Flags ------------------------------------------
 
@@ -82,11 +69,6 @@ if [ $basic -eq 1 ]; then
     xclip xsel xdotool -y
 fi
 
-<<<<<<< HEAD
-sudo apt install \
-  curl make build-essential gawk trash-cli bat \
-  xclip xsel xdotool -y
-=======
 
 if [ $desktop -eq 1 ]; then
   header "Installing Desktop Packages"
@@ -95,7 +77,6 @@ if [ $desktop -eq 1 ]; then
     xbindkeys latte-dock \
     rofi rofi-dev autoconf automake libtool-bin libtool -y
 fi
->>>>>>> 690fa47a43cc6abf84e6de43ac97b6339962f2ec
 
 if [ $blesh -eq 1 ]; then
   header "Installing blesh"
@@ -108,17 +89,6 @@ if [ $blesh -eq 1 ]; then
   fi
 fi
 
-<<<<<<< HEAD
-if [ $desktop -eq 1 ]; then
-  header "Installing Desktop Packages"
-
-  sudo apt install \
-    xbindkeys latte-dock \
-    rofi rofi-dev autoconf automake libtool-bin libtool -y
-fi
-
-=======
->>>>>>> 690fa47a43cc6abf84e6de43ac97b6339962f2ec
 # -------------------------- Packages installs --------------------------------------------
 
 if [ $aptpac -eq 1 ]; then

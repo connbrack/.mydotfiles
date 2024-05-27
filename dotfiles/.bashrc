@@ -114,11 +114,7 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
 
-<<<<<<< HEAD
-if command -v pyenv &> /dev/null; then
-=======
 if [ -d "$HOME/.pyenv" ]; then
->>>>>>> 690fa47a43cc6abf84e6de43ac97b6339962f2ec
   export PYENV_ROOT="$HOME/.pyenv"
   export PATH="$PYENV_ROOT/bin:$PATH"
   eval "$(pyenv init -)"
