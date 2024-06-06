@@ -6,6 +6,7 @@ $git_status\
 [|](mustard)\
 $username\
 [|](mustard)\
+$hostname\
 $directory\
 [ \\$ ](bold green)\
 """
@@ -20,6 +21,12 @@ show_always = true
 style_root = "white"
 style_user = "white"
 format = '[💁$symbol$user]($style)'
+
+[hostname]
+ssh_only = true
+ssh_symbol='🌐'
+format = '[$ssh_symbol](bold blue)[$hostname](bold red)|(mustard)'
+disabled = false
 
 [directory]
 truncation_length = 100
