@@ -97,10 +97,6 @@ export EDITOR=nvim;
 
 # -------------------------- Programs ---------------------------
 
-if [ -d "$HOME/Apps/scripts" ]; then
-  export PATH=$PATH:"$HOME/Apps/scripts"
-fi
-
 if command -v go &> /dev/null; then
   export PATH="$(go env GOPATH)/bin:$PATH"
 fi
@@ -132,6 +128,10 @@ fi
 
 if [ -e "$HOME/.bashrc_private" ] || [ -L "$HOME/.bashrc_private" ]; then
     source $HOME/.bashrc_private
+fi
+
+if [ -d "$HOME/Apps/scripts" ]; then
+  export PATH=$PATH:"$HOME/Apps/scripts"
 fi
 
 if [ -e "$HOME/Apps/scripts/sourced/py" ] || [ -L "$HOME/Apps/scripts/sourced/py" ]; then
