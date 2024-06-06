@@ -1,6 +1,9 @@
 {
   "codeLens.enable": true,
   "suggest.insertMode": "insert",
+  "pyright.inlayHints.functionReturnTypes": false,
+  "pyright.inlayHints.variableTypes": false,
+  "pyright.inlayHints.parameterTypes": false,
   "cSpell.userWords": [
     "Brackley",
     "Connor"
