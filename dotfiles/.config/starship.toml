@@ -24,7 +24,7 @@ format = '[💁$symbol$user]($style)'
 
 [hostname]
 ssh_only = true
-ssh_symbol='🌐'
+ssh_symbol='>_'
 format = '[$ssh_symbol](bold blue)[$hostname](bold red)|(mustard)'
 disabled = false
 
@@ -42,7 +42,7 @@ format = "[$read_only]($read_only_style)[$path]($style)"
 #"~" = "~ "
 
 [c]
-symbol = " "
+symbol = ""
 format = '[ $symbol ($version) ]($style)'
 
 [python]
@@ -55,23 +55,22 @@ version_format='v${major}.${minor}'
 format = '[${symbol} $virtualenv]($style)'
 
 [docker_context]
-symbol = " "
+symbol = ""
 style = "bg:#06969A"
 format = '[ $symbol $context ]($style) $path'
 
 [elixir]
-symbol = " "
+symbol = ""
 style = "bg:#86BBD8"
 format = '[ $symbol ($version) ]($style)'
 
 [elm]
-symbol = " "
+symbol = ""
 style = "bg:#86BBD8"
 format = '[ $symbol ($version) ]($style)'
 
 [git_branch]
  symbol = ""
-#symbol = "🐬"
 style = "#3f96fa"
 format = '[|](mustard)[$symbol $branch]($style)'
 
