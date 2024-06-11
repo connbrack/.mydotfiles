@@ -8,7 +8,8 @@ vim.cmd("inoremap jj <ESC>")
 vim.g.mapleader = ","
 
 
-vim.cmd("nnoremap <Leader>b <C-o>")
+vim.cmd("nnoremap <C-h> <C-o>")
+vim.cmd("nnoremap <C-l> <C-i>")
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
