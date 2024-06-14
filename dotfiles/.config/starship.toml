@@ -1,9 +1,9 @@
 format = """
+[|](mustard)\
 $conda\
 $python\
 $git_branch\
 $git_status\
-[|](mustard)\
 $hostname\
 $username\
 [|](mustard)\
@@ -25,7 +25,7 @@ format = '[💁$symbol$user]($style)'
 [hostname]
 ssh_only = true
 ssh_symbol='>_'
-format = '[$ssh_symbol](bold blue)[$hostname](bold red)|(mustard)'
+format = '[$ssh_symbol](bold blue)[$hostname](bold blue)|(mustard)'
 disabled = false
 
 [directory]
@@ -51,8 +51,7 @@ style = "#44a833"
 detect_extensions=[]
 detect_files=[]
 version_format='v${major}.${minor}'
-
-format = '[${symbol} $virtualenv]($style)'
+format = '[${symbol} $virtualenv]($style)[|](mustard)'
 
 [docker_context]
 symbol = ""
@@ -72,11 +71,11 @@ format = '[ $symbol ($version) ]($style)'
 [git_branch]
  symbol = ""
 style = "#3f96fa"
-format = '[|](mustard)[$symbol $branch]($style)'
+format = '[$symbol $branch]($style)'
 
 [git_status]
 style = "#3f96fa"
-format = '([\[$all_status$ahead_behind\]]($style))'
+format = '([\[$all_status$ahead_behind\]]($style))[|](mustard)'
 
 [golang]
 symbol = " "
