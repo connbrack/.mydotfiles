@@ -4,9 +4,9 @@ $python\
 $git_branch\
 $git_status\
 [|](mustard)\
+$hostname\
 $username\
 [|](mustard)\
-$hostname\
 $directory\
 [ \\$ ](bold green)\
 """
