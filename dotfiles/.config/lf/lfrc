@@ -34,6 +34,10 @@ cmd file_explorer ${{
   xdg-open . > /dev/null 2>&1 &
 }}
 
+cmd vim_open ${{
+  nvim 
+}}
+
 cmd edit ${{
     if [ -d "$f" ] ; then
         codium "$f" > /dev/null 2>&1 &
@@ -153,6 +157,7 @@ map <enter> shell
 map e edit
 map du restore_trash
 map t mytest
+map V vim_open
 
 # Basic Functions
 map d
