@@ -10,10 +10,14 @@ Mod4+Q
 
 # rofi -----------------------------
 "rofi -show"
+Alt+space
+"rofi -show"
 Mod4+space
 
 "rofi -show run"
 control+Mod4+space
+"rofi -show run"
+control+Alt+space
 
 "rofi -show emoji"
 Shift+Mod4+space
