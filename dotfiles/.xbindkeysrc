@@ -10,7 +10,7 @@ Mod4+Q
 
 # rofi -----------------------------
 "rofi -show"
-Alt+space
+Mod4+Return
 "rofi -show"
 Mod4+space
 
@@ -21,6 +21,8 @@ control+Alt+space
 
 "rofi -show emoji"
 Shift+Mod4+space
+"rofi -show emoji"
+Alt+space
 
 # Reader ---------------------------
 # Basic read command
