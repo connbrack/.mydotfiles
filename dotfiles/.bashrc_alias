@@ -8,7 +8,7 @@ alias l='ls -CF'
 alias copy="xclip -i -r -selection clipboard"
 
 # ----------- Package Management -----------------------------------
-alias apt-upgrade='echo && echo -e "\x1b[30;42m Updating apt \x1b[m" && sudo apt update && sudo apt upgrade -y && echo'
+alias apt-upgrade='sudo echo && echo -e "\x1b[30;42m Updating apt \x1b[m" && sudo apt update && sudo apt upgrade -y && echo'
 alias flatpak-upgrade='echo && echo -e "\x1b[30;42m Updating flatpak \x1b[m" && flatpak update -y && echo'
 alias upgrade-all='apt-upgrade && flatpak-upgrade && nix-upgrade'
 
