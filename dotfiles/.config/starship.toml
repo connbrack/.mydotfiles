@@ -1,15 +1,12 @@
-format = """
-[|](mustard)\
-$conda\
-$python\
+format = """\
+$hostname\
+$directory\
+$docker_context\
 $git_branch\
 $git_status\
-$hostname\
-$username\
-[|](mustard)\
-$directory\
-[ \\$ ](bold green)\
-"""
+$python\
+$nodejs\
+[❯ ](blue)"""
 
 command_timeout = 5000
 # Disable the blank line at the start of the prompt
@@ -24,8 +21,8 @@ format = '[💁$symbol$user]($style)'
 
 [hostname]
 ssh_only = true
-ssh_symbol='>_'
-format = '[$ssh_symbol](bold blue)[$hostname](bold blue)|(mustard)'
+style='#FB6761'
+format = '[\($hostname\) ]($style)'
 disabled = false
 
 [directory]
@@ -34,7 +31,7 @@ truncate_to_repo = false
 truncation_symbol = "…/"
 style = "bold green"
 read_only_style = "bold green"
-format = "[$read_only]($read_only_style)[$path]($style)"
+format = "[$read_only]($read_only_style)[$path ]($style)"
 
 # Here is how you can shorten some long paths by text replacement
 # similar to mapped_locations in Oh My Posh:
@@ -51,7 +48,7 @@ style = "#44a833"
 detect_extensions=[]
 detect_files=[]
 version_format='v${major}.${minor}'
-format = '[${symbol} $virtualenv]($style)[|](mustard)'
+format = '[via ](#EC8FD0)[${symbol} $virtualenv ]($style)'
 
 [docker_context]
 symbol = ""
@@ -69,13 +66,13 @@ style = "bg:#86BBD8"
 format = '[ $symbol ($version) ]($style)'
 
 [git_branch]
- symbol = ""
-style = "#3f96fa"
-format = '[$symbol $branch]($style)'
+ symbol = ""
+style = "#7CC6D4"
+format = '[on ](#EC8FD0)[$symbol $branch ]($style)'
 
 [git_status]
 style = "#3f96fa"
-format = '([\[$all_status$ahead_behind\]]($style))[|](mustard)'
+format = '([\[$all_status$ahead_behind\] ]($style))'
 
 [golang]
 symbol = " "
@@ -99,8 +96,9 @@ format = '[ $symbol ($version) ]($style)'
 
 [nodejs]
 symbol = ""
-style = "bg:#86BBD8"
-format = '[ $symbol ($version) ]($style)'
+style = "#DE5833"
+version_format =	'v${major}.${minor}'
+format = '[via ](#EC8FD0)[$symbol ($version) ]($style)'
 
 [nim]
 symbol = " "
