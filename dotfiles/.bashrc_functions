@@ -28,6 +28,13 @@ copyf (){
   fi
 }
 
+chat() {
+    local result=""
+    for arg in "$@"; do
+        result+="$arg "
+    done
+    tgpt "${result% }"
+}
 
 # ---------------------------------- fuzzy functions --------------------------------------
 
