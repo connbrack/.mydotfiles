@@ -1,11 +1,11 @@
 format = """\
-$hostname\
-$directory\
 $docker_context\
 $git_branch\
 $git_status\
 $python\
 $nodejs\
+$directory\
+$hostname\
 [❯ ](blue)"""
 
 command_timeout = 5000
@@ -22,7 +22,7 @@ format = '[💁$symbol$user]($style)'
 [hostname]
 ssh_only = true
 style='#FB6761'
-format = '[\($hostname\) ]($style)'
+format = '[\(on $hostname\) ]($style)'
 disabled = false
 
 [directory]
@@ -44,11 +44,11 @@ format = '[ $symbol ($version) ]($style)'
 
 [python]
 symbol = ""
-style = "#44a833"
+style = "bg:#4B884B fg:#A6DA95"
 detect_extensions=[]
 detect_files=[]
 version_format='v${major}.${minor}'
-format = '[via ](#EC8FD0)[${symbol} $virtualenv ]($style)'
+format = '[](#4B884B)[${symbol} $virtualenv]($style)[ ](#4B884B)'
 
 [docker_context]
 symbol = ""
@@ -66,13 +66,13 @@ style = "bg:#86BBD8"
 format = '[ $symbol ($version) ]($style)'
 
 [git_branch]
- symbol = ""
-style = "#7CC6D4"
-format = '[on ](#EC8FD0)[$symbol $branch ]($style)'
+symbol = ""
+style = "bg:#4B4B88 fg:#3f96fa"
+format = '[](#4B4B88)[$symbol $branch]($style)'
 
 [git_status]
-style = "#3f96fa"
-format = '([\[$all_status$ahead_behind\] ]($style))'
+style = "bg:#4B4B88 fg:#3f96fa"
+format = '([ \[$all_status$ahead_behind\]]($style))[ ](#4B4B88)'
 
 [golang]
 symbol = " "
@@ -96,9 +96,9 @@ format = '[ $symbol ($version) ]($style)'
 
 [nodejs]
 symbol = ""
-style = "#DE5833"
+style = "bg:#884B6A fg:#ee99a0"
 version_format =	'v${major}.${minor}'
-format = '[via ](#EC8FD0)[$symbol ($version) ]($style)'
+format = '[](#884B6A)[$symbol ($version)]($style)[ ](#884B6A)'
 
 [nim]
 symbol = " "
