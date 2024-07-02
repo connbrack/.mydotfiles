@@ -97,6 +97,10 @@ export EDITOR=nvim;
 
 # -------------------------- Programs ---------------------------
 
+if [ -d "$HOME/.nix-profile" ]; then
+  . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+fi
+
 if command -v go &> /dev/null; then
   export PATH="$(go env GOPATH)/bin:$PATH"
 fi
