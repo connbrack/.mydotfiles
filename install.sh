@@ -117,6 +117,7 @@ if [ $nixpac -eq 1 ]; then
     . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
     rm -r ~/.config/home-manager
     cp -r ~/.mydotfiles/misc/home-manager/ ~/.config/
+    sed -i "s/__username__/$(whoami)/g" ~/.config/home-manager/home.nix
     home-manager switch
   fi
 fi
@@ -154,9 +155,10 @@ fi
 
 # ------------------------ Other usefull install scripts --------------------------------------
 
-## Clean up for nix re-install
-#rm /home/connor/.local/state/nix/profiles/home-manager*
-#rm /home/connor/.local/state/home-manager/gcroots/current-home
+## Clean up nix
+#/nix/nix-installer uninstall
+#rm ~/.local/state/nix/profiles/home-manager*
+#rm ~/.local/state/home-manager/gcroots/current-home
 #rm -r ~/.config/home-manager
 #rm -r ~/.nix-*
 
