@@ -41,7 +41,7 @@ files_to_link=(
 	".config/tmux" 
 	".config/nvim" 
 	".config/lf" 
-	".config/nix" 
+	".config/starship.toml" 
 	#".xbindkeysrc" 
 	#".config/rofi" 
 	#".config/starship.toml" 
