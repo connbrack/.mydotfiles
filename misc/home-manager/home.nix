@@ -8,8 +8,8 @@
     '';
   };
 
-  home.username = "connor";
-  home.homeDirectory = "/home/connor";
+  home.username = "__username__";
+  home.homeDirectory = "/home/__username__";
   home.stateVersion = "24.05";
 
   nixpkgs.config.permittedInsecurePackages = [
