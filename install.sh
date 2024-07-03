@@ -105,12 +105,19 @@ fi
 if [ $nixpac -eq 1 ]; then
   header "Installing Nix"
   if command -v nix >/dev/null; then
-      echo "nix is already installed."
+    echo "nix is already installed."
+  elif [ -d "~/.config/home-manager" ]; then
+    echo "~/.config/home-manager exists, delete or move this file before running"
   else
     curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --no-confirm
     . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
-    cp -r ~/.mydotfiles/others/Nix/ ~/
-    ~/Nix/my-home-manager.sh
+    nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
+    nix-channel --update
+    nix-shell '<home-manager>' -A install
+    . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+    rm -r ~/.config/home-manager
+    cp -r ~/.mydotfiles/misc/home-manager/ ~/.config/
+    home-manager switch
   fi
 fi
 
@@ -146,6 +153,12 @@ fi
 
 
 # ------------------------ Other usefull install scripts --------------------------------------
+
+## Clean up for nix re-install
+#rm /home/connor/.local/state/nix/profiles/home-manager*
+#rm /home/connor/.local/state/home-manager/gcroots/current-home
+#rm -r ~/.config/home-manager
+#rm -r ~/.nix-*
 
 ## Install miniconda 
 #mkdir -p ~/miniconda3
