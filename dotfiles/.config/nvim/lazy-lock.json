@@ -8,6 +8,7 @@
   "fzf": { "branch": "master", "commit": "99bd6de5415dccec4b1b21121224116bbfbc462f" },
   "fzf-lua": { "branch": "main", "commit": "b92220ec838c195eb1c711daa69c905b1d7b8d8c" },
   "fzf.vim": { "branch": "master", "commit": "0a80e43f9027ec64213d602dbb0b22d65a072ca8" },
+  "gitsigns.nvim": { "branch": "main", "commit": "220446c8c86a280180d852efac60991eaf1a21d4" },
   "glow.nvim": { "branch": "main", "commit": "238070a686c1da3bccccf1079700eb4b5e19aea4" },
   "lazy.nvim": { "branch": "main", "commit": "24fa2a97085ca8a7220b5b078916f81e316036fd" },
   "lf.vim": { "branch": "master", "commit": "80a2ef0b1632258c6f5bfce21524c3b3d949a774" },
@@ -25,6 +26,7 @@
   "trouble.nvim": { "branch": "main", "commit": "a8264a65a0b894832ea642844f5b7c30112c458f" },
   "vim-easymotion": { "branch": "master", "commit": "b3cfab2a6302b3b39f53d9fd2cd997e1127d7878" },
   "vim-floaterm": { "branch": "master", "commit": "4e28c8dd0271e10a5f55142fb6fe9b1599ee6160" },
+  "vim-fugitive": { "branch": "master", "commit": "8c8cdf4405cb8bdb70dd9812a33bb52363a87dbc" },
   "vim-grammarous": { "branch": "master", "commit": "db46357465ce587d5325e816235b5e92415f8c05" },
   "vimux": { "branch": "master", "commit": "f7c41607d9246ec4b6cc28587cce84d75d106e3e" },
   "vimux-tasks": { "branch": "main", "commit": "908ab410c8aa8928784c23cd341613c77d33e890" }
