@@ -15,20 +15,20 @@ set ifs "\n"
 # -------------- Open functions --------
 
 cmd open &{{
-    case $(xdg-mime query filetype "$f") in
-      text/*) lf -remote "send $id \$$EDITOR \"\$fx\"";;
-      text/plain) lf -remote "send $id \$$EDITOR \"\$fx\"";;
-      application/json) lf -remote "send $id \$$EDITOR \"\$fx\"";;
-      application/x-shellscript) lf -remote "send $id \$$EDITOR \"\$fx\"";;
-      application/x-zerosize) lf -remote "send $id \$$EDITOR \"\$fx\"";;
-      application/javascript) lf -remote "send $id \$$EDITOR \"\$fx\"";;
-      application/json) lf -remote "send $id \$$EDITOR \"\$fx\"";;
-      application/json) lf -remote "send $id \$$EDITOR \"\$fx\"";;
-
-      *) for f in "$fx"; do $OPENER "$f" > /dev/null 2> /dev/null & done;;
-   esac
+  case $(file --mime-type -Lb "$f") in
+    text/*) lf -remote "send $id \$$EDITOR \"\$fx\"";;
+    application/*) lf -remote "send $id \$$EDITOR \"\$fx\"";;
+    *) for f in "$fx"; do $OPENER "$f" > /dev/null 2> /dev/null & done;;
+  esac
 }}
 
+cmd xdgopen &{{
+ $OPENER $f
+}}
+
+cmd xdgask ${{
+ mimeopen --ask $f
+}}
 
 cmd file_explorer ${{
   xdg-open . > /dev/null 2>&1 &
@@ -37,22 +37,6 @@ cmd file_explorer ${{
 cmd vim_open ${{
   nvim 
 }}
-
-cmd edit ${{
-    if [ -d "$f" ] ; then
-        codium "$f" > /dev/null 2>&1 &
-    fi 
-
-    case $(file --mime-type -Lb "$f") in
-        text/*) codium "$f" > /dev/null 2>&1 &;;
-    esac
-
-    case "$f" in
-        *.svg) org.inkscape.Inkscape "$f" > /dev/null 2>&1 &;;
-        *.png|*.jpeg|*.jpg) org.gimp.GIMP "$f" > /dev/null 2>&1 &;;
-    esac
-}}
-
 
 # ------------------- Basic functionaly -----------------
 cmd mkdir ${{
@@ -152,9 +136,10 @@ cmd bulk-rename ${{
 
 # -------------- Mapping --------------
 # Custom
-map o file_explorer
+map o xdgopen
+map O xdgask
+map e file_explorer
 map <enter> shell
-map e edit
 map du restore_trash
 map t mytest
 map V vim_open
