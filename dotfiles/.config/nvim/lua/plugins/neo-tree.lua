@@ -30,7 +30,6 @@ return {
             "node_modules",
             "__pycache__",
             ".venv",
-            "build",
           },
           hide_by_pattern = { -- uses glob style patterns
             --"*.meta",

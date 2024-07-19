@@ -16,7 +16,6 @@ return {
             "node_modules",
             "__pycache__",
             ".venv",
-            "build",
           },
         },
         pickers = {
