@@ -30,7 +30,7 @@ alias nix-search='bash -c "xdg-open https://search.nixos.org" 2> /dev/null'
 # ---------------------- File exploring --------------------------------
 alias lf='lfcd'
 alias vim='nvim'
-alias bat='batcat --theme="Catppuccin Mocha"'
+alias bat='bat --theme="Catppuccin Mocha"'
 
 # ---------------------- misc --------------------------------
 alias tkill='tmux kill-server'
