@@ -73,3 +73,27 @@ cdf() {
         cd "$selection"
     fi
 }
+
+fd() {
+    local selection
+
+    selection=$(
+        find ./ \
+          \( -name .git -o -name node_modules -o -name .venv -o -name cache \) -prune -o -type d -print \
+          | fzf -e --height=20 --layout=reverse --info=inline --border --margin=1 --padding=1 \
+    )
+
+    if [ -n "$selection" ]; then
+        cd "$selection"
+    fi
+}
+
+ff() {
+    local selection
+
+    selection=$(
+        find ./ \
+          \( -name .git -o -name node_modules -o -name venv -o -name cache \) -prune -o -type f -print \
+          | fzf -e --height=20 --layout=reverse --info=inline --border --margin=1 --padding=1 \
+    )
+}
