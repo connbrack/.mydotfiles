@@ -43,7 +43,8 @@ lff() {
 
     selection=$(
         find ~/Documents ~/Apps/ ~/.mydotfiles \
-          \( -name .git -o -name node_modules -o -name venv -o -name cache \) -prune -o -type d -print \
+          \( -name .git -o -name node_modules -o -name venv -o -name cache \) \
+          -prune -o -type d -print 2>/dev/null \
           | fzf -e --prompt 'Main> ' \
             --header 'C-h: home' \
             --bind 'ctrl-h:reload(find ~/ -type d)' \
@@ -62,7 +63,8 @@ cdf() {
 
     selection=$(
         find ~/Documents ~/Apps/ ~/.mydotfiles \
-          \( -name .git -o -name node_modules -o -name venv -o -name cache \) -prune -o -type d -print \
+          \( -name .git -o -name node_modules -o -name venv -o -name cache \) \
+          -prune -o -type d -print 2>/dev/null \
           | fzf -e --prompt 'Main> ' \
             --header 'C-h: home' \
             --bind 'ctrl-h:reload(find ~/ -type d)' \
