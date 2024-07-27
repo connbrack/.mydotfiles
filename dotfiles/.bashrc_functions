@@ -42,7 +42,7 @@ lff() {
     local selection
 
     selection=$(
-        find ~/Documents ~/Apps/ ~/.mydotfiles \
+        find -L ~/Documents ~/Apps/ ~/.mydotfiles \
           \( -name .git -o -name node_modules -o -name venv -o -name cache \) \
           -prune -o -type d -print 2>/dev/null \
           | fzf -e --prompt 'Main> ' \
@@ -62,7 +62,7 @@ cdf() {
     local selection
 
     selection=$(
-        find ~/Documents ~/Apps/ ~/.mydotfiles \
+        find -L ~/Documents ~/Apps/ ~/.mydotfiles \
           \( -name .git -o -name node_modules -o -name venv -o -name cache \) \
           -prune -o -type d -print 2>/dev/null \
           | fzf -e --prompt 'Main> ' \
