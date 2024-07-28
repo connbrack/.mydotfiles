@@ -57,7 +57,7 @@ header() {
 
 # -------------------------- Terminal Packages Installs ----------------------------------
 # essential packges
-if [ essential -eq 1 ] && [ $packagemanager = "apt" ]; then
+if [ $essential -eq 1 ] && [ $packagemanager = "apt" ]; then
   sudo apt install \
     software-properties-common build-essential curl make ripgrep gawk bat trash-cli \
     xclip xsel xdotool -y
@@ -86,13 +86,15 @@ if [ $packagemanager = "apt" ] && [ $termpac -eq 1 ]; then
     sudo apt install fzf -y
 
     # btm
-    sudo apt install btm -y
+    curl -LO https://github.com/ClementTsang/bottom/releases/download/0.9.7/bottom_0.9.7_amd64.deb
+    sudo apt install -y ./bottom_0.9.7_amd64.deb
+    rm ./bottom_0.9.7_amd64.deb
 
     # starship
     curl -sS https://starship.rs/install.sh | sh
 fi
 
-if [ $packagemanager = "apt" ] && [ $termpac -eq 1 ]; then
+if [ $packagemanager = "dnf" ] && [ $termpac -eq 1 ]; then
 
     header "Installing dnf packages"
     
@@ -113,7 +115,8 @@ if [ $packagemanager = "apt" ] && [ $termpac -eq 1 ]; then
     sudo apt dnf btm -y
 
     # starship
-    curl -sS https://starship.rs/install.sh | sh
+    dnf copr enable atim/starship
+    dnf install starship
 fi
 
 
@@ -186,7 +189,7 @@ if [ $docker -eq 1 ]; then
   if command -v docker >/dev/null 2>&1; then
     echo "docker is already installed"
   else
-    if [ packagemanager = "apt" ];then
+    if [ $packagemanager = "apt" ];then
       echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian bookworm stable" | \
       sudo tee /etc/apt/sources.list.d/docker.list 
       curl -fsSL https://download.docker.com/linux/debian/gpg |
