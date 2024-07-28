@@ -3,46 +3,48 @@
 # ----------------------------- Example Uses ------------------------------------------
 
 # all flags:
-# ./install.sh --update-apt --basic-packages --nix-packages --apt-packages --blesh --desktop --node --pyenv
+# ./install.sh --terminal-packages --nix-packages  --blesh --desktop --node --pyenv
 
 # Terminal setup:
-# ./install.sh --update-apt --basic-packages --nix-packages --blesh
+# ./install.sh --basic-packages --terminal-packages --blesh
 
-# Nixless terminal setup:
-# ./install.sh --update-apt --basic-packages --apt-packages --blesh
-
-# Desktop setup:
-# ./install.sh --update-apt --basic-packages --nix-packages --blesh --desktop
+# Nix terminal setup:
+# ./install.sh --nix-packages --terminal-packages --blesh
 
 # Coding setup:
-# ./install.sh --node --pyenv
+# ./install.sh --docker --node --pyenv
 
 # ----------------------------- Flags ------------------------------------------
 
-# Default behavior
-updateapt=0
-basic=0
-blesh=0
+termpac=0
 nixpac=0
-aptpac=0
-desktop=0
+blesh=0
+docker=0
 node=0
 pyenv=0
 
 # Process flags
 for arg in "$@"; do
   case $arg in
-      --update-apt) updateapt=1 ;;
-      --basic-packages) basic=1 ;;
+      --terminal-packages) termpac=1 ;;
       --nix-packages) nixpac=1 ;;
-      --apt-packages) aptpac=1 ;;
       --blesh) blesh=1 ;;
-      --desktop) desktop=1 ;;
+      --docker) docker=1;;
       --node) node=1 ;;
       --pyenv) pyenv=1 ;;
-      *) echo "Unknown option: $arg" exit 1 ;;
+      *) echo "Unknown option: $arg"; exit 1 ;;
   esac
+  shift
 done
+
+if command -v apt >/dev/null 2>&1; then
+  packagemanager="apt"
+elif command -v dnf >/dev/null 2>&1; then
+  packagemanager="dnf"
+else
+  echo "No known package manager found (apt or dnf)"
+  exit 1
+fi
 
 # ----------------------------- Functions ------------------------------------------
 
@@ -50,55 +52,63 @@ header() {
   echo && echo -e "\x1b[30;42m $1 \x1b[m"
 }
 
-# ----------------------------- Upgrade System ------------------------------------------
+# -------------------------- Terminal Packages Installs ----------------------------------
 
+if [ $packagemanager -eq "apt" ] && [ $termpac -eq 1 ]; then
 
-if [ $updateapt -eq 1 ]; then
-  header "Updating apt"
+    header "Installing apt packages"
 
-  sudo apt update
-  sudo apt upgrade -y
+    # Basic packges
+    sudo apt install \
+      software-properties-common build-essential curl make ripgrep gawk bat trash-cli \
+      xclip xsel xdotool -y
+    mkdir -p ~/.local/bin
+    ln -s /usr/bin/batcat ~/.local/bin/bat
+    
+    # nvim
+    sudo add-apt-repository ppa:neovim-ppa/unstable -y
+    sudo apt update
+    sudo apt install neovim -y
+
+    # lf
+    sudo apt install golang-go -y
+    env CGO_ENABLED=0 go install -ldflags="-s -w" github.com/gokcehan/lf@latest
+
+    # tmux
+    sudo apt install tmux -y
+
+    # fzf
+    sudo apt install fzf -y
+
+    # btm
+    sudo apt install btm -y
+
+    # starship
+    curl -sS https://starship.rs/install.sh | sh
 fi
 
-# ----------------------------- Basic Install -------------------------------------------
+if [ $packagemanager -eq "apt" ] && [ $termpac -eq 1 ]; then
 
-if [ $basic -eq 1 ]; then
-  header "Installing Basic Packages"
-  sudo apt install \
-    curl make build-essential gawk trash-cli bat \
-    xclip xsel xdotool -y
-fi
+    header "Installing dnf packages"
+    
+    # nvim
+    sudo dnf -y neovim
 
+    # lf
+    dnf copr enable pennbauman/ports
+    dnf install lf
 
-if [ $desktop -eq 1 ]; then
-  header "Installing Desktop Packages"
+    # tmux
+    sudo apt dnf tmux -y
 
-  sudo apt install \
-    xbindkeys latte-dock \
-    rofi rofi-dev autoconf automake libtool-bin libtool -y
-fi
+    # fzf
+    sudo apt dnf fzf -y
 
-if [ $blesh -eq 1 ]; then
-  header "Installing blesh"
-  if [ -f "$HOME/.local/share/blesh/ble.sh" ]; then
-    echo blesh is already installed
-  else
-    git clone --recursive --depth 1 --shallow-submodules https://github.com/akinomyoga/ble.sh.git
-    make -C ble.sh install PREFIX=~/.local
-    sudo rm -r $HOME/.mydotfiles/ble.sh
-  fi
-fi
+    # btm
+    sudo apt dnf btm -y
 
-# -------------------------- Packages installs --------------------------------------------
-
-if [ $aptpac -eq 1 ]; then
-  header "Installing apt packages"
-  sudo add-apt-repository ppa:neovim-ppa/unstable -y
-  sudo apt update
-  sudo apt install neovim -y
-
-  sudo apt install golang-go -y
-  env CGO_ENABLED=0 go install -ldflags="-s -w" github.com/gokcehan/lf@latest
+    # starship
+    curl -sS https://starship.rs/install.sh | sh
 fi
 
 
@@ -124,6 +134,16 @@ fi
 
 # ----------------------------- Optional installs -------------------------------------------
 
+if [ $blesh -eq 1 ]; then
+  header "Installing blesh"
+  if [ -f "$HOME/.local/share/blesh/ble.sh" ]; then
+    echo "blesh is already installed"
+  else
+    git clone --recursive --depth 1 --shallow-submodules https://github.com/akinomyoga/ble.sh.git
+    make -C ble.sh install PREFIX=~/.local
+    sudo rm -r $HOME/.mydotfiles/ble.sh
+  fi
+fi
 
 if [ $node -eq 1 ]; then
   header "Installing node"
@@ -141,14 +161,35 @@ fi
 
 if [ $pyenv -eq 1 ]; then
   header "Installing pyenv"
-
   if command -v pyenv >/dev/null 2>&1; then
       echo "pyenv is already installed"
   else
+    if [ packagemanager -eq "apt" ];then
+      sudo apt install build-essential libssl-dev zlib1g-dev \
+      libbz2-dev libreadline-dev libsqlite3-dev curl git \
+      libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev -y
+    else
+      sudo dnf install --assumeyes gcc make patch zlib-devel bzip2 bzip2-devel readline-devel \
+        sqlite sqlite-devel openssl-devel tk-devel libffi-devel xz-devel
+    fi
     curl https://pyenv.run | bash
-    sudo apt install build-essential libssl-dev zlib1g-dev \
-    libbz2-dev libreadline-dev libsqlite3-dev curl git \
-    libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev -y
+  fi
+fi
+
+if [ $docker -eq 1 ]; then
+  header "Installing docker"
+  if command -v docker >/dev/null 2>&1; then
+    echo "docker is already installed"
+  else
+    if [ packagemanager -eq "apt" ];then
+      echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian bookworm stable" | \
+      sudo tee /etc/apt/sources.list.d/docker.list 
+      curl -fsSL https://download.docker.com/linux/debian/gpg |
+      sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+      sudo apt update
+      sudo apt install -y docker-ce docker-ce-cli containerd.io
+    else
+      sudo dnf install -y docker
   fi
 fi
 
