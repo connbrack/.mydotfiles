@@ -3,19 +3,20 @@
 # ----------------------------- Example Uses ------------------------------------------
 
 # all flags:
-# ./install.sh --terminal-packages --nix-packages  --blesh --desktop --node --pyenv
+# ./install.sh --essential-packges --terminal-packages --nix-packages --blesh --desktop --node --pyenv
 
 # Terminal setup:
-# ./install.sh --basic-packages --terminal-packages --blesh
+# ./install.sh --essential-packges --terminal-packages --terminal-packages --blesh
 
 # Nix terminal setup:
-# ./install.sh --nix-packages --terminal-packages --blesh
+# ./install.sh --essential-packges --nix-packages --blesh
 
 # Coding setup:
 # ./install.sh --docker --node --pyenv
 
 # ----------------------------- Flags ------------------------------------------
 
+essential=0
 termpac=0
 nixpac=0
 blesh=0
@@ -26,6 +27,7 @@ pyenv=0
 # Process flags
 for arg in "$@"; do
   case $arg in
+      --essential-packages) essential=1 ;;
       --terminal-packages) termpac=1 ;;
       --nix-packages) nixpac=1 ;;
       --blesh) blesh=1 ;;
@@ -52,18 +54,21 @@ header() {
   echo && echo -e "\x1b[30;42m $1 \x1b[m"
 }
 
+
 # -------------------------- Terminal Packages Installs ----------------------------------
-
-if [ $packagemanager -eq "apt" ] && [ $termpac -eq 1 ]; then
-
-    header "Installing apt packages"
-
-    # Basic packges
+    # essential packges
+    if [ essential -eq 1 ] && [ $packagemanager -eq "apt" ] ; 
     sudo apt install \
       software-properties-common build-essential curl make ripgrep gawk bat trash-cli \
       xclip xsel xdotool -y
     mkdir -p ~/.local/bin
     ln -s /usr/bin/batcat ~/.local/bin/bat
+
+
+if [ $packagemanager -eq "apt" ] && [ $termpac -eq 1 ]; then
+
+    header "Installing apt packages"
+
     
     # nvim
     sudo add-apt-repository ppa:neovim-ppa/unstable -y
