@@ -38,13 +38,13 @@ files_to_link=(
 	".blerc" 
   ".config/bat"
   ".config/bottom"
-  ".config/latte"
-  ".config/lattedockrc"
   ".config/lf"
   ".config/nvim"
-  ".config/rofi"
   ".config/starship.toml"
   ".config/tmux"
+  #".config/rofi"
+  #".config/latte"
+  #".config/lattedockrc"
 )
 
 # --------------------------------- Run script -------------------------------------------------
