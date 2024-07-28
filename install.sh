@@ -58,11 +58,15 @@ header() {
 # -------------------------- Terminal Packages Installs ----------------------------------
 # essential packges
 if [ $essential -eq 1 ] && [ $packagemanager = "apt" ]; then
-  sudo apt install \
-    software-properties-common build-essential curl make ripgrep gawk bat trash-cli \
-    xclip xsel xdotool -y
-  mkdir -p ~/.local/bin
-  ln -s /usr/bin/batcat ~/.local/bin/bat
+
+    header "Installing essential packages"
+
+    sudo apt install \
+      software-properties-common build-essential python-software-properties \
+      curl make ripgrep gawk bat trash-cli \
+      xclip xsel xdotool -y
+    mkdir -p ~/.local/bin
+    ln -s /usr/bin/batcat ~/.local/bin/bat
 fi
 
 
@@ -71,19 +75,20 @@ if [ $packagemanager = "apt" ] && [ $termpac -eq 1 ]; then
     header "Installing apt packages"
 
     # nvim
-    sudo add-apt-repository ppa:neovim-ppa/unstable -y
-    sudo apt update
-    sudo apt install neovim -y
+    sudo apt install -y 
+    sudo add-apt-repository ppa:neovim-ppa/unstable -y &&\
+    sudo apt update &&\
+    sudo apt install -y neovim
 
     # lf
-    sudo apt install golang-go -y
+    sudo apt install golang-go -y &&\
     env CGO_ENABLED=0 go install -ldflags="-s -w" github.com/gokcehan/lf@latest
 
     # tmux
-    sudo apt install tmux -y
+    sudo apt install -y tmux
 
     # fzf
-    sudo apt install fzf -y
+    sudo apt install -y fzf
 
     # btm
     curl -LO https://github.com/ClementTsang/bottom/releases/download/0.9.7/bottom_0.9.7_amd64.deb
@@ -91,7 +96,7 @@ if [ $packagemanager = "apt" ] && [ $termpac -eq 1 ]; then
     rm ./bottom_0.9.7_amd64.deb
 
     # starship
-    curl -sS https://starship.rs/install.sh | sh
+    curl -sS https://starship.rs/install.sh | sh -s -- --yes
 fi
 
 if [ $packagemanager = "dnf" ] && [ $termpac -eq 1 ]; then
@@ -102,21 +107,21 @@ if [ $packagemanager = "dnf" ] && [ $termpac -eq 1 ]; then
     sudo dnf -y neovim
 
     # lf
-    dnf copr enable pennbauman/ports
-    dnf install lf
+    dnf copr enable -y pennbauman/ports
+    dnf install -y lf
 
     # tmux
-    sudo apt dnf tmux -y
+    sudo dnf install -y tmux
 
     # fzf
-    sudo apt dnf fzf -y
+    sudo dnf install -y fzf
 
     # btm
-    sudo apt dnf btm -y
+    sudo dnf install -y btm
 
     # starship
-    dnf copr enable atim/starship
-    dnf install starship
+    sudo dnf copr enable -y atim/starship
+    sudo dnf install -y starship
 fi
 
 
@@ -177,7 +182,7 @@ if [ $pyenv -eq 1 ]; then
       libbz2-dev libreadline-dev libsqlite3-dev curl git \
       libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev -y
     else
-      sudo dnf install --assumeyes gcc make patch zlib-devel bzip2 bzip2-devel readline-devel \
+      sudo dnf install -y gcc make patch zlib-devel bzip2 bzip2-devel readline-devel \
         sqlite sqlite-devel openssl-devel tk-devel libffi-devel xz-devel
     fi
     curl https://pyenv.run | bash
