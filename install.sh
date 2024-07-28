@@ -3,13 +3,13 @@
 # ----------------------------- Example Uses ------------------------------------------
 
 # all flags:
-# ./install.sh --essential-packges --terminal-packages --nix-packages --blesh --desktop --node --pyenv
+# ./install.sh --essential-packages --terminal-packages --nix-packages --blesh --desktop --node --pyenv
 
 # Terminal setup:
-# ./install.sh --essential-packges --terminal-packages --terminal-packages --blesh
+# ./install.sh --essential-packages --terminal-packages --terminal-packages --blesh
 
 # Nix terminal setup:
-# ./install.sh --essential-packges --nix-packages --blesh
+# ./install.sh --essential-packages --nix-packages --blesh
 
 # Coding setup:
 # ./install.sh --docker --node --pyenv
@@ -69,7 +69,6 @@ if [ $packagemanager -eq "apt" ] && [ $termpac -eq 1 ]; then
 
     header "Installing apt packages"
 
-    
     # nvim
     sudo add-apt-repository ppa:neovim-ppa/unstable -y
     sudo apt update
@@ -195,6 +194,7 @@ if [ $docker -eq 1 ]; then
       sudo apt install -y docker-ce docker-ce-cli containerd.io
     else
       sudo dnf install -y docker
+    fi
   fi
 fi
 
