@@ -56,16 +56,17 @@ header() {
 
 
 # -------------------------- Terminal Packages Installs ----------------------------------
-    # essential packges
-    if [ essential -eq 1 ] && [ $packagemanager -eq "apt" ] ; 
-    sudo apt install \
-      software-properties-common build-essential curl make ripgrep gawk bat trash-cli \
-      xclip xsel xdotool -y
-    mkdir -p ~/.local/bin
-    ln -s /usr/bin/batcat ~/.local/bin/bat
+# essential packges
+if [ essential -eq 1 ] && [ $packagemanager = "apt" ]; then
+  sudo apt install \
+    software-properties-common build-essential curl make ripgrep gawk bat trash-cli \
+    xclip xsel xdotool -y
+  mkdir -p ~/.local/bin
+  ln -s /usr/bin/batcat ~/.local/bin/bat
+fi
 
 
-if [ $packagemanager -eq "apt" ] && [ $termpac -eq 1 ]; then
+if [ $packagemanager = "apt" ] && [ $termpac -eq 1 ]; then
 
     header "Installing apt packages"
 
@@ -91,7 +92,7 @@ if [ $packagemanager -eq "apt" ] && [ $termpac -eq 1 ]; then
     curl -sS https://starship.rs/install.sh | sh
 fi
 
-if [ $packagemanager -eq "apt" ] && [ $termpac -eq 1 ]; then
+if [ $packagemanager = "apt" ] && [ $termpac -eq 1 ]; then
 
     header "Installing dnf packages"
     
@@ -168,7 +169,7 @@ if [ $pyenv -eq 1 ]; then
   if command -v pyenv >/dev/null 2>&1; then
       echo "pyenv is already installed"
   else
-    if [ packagemanager -eq "apt" ];then
+    if [ packagemanager = "apt" ];then
       sudo apt install build-essential libssl-dev zlib1g-dev \
       libbz2-dev libreadline-dev libsqlite3-dev curl git \
       libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev -y
@@ -185,7 +186,7 @@ if [ $docker -eq 1 ]; then
   if command -v docker >/dev/null 2>&1; then
     echo "docker is already installed"
   else
-    if [ packagemanager -eq "apt" ];then
+    if [ packagemanager = "apt" ];then
       echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian bookworm stable" | \
       sudo tee /etc/apt/sources.list.d/docker.list 
       curl -fsSL https://download.docker.com/linux/debian/gpg |
