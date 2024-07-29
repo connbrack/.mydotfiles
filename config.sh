@@ -18,11 +18,9 @@ link_file_to_home() {
     local target_link="$HOME/$2"
 
     if [ "$(readlink -f "$target_link")" == "$source_file" ]; then
-      # The link already exists
       return 0
     fi
     
-
     if [ $force -eq 1 ]; then
       ln -sf "$source_file" "$target_link" && echo "Link created: $target_link -> $source_file"
     else
@@ -38,13 +36,15 @@ files_to_link=(
 	".bashrc_functions" 
 	".bashrc_alias" 
 	".blerc" 
-	".config/tmux" 
-	".config/nvim" 
-	".config/lf" 
-	".config/starship.toml" 
-	#".xbindkeysrc" 
-	#".config/rofi" 
-	#".config/starship.toml" 
+  ".config/bat"
+  ".config/bottom"
+  ".config/lf"
+  ".config/nvim"
+  ".config/starship.toml"
+  ".config/tmux"
+  #".config/rofi"
+  #".config/latte"
+  #".config/lattedockrc"
 )
 
 # --------------------------------- Run script -------------------------------------------------
