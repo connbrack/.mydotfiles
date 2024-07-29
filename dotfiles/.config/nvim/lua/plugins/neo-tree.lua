@@ -23,7 +23,7 @@ return {
         filtered_items = {
           follow_current_file = true,
           visible = false,
-          hide_dotfiles = true,
+          hide_dotfiles = false,
           hide_gitignored = false,
           hide_by_name = {
             ".git",

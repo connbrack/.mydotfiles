@@ -11,12 +11,19 @@ vim.g.mapleader = ","
 vim.cmd("nnoremap <C-h> <C-o>")
 vim.cmd("nnoremap <C-l> <C-i>")
 
+-- Map backspack
+vim.cmd("nnoremap <silent> <backspace> :noh<CR>:pc<CR>:cclose<CR>")
+
+-- Quick fix navigation
+vim.cmd("noremap <leader>ql :cnext<CR>")
+vim.cmd("noremap <leader>qh :cprevious<CR>")
+
 -- [[ Setting options ]]
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
 
 -- Set highlight on search
-vim.o.hlsearch = false
+vim.o.hlsearch = true
 
 -- Make line numbers default
 vim.o.relativenumber = true

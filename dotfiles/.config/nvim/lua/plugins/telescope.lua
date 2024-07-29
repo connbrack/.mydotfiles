@@ -37,7 +37,7 @@ return {
       vim.keymap.set('n', '<C-p>', builtin.find_files, {})
       vim.keymap.set('n', '<C-g>', builtin.live_grep, {})
       vim.keymap.set("n", "<leader>u", "<cmd>Telescope undo<cr>")
-      vim.keymap.set("n", "<leader>gc", "<cmd>Telescope git_file_history<cr>")
+      vim.keymap.set("n", "<leader>gC", "<cmd>Telescope git_file_history<cr>")
     end
   },
 }
