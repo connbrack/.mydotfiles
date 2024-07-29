@@ -62,7 +62,7 @@ if [ $essential -eq 1 ] && [ $packagemanager = "apt" ]; then
     header "Installing essential packages"
 
     sudo apt install \
-      software-properties-common build-essential python-software-properties \
+      software-properties-common build-essential \
       curl make ripgrep gawk bat trash-cli \
       xclip xsel xdotool -y
     mkdir -p ~/.local/bin
