@@ -1,0 +1,59 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+# sudo localectl set-locale LANG=en_CA.UTF-8
+
+$provision_script = <<-SCRIPT
+# INSTALL SOFTWARE
+sudo apt update
+echo '* libraries/restart-without-asking boolean true' | sudo debconf-set-selections
+sudo NEEDRESTART_MODE=a apt install -y git
+
+# CHANGE SHELL AND SETUP DOTFILES
+sudo chsh vagrant -s /bin/bash
+sudo localectl set-locale LANG=en_CA.UTF-8
+# Fix X11 sharing timeout for gnome windows
+echo 'eval `dbus-launch --sh-syntax`' >> ~/.profile
+sudo localectl set-locale LANG=en_CA.UTF-8
+git clone https://github.com/connbrack/.mydotfiles.git --depth 1
+cd ~/.mydotfiles
+./install.sh --basic-packages --nix-packages --blesh --node --pyenv
+./config.sh -f
+
+# SET DARK THEMES
+mkdir -p ~/.ghidra/.ghidra_11.0_DEV/ && echo "Theme=Class\:generic.theme.builtin.FlatDarkTheme" > ~/.ghidra/.ghidra_11.0_DEV/preferences
+mkdir -p ~/.BurpSuite && echo '{"user_options":{"display":{"user_interface":{"look_and_feel":"Dark"}},"misc":{"hotkeys":[{"action":"open_embedded_browser","hotkey":"Ctrl+P"}]}}}' > ~/.BurpSuite/UserConfigCommunity.json
+
+# OTHER SMALL TWEAKS TO SIMPLIFY LAUNCHING PROCESS
+sudo gunzip /usr/share/wordlists/rockyou.txt.gz
+echo | sudo tee /etc/motd
+SCRIPT
+
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "kalilinux/rolling"
+  config.vm.define "kali"
+  # config.vm.box_check_update = false
+
+  config.vm.provider 'libvirt' do |libvirt|
+    libvirt.cpus = 8
+    libvirt.memory = 8192
+    libvirt.memorybacking :access, :mode => "shared"
+    libvirt.video_type = 'qxl'
+  end
+
+  config.vm.synced_folder "./", "/vagrant", type: "virtiofs"
+
+  # this prevents new ssh key from being generated for this box but shouldn't be needed anymore
+  # there was a bug where the private key was missing a new line at the end of the file
+  # config.ssh.insert_key = false
+
+  # Forward X
+  config.ssh.forward_agent = true
+  config.ssh.forward_x11 = true
+
+  # Open ports
+  config.vm.network "forwarded_port", guest: 4444, host: 4444
+  config.vm.network "forwarded_port", guest: 8000, host: 8000
+
+  config.vm.provision "shell", inline: $provision_script, privileged: false
+end
