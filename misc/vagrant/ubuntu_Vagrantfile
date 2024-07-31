@@ -1,0 +1,35 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+$provision_script = <<-SCRIPT
+sudo apt update
+sudo apt install git -y
+
+rm -rf ~/Documents && ln -s /vagrant/Documents/ /home/vagrant/Documents
+rm -rf ~/Downloads && ln -s /vagrant/Downloads/ /home/vagrant/Downloads
+
+sudo localectl set-locale LANG=en_CA.UTF-8
+SCRIPT
+#git clone https://github.com/connbrack/.mydotfiles.git --depth 1
+#cd ~/.mydotfiles
+#
+#./install.sh --essential-packages --terminal-packages --blesh --docker --node --pyenv
+#./config.sh -f
+
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "peru/ubuntu-20.04-desktop-amd64"
+
+  config.vm.provider 'libvirt' do |libvirt|
+    libvirt.cpus = 8
+    libvirt.memory = 8192
+    libvirt.memorybacking :access, :mode => "shared"
+    libvirt.uri = "qemu:///system"
+  end
+
+  config.vm.synced_folder "./", "/vagrant", type: "virtiofs"
+  config.ssh.forward_agent = true
+  config.ssh.forward_x11 = true
+
+  config.vm.provision "shell", inline: $provision_script, privileged: false
+end
