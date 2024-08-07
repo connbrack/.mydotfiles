@@ -38,7 +38,7 @@ configuration {
 	fg: #ABB2BF;
 	blue: #CAA6F7;
 	blue-alt: #61AFEF15;
-	red: #A6D994;
+	red: #80CEDC;
   red-alt: #1A2B28;
 
   background-color: @bg;
@@ -62,8 +62,8 @@ inputbar {
   border: 2px;
   border-color: @blue;
   border-radius: 6px;
-  children: [entry];
-  margin: 0 0 6px 0;
+  children: [prompt, entry];
+  margin: 0 0 0px 0;
 }
 
 prompt {
@@ -72,9 +72,9 @@ prompt {
 }
 
 entry {
-  background-color: @blue;
+  background-color: @blue-alt;
   padding: 10px;
-  text-color: @bg;
+  text-color: @blue;
 }
 
 listview {
