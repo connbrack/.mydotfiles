@@ -1,0 +1,108 @@
+
+/*
+ * ROFI color theme
+ *
+ * Based on Something Found in the Internet
+ *
+ * User: Contributors
+ * Copyright: *!
+ */
+
+configuration {
+
+  drun {
+    display-name: "";
+  }
+
+  run {
+    display-name: "";
+  }
+
+  window {
+    display-name: "";
+  }
+
+  timeout {
+    delay: 10;
+    action: "kb-cancel";
+  }
+}
+
+* {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  spacing: 0;
+
+  bg: #1C1C2B;
+	fg: #ABB2BF;
+	blue: #CAA6F7;
+	blue-alt: #61AFEF15;
+	red: #A6D994;
+  red-alt: #1A2B28;
+
+  background-color: @bg;
+  text-color: @fg;
+}
+
+window {
+  border: 2px;
+  border-color: @blue-alt;
+  border-radius: 6px;
+  padding: 6px;
+  transparency: "real";
+  width: 800;
+}
+
+mainbox {
+  children: [inputbar, listview];
+}
+
+inputbar {
+  border: 2px;
+  border-color: @blue;
+  border-radius: 6px;
+  children: [entry];
+  margin: 0 0 6px 0;
+}
+
+prompt {
+  background-color: @blue-alt;
+  padding: 10px;
+}
+
+entry {
+  background-color: @blue;
+  padding: 10px;
+  text-color: @bg;
+}
+
+listview {
+  lines: 10;
+}
+
+element {
+  children: [element-text];
+}
+
+element-icon {
+  padding: 10px 10px;
+}
+
+element-icon selected {
+  background-color: @red;
+}
+
+element selected {
+  border-color: @red;
+  border-radius: 6px;
+}
+
+element-text {
+  padding: 10px 10px 10px 10px;
+}
+
+element-text selected {
+  background-color: @red;
+  text-color: @bg;
+}
