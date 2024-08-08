@@ -120,6 +120,10 @@ if [ -d "$HOME/.pyenv" ]; then
   eval "$(pyenv init -)"
 fi
 
+if [ -d "$HOME/.cargo" ]; then
+  . "$HOME/.cargo/env"
+fi
+
 # -------------------------- Extra files ---------------------------
 
 if [ -e "$HOME/.bashrc_alias" ] || [ -L "$HOME/.bashrc_alias" ]; then
