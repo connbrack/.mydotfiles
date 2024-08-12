@@ -77,15 +77,14 @@ cdf() {
 }
 
 ff() {
-    local selection
+    local input_folder="${1:-}"
 
-    selection=$(
-        find \( -name .git -o -name node_modules -o -name .venv -o -name cache \) -prune -o -print \
+    local selection=$(
+        find $input_folder \
+          \( -name .git -o -name node_modules -o -name .venv -o -name cache \) -prune -o -print \
           | fzf -e --prompt '> ' \
-            --bind 'ctrl-h:reload(find -L ~/Documents ~/Apps/ ~/.mydotfiles \( -name .git -o -name node_modules -o -name .venv -o -name cache \) -prune -o -type d -print 2>/dev/null)' \
-            --bind 'ctrl-k:reload(find -L ~/Documents ~/Apps/ ~/.mydotfiles \( -name .git -o -name node_modules -o -name .venv -o -name cache \) -prune -o -type f -print 2>/dev/null)' \
-            --bind 'ctrl-f:reload(find \( -name .git -o -name node_modules -o -name .venv -o -name cache \) -prune -o -type f -print)' \
-            --bind 'ctrl-d:reload(find \( -name .git -o -name node_modules -o -name .venv -o -name cache \) -prune -o -type d -print)' \
+            --bind 'ctrl-f:reload(find '$input_folder' \( -name .git -o -name node_modules -o -name .venv -o -name cache \) -prune -o -type f -print)' \
+            --bind 'ctrl-d:reload(find '$input_folder' \( -name .git -o -name node_modules -o -name .venv -o -name cache \) -prune -o -type d -print)' \
             --height=20 --layout=reverse --info=inline --margin=1 --padding=1  --preview-window=up:1:wrap \
     )
     if [ -n "$selection" ]; then
@@ -94,13 +93,20 @@ ff() {
 }
 
 ff_inline() {
-  local file=$(ff)
-  if [[ -n $file ]]; then
-    READLINE_LINE="${READLINE_LINE}${file}"
+  path=$(echo "$READLINE_LINE" | grep -o '[^ ]*/$')
+  cmd=$(echo "$READLINE_LINE" | sed 's/[^ ]*\/$//')
+
+  #TODO: A better way handle path expansion?
+  fixed_path=$(echo "$path" | sed "s|^~|$HOME|")
+
+  fuzfind=$(ff $fixed_path)
+
+  if [[ -n $fuzfind ]]; then
+    READLINE_LINE="${cmd}${fuzfind}"
     READLINE_POINT=${#READLINE_LINE}
   fi
 }
-bind -x '"\C-F": ff_inline'
+bind -x '"\C-f": ff_inline'
 
 fh_inline() {
   local cmd=$(history | sed -E 's/ *[0-9]+ *//' | fzf --tac --reverse +s --tiebreak=index --height 20)
