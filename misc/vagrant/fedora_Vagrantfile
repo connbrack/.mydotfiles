@@ -5,7 +5,6 @@ $provision_script = <<-SCRIPT
 sudo dnf install -y git
 
 rm -rf ~/Documents && ln -s /vagrant/Documents/ /home/vagrant/Documents
-rm -rf ~/Downloads && ln -s /vagrant/Downloads/ /home/vagrant/Downloads
 
 sudo localectl set-locale LANG=en_CA.UTF-8
 git clone https://github.com/connbrack/.mydotfiles.git --depth 1
