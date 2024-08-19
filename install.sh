@@ -160,12 +160,12 @@ fi
 
 if [ $node -eq 1 ]; then
   header "Installing node"
-  if command -v node >/dev/null 2>&1; then
-      echo "Node.js is already installed"
+  if [ -d "$HOME/.nvm" ]; then
+      echo "pyenv is already installed"
   else
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
     export NVM_DIR="$HOME/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
     nvm install --lts
     npm install -g yarn
@@ -174,14 +174,14 @@ fi
 
 if [ $pyenv -eq 1 ]; then
   header "Installing pyenv"
-  if command -v pyenv >/dev/null 2>&1; then
+  if [ -d "$HOME/.pyenv" ]; then
       echo "pyenv is already installed"
   else
     if [ $packagemanager = "apt" ];then
       sudo apt install build-essential libssl-dev zlib1g-dev \
       libbz2-dev libreadline-dev libsqlite3-dev curl git \
       libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev -y
-    else
+  else
       sudo dnf install -y gcc make patch zlib-devel bzip2 bzip2-devel readline-devel \
         sqlite sqlite-devel openssl-devel tk-devel libffi-devel xz-devel
     fi
