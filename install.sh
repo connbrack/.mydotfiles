@@ -75,7 +75,6 @@ if [ $packagemanager = "apt" ] && [ $termpac -eq 1 ]; then
     header "Installing apt packages"
 
     # nvim
-    sudo apt install -y 
     sudo add-apt-repository ppa:neovim-ppa/unstable -y &&\
     sudo apt update &&\
     sudo apt install -y neovim
@@ -178,7 +177,7 @@ if [ $pyenv -eq 1 ]; then
   if command -v pyenv >/dev/null 2>&1; then
       echo "pyenv is already installed"
   else
-    if [ packagemanager = "apt" ];then
+    if [ $packagemanager = "apt" ];then
       sudo apt install build-essential libssl-dev zlib1g-dev \
       libbz2-dev libreadline-dev libsqlite3-dev curl git \
       libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev -y
