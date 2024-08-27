@@ -97,8 +97,8 @@ export EDITOR=nvim;
 
 # -------------------------- Programs ---------------------------
 
-if [ -d "$HOME/.nix-profile" ]; then
-  . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+if [ -d "/nix" ]; then
+  . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
 fi
 
 if command -v go &> /dev/null; then
@@ -126,22 +126,10 @@ fi
 
 # -------------------------- Extra files ---------------------------
 
-if [ -e "$HOME/.bashrc_alias" ] || [ -L "$HOME/.bashrc_alias" ]; then
-    source $HOME/.bashrc_alias
-fi
-
-if [ -e "$HOME/.bashrc_functions" ] || [ -L "$HOME/.bashrc_functions" ]; then
-    source $HOME/.bashrc_functions
-fi
-
-if [ -e "$HOME/.bashrc_private" ] || [ -L "$HOME/.bashrc_private" ]; then
-    source $HOME/.bashrc_private
+if [ -e "$HOME/.bash" ] || [ -L "$HOME/.bash" ]; then
+ for f in $HOME/.bash/*; do source $f; done
 fi
 
 if [ -d "$HOME/Apps/scripts" ]; then
   export PATH=$PATH:"$HOME/Apps/scripts"
-fi
-
-if [ -e "$HOME/Apps/scripts/sourced/py" ] || [ -L "$HOME/Apps/scripts/sourced/py" ]; then
-    source $HOME/Apps/scripts/sourced/py
 fi
