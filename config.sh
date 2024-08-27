@@ -33,6 +33,7 @@ link_file_to_home() {
 dotfilelocations="$HOME/.mydotfiles/dotfiles/"
 files_to_link=(
 	".bashrc" 
+	".bash" 
 	".bashrc_functions" 
 	".bashrc_alias" 
 	".blerc" 
