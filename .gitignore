@@ -1,2 +1,2 @@
-dotfiles/.bashrc_private
-dotfiles/.config/nvim/lazy-lock.json
+private_keys
+lazy-lock.json
