@@ -17,7 +17,8 @@
   ];
   home.packages = [
 
-    #Terminal
+
+    ## Terminal
     pkgs.neovim
     pkgs.lf
     pkgs.tmux
@@ -32,9 +33,10 @@
     #pkgs.cmatrix
     #pkgs.cowsay
 
-    ## Languages
-    #pkgs.texliveFull
-    #pkgs.lua
+    ## Desktop tools
+    #pkgs.rofi-wayland
+    #pkgs.rofimoji
+    #pkgs.rofi-rbw-wayland
 
     ## Graphical Apps
     #pkgs.firefox
