@@ -38,6 +38,7 @@ function py (){
 
   function py-create() {
 
+    VERSION=$(python -V)
     fresh=false
 
     if [ -d ".venv" ]; then
@@ -65,7 +66,7 @@ function py (){
     fi
 
 
-    echo "-----> Installing virtual environment for $1"
+    echo "-----> Installing virtual environment [$1] using $VERSION"
     mkdir .venv
     python -m venv .venv/$1
     source .venv/$1/bin/activate
