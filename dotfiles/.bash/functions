@@ -1,0 +1,35 @@
+
+# vim: filetype=bash:
+
+mkcd ()
+{
+    mkdir -p -- "$1" &&
+       cd -P -- "$1"
+}
+
+mkmv ()
+{
+    mkdir -p -- "$2" &&
+    mv "$1 $2/"
+}
+
+
+lfcd () { 
+  cd "$(command lf -print-last-dir "$@")"
+}
+
+copyf (){
+  if [[ $# == 0 ]]; then
+    xargs -d '\n' realpath | sed 's/.*/file:\/\/&/' | xclip -i -selection clipboard -t text/uri-list
+  else
+    printf "%s\n" "${@}" | xargs -d '\n' realpath | sed 's/.*/file:\/\/&/' | xclip -i -selection clipboard -t text/uri-list
+  fi
+}
+
+chat() {
+    local result=""
+    for arg in "$@"; do
+        result+="$arg "
+    done
+    tgpt "${result% }"
+}

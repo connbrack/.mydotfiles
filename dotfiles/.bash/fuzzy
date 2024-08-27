@@ -1,0 +1,48 @@
+# vim: filetype=bash
+
+lff() {
+    local selection
+
+    selection=$(
+        find -L ~/Documents ~/Apps/ ~/.mydotfiles \
+          \( -name .git -o -name node_modules -o -name \.venv -o -name cache \) \
+          -prune -o -type d -print 2>/dev/null \
+          | fzf -e --prompt 'Main> ' \
+            --header 'C-h: home' \
+            --bind 'ctrl-h:reload(find ~/ -type d)' \
+            --height=20 --layout=reverse --info=inline --margin=1 --padding=1 \
+    )
+
+    if [ -n "$selection" ]; then
+        cd "$selection"
+        lf
+    fi
+}
+
+
+cdf() {
+    local selection
+
+    selection=$(
+        find -L ~/Documents ~/Apps/ ~/.mydotfiles \
+          \( -name .git -o -name node_modules -o -name venv -o -name cache \) \
+          -prune -o -type d -print 2>/dev/null \
+          | fzf -e --prompt 'Main> ' \
+            --header 'C-h: home' \
+            --bind 'ctrl-h:reload(find ~/ -type d)' \
+            --height=20 --layout=reverse --info=inline --margin=1 --padding=1 \
+    )
+
+    if [ -n "$selection" ]; then
+        cd "$selection"
+    fi
+}
+
+fh_inline() {
+  local cmd=$(history | sed -E 's/ *[0-9]+ *//' | fzf --query "$READLINE_LINE" --tac --reverse +s --tiebreak=index --height 20)
+  if [[ -n $cmd ]]; then
+    READLINE_LINE="$cmd"
+    READLINE_POINT=${#READLINE_LINE}
+  fi
+}
+bind -x '"\C-r": fh_inline'

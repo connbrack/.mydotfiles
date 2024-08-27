@@ -1,0 +1,106 @@
+# vim: filetype=bash
+
+function py (){
+
+  function py-activate() {
+    if [ ! -d ".venv" ]; then
+        echo "ERROR: No .venv folder exists in this directory"
+      else
+        source .venv/*/bin/activate
+    fi
+  }
+
+  function py-freeze() {
+    if ! command -v pigar &> /dev/null; then
+        echo "pigar not installed. Install with: 'pip install pigar'" 1>&2
+
+      else
+
+      TMPFILE=$(mktemp /tmp/pip-freeze-pigar-XXXXXX)
+      pigar generate --dont-show-differences -f $TMPFILE | awk '!/Requirements has been written to \/tmp\/pip-freeze-pigar-.*/'
+      sed -i '1,2d' $TMPFILE
+
+      VERSION=$(python -V)
+      line="# $VERSION"
+      sed -i "1s/^/$line\n/" $TMPFILE
+
+      myarray=(`find ./ -type f -name "*.ipynb"`)
+      if [ ${#myarray[@]} -gt 0 ]; then 
+          line="# Requires Jupyter Notebook (pip install notebook)"
+          sed -i "1s/^/$line\n/" $TMPFILE
+      fi
+
+      cat $TMPFILE
+      rm $TMPFILE
+
+    fi
+  }
+
+  function py-create() {
+
+    fresh=false
+
+    if [ -d ".venv" ]; then
+        echo "ERROR: .venv folder already exists"
+        return 1
+    fi
+
+    if [ ! -f "requirements.txt" ]; then
+        echo "Warning: No requirements.txt file found in folder "
+        read -p "Would you like to create a fresh environment ? (y/[n]): " user_input
+        if [ ! "$user_input" == "y" ]; then
+          fresh=true
+          echo "Exiting"
+          return 1
+        fi
+    fi
+
+    if [ -z "$1" ]; then
+        read -p "Please enter the name of your environment: " user_input
+        set -- "$user_input"
+        if [ "$user_input" == "" ]; then
+              echo "No name was provided"
+          return 1
+        fi
+    fi
+
+
+    echo "-----> Installing virtual environment for $1"
+    mkdir .venv
+    python -m venv .venv/$1
+    source .venv/$1/bin/activate
+    echo
+
+    if [ ! "$fresh" = true ]; then
+      echo "-----> Install packages"
+      pip install -r requirements.txt
+    fi
+
+    py-activate
+  }
+
+  if [ $1 = 'activate' ]; then
+    py-activate
+  elif [ $1 = 'freeze' ]; then
+    py-freeze
+  elif [ $1 = 'create' ]; then
+    py-create $2
+  else
+    echo "ERROR: Command not found"
+  fi
+
+}
+
+
+function _py() {
+  local opts="activate create freeze"
+
+  COMPREPLY=()
+
+  if [ $COMP_CWORD -eq 1 ]; then
+    COMPREPLY=($(compgen -W "$opts" -- ${COMP_WORDS[COMP_CWORD]}))
+  fi
+}
+
+
+complete -F _py py
