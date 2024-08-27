@@ -34,8 +34,6 @@ dotfilelocations="$HOME/.mydotfiles/dotfiles/"
 files_to_link=(
 	".bashrc" 
 	".bash" 
-	".bashrc_functions" 
-	".bashrc_alias" 
 	".blerc" 
   ".config/bat"
   ".config/bottom"
