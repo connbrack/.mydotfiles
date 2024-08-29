@@ -59,4 +59,8 @@
   };
 
   programs.home-manager.enable = true;
+
+  # Based on https://github.com/nix-community/home-manager/issues/432
+  programs.man.enable = false;
+  home.extraOutputsToInstall = [ "man" ];
 }
