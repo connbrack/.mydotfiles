@@ -32,6 +32,9 @@ vim.cmd("let g:coc_global_extensions = [ 'coc-sh', 'coc-pyright', 'coc-tsserver'
 vim.cmd("noremap <leader>ce :CocList extensions<CR>")
 vim.cmd("noremap <leader>cs :call CocAction('toggleExtension', 'coc-spell-checker')<CR>")
 
+vim.cmd([[
+  autocmd BufWritePre *.py execute ':silent !autopep8 --in-place --indent-size 2 %'
+]])
 
 -- Use Tab for trigger completion with characters ahead and navigate
 -- NOTE: There's always a completion item selected by default, you may want to enable
