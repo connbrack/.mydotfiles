@@ -9,6 +9,7 @@
     "Connor"
   ],
   "python.formatting.autopep8Args": ["--indent-size", "2"],
-  "python.formatting.provider": "autopep8"
+  "python.formatting.provider": "autopep8",
+  "svelte.enable-ts-plugin": true
 }
 
