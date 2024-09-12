@@ -23,7 +23,7 @@
     pkgs.lf
     pkgs.tmux
     pkgs.fzf
-    pkgs.btop
+    pkgs.bottom
     pkgs.starship
 
     ## Extras
