@@ -6,7 +6,8 @@
   "pyright.inlayHints.parameterTypes": false,
   "cSpell.userWords": [
     "Brackley",
-    "Connor"
+    "Connor",
+    "cerc"
   ],
   "python.formatting.autopep8Args": ["--indent-size", "2"],
   "python.formatting.provider": "autopep8",
