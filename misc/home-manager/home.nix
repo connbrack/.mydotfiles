@@ -36,6 +36,7 @@
     ## Desktop tools
     #pkgs.rofi-wayland
     #pkgs.rofimoji
+    #pkgs.rbw
     #pkgs.rofi-rbw-wayland
 
     ## Graphical Apps
