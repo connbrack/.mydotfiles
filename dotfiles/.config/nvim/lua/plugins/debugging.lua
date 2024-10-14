@@ -7,6 +7,7 @@ return {
   },
   config = function()
     local dap, dapui = require("dap"), require("dapui")
+    require("dapui").setup()
     require("dap-python").setup("~/.local/share/nvim/python-env/bin/python")
 
     dap.listeners.before.attach.dapui_config = function()
