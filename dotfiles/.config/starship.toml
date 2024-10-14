@@ -48,7 +48,7 @@ style = "bg:#4B884B fg:#A6DA95"
 detect_extensions=[]
 detect_files=[]
 version_format='v${major}.${minor}'
-format = '[](#4B884B)[${symbol} $virtualenv]($style)[ ](#4B884B)'
+format = '[](#4B884B)[${symbol} $version \($virtualenv\)]($style)[ ](#4B884B)'
 
 [docker_context]
 symbol = ""
