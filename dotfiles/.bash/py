@@ -1,19 +1,26 @@
 # vim: filetype=bash
 
 function py (){
+  trap 'echo; return 1' SIGINT
 
   function py-activate() {
     if [ ! -d ".venv" ]; then
-        echo "ERROR: No .venv folder exists in this directory"
+        echo; echo "ERROR: No .venv folder exists in this directory"
       else
-        source .venv/*/bin/activate
+        target=$(readlink .venv/*/bin/python)
+        if [ -e "$target" ]; then
+          source .venv/*/bin/activate
+        else
+          echo; echo "The symlink ($target) does not exist"
+          echo "It could be that this version of python is not installed"
+        fi
     fi
   }
 
   function py-freeze() {
+    trap 'echo; return 1' SIGINT
     if ! command -v pigar &> /dev/null; then
-        echo "pigar not installed. Install with: 'pip install pigar'" 1>&2
-
+        echo; echo "pigar not installed. Install with: 'pip install pigar'" 1>&2
       else
 
       TMPFILE=$(mktemp /tmp/pip-freeze-pigar-XXXXXX)
@@ -37,9 +44,8 @@ function py (){
   }
 
   function py-create() {
-
     VERSION=$(python -V)
-    fresh=false
+    fresh="false"
 
     if [ -d ".venv" ]; then
         echo "ERROR: .venv folder already exists"
@@ -50,34 +56,44 @@ function py (){
         echo "Warning: No requirements.txt file found in folder "
         read -p "Would you like to create a fresh environment ? (y/[n]): " user_input
         if [ ! "$user_input" == "y" ]; then
-          fresh=true
-          echo "Exiting"
+          echo; echo "Exiting"
           return 1
         fi
+        fresh="true"
     fi
 
     if [ -z "$1" ]; then
         read -p "Please enter the name of your environment: " user_input
         set -- "$user_input"
         if [ "$user_input" == "" ]; then
-              echo "No name was provided"
+              echo; echo "No name was provided"
           return 1
         fi
     fi
 
+    read -p "Please enter python version (Enter to use $VERSION): " version_input
+    if [ "$version_input" != "" ]; then
+      VERSION=$version_input
+      pyenv global $version_input
+      if [ $? -ne 0 ]; then
+          return 1
+      fi
+    fi
 
-    echo "-----> Installing virtual environment [$1] using $VERSION"
+    echo; echo "-----> Installing virtual environment [$1] using $VERSION"
     mkdir .venv
     python -m venv .venv/$1
     source .venv/$1/bin/activate
-    echo
 
-    if [ ! "$fresh" = true ]; then
-      echo "-----> Install packages"
+    if [ "$fresh" = "false" ]; then
+      echo; echo "-----> Install packages"
       pip install -r requirements.txt
     fi
 
+    pyenv global 3
     py-activate
+
+    echo; echo "Done!"
   }
 
   if [ $1 = 'activate' ]; then
