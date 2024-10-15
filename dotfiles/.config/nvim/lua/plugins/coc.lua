@@ -28,7 +28,7 @@ function _G.check_back_space()
     return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') ~= nil
 end
 
-vim.cmd("let g:coc_global_extensions = [ 'coc-sh', 'coc-pyright', 'coc-tsserver', 'coc-eslint', 'coc-json', 'coc-prettier', 'coc-css', 'coc-git', 'coc-lua', 'coc-spell-checker' ]")
+vim.cmd("let g:coc_global_extensions = [ 'coc-sh', 'coc-pyright', 'coc-tsserver', 'coc-svelte', 'coc-eslint', 'coc-json', 'coc-prettier', 'coc-css', 'coc-git', 'coc-lua', 'coc-spell-checker' ]")
 vim.cmd("noremap <leader>ce :CocList extensions<CR>")
 vim.cmd("noremap <leader>cs :call CocAction('toggleExtension', 'coc-spell-checker')<CR>")
 
