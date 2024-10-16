@@ -96,12 +96,20 @@ function py (){
     echo; echo "Done!"
   }
 
+  function py_env_find() {
+    find . -type d -name ".venv"
+  }
+
+
+
   if [ $1 = 'activate' ]; then
     py-activate
   elif [ $1 = 'freeze' ]; then
     py-freeze
   elif [ $1 = 'create' ]; then
     py-create $2
+  elif [ $1 = 'find-env' ]; then
+    py_env_find
   else
     echo "ERROR: Command not found"
   fi
@@ -110,7 +118,7 @@ function py (){
 
 
 function _py() {
-  local opts="activate create freeze"
+  local opts="activate create freeze find-env"
 
   COMPREPLY=()
 
