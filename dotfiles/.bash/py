@@ -1,7 +1,6 @@
 # vim: filetype=bash
 
 function py (){
-  trap 'echo; return 1' SIGINT
 
   function py-activate() {
     if [ ! -d ".venv" ]; then
@@ -18,7 +17,6 @@ function py (){
   }
 
   function py-freeze() {
-    trap 'echo; return 1' SIGINT
     if ! command -v pigar &> /dev/null; then
         echo; echo "pigar not installed. Install with: 'pip install pigar'" 1>&2
       else
@@ -43,7 +41,8 @@ function py (){
     fi
   }
 
-  function py-create() {
+  function py-create() (
+    trap - INT
     VERSION=$(python -V)
     fresh="false"
 
@@ -91,10 +90,9 @@ function py (){
     fi
 
     pyenv global 3
-    py-activate
 
     echo; echo "Done!"
-  }
+  )
 
   function py_env_find() {
     find . -type d -name ".venv"
@@ -107,7 +105,7 @@ function py (){
   elif [ $1 = 'freeze' ]; then
     py-freeze
   elif [ $1 = 'create' ]; then
-    py-create $2
+    py-create $2 && py-activate
   elif [ $1 = 'find-env' ]; then
     py_env_find
   else
