@@ -2,7 +2,7 @@ vim.cmd("set expandtab")
 
 
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
-vim.g.mapleader = " "
+vim.g.mapleader = ","
 
 vim.cmd("set modeline")
 vim.cmd("inoremap jj <ESC>")
