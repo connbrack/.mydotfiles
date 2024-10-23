@@ -3,7 +3,7 @@
   "notes": "",
   "documentation": "\"This file is a QMK Configurator export. You can import this at <https://config.qmk.fm>. It can also be used directly with QMK's source code.\n\nTo setup your QMK environment check out the tutorial: <https://docs.qmk.fm/#/newbs>\n\nYou can convert this file to a keymap.c using this command: `qmk json2c {keymap}`\n\nYou can compile this keymap using this command: `qmk compile {keymap}`\"\n",
   "keyboard": "crkbd/rev1",
-  "keymap": "crkbd_rev1_crkbd_rev1_crkbd_rev1_my_corne",
+  "keymap": "crkbd_rev1_crkbd_rev1_crkbd_rev1_crkbd_rev1_my_corne",
   "layout": "LAYOUT_split_3x6_3",
   "layers": [
     [
@@ -31,7 +31,7 @@
       "KC_L",
       "RCTL_T(KC_SCLN)",
       "RSFT_T(KC_QUOT)",
-      "KC_TAB",
+      "KC_LALT",
       "KC_Z",
       "KC_X",
       "KC_C",
@@ -48,7 +48,7 @@
       "KC_SPC",
       "KC_ENT",
       "MO(2)",
-      "KC_LALT"
+      "KC_RALT"
     ],
     [
       "KC_ESC",
@@ -75,7 +75,7 @@
       "KC_RPRN",
       "KC_COLN",
       "KC_DQUO",
-      "KC_NO",
+      "KC_LALT",
       "KC_QUES",
       "KC_AMPR",
       "KC_AT",
@@ -92,7 +92,7 @@
       "KC_SPC",
       "KC_ENT",
       "MO(3)",
-      "KC_LALT"
+      "KC_RALT"
     ],
     [
       "KC_ESC",
@@ -136,7 +136,7 @@
       "KC_TAB",
       "KC_ENT",
       "KC_TRNS",
-      "KC_LALT"
+      "KC_RALT"
     ],
     [
       "KC_ESC",
@@ -163,8 +163,8 @@
       "KC_RGHT",
       "KC_RCTL",
       "KC_RSFT",
-      "KC_NO",
       "KC_LALT",
+      "KC_NO",
       "RCS(KC_X)",
       "RCS(KC_C)",
       "RCS(KC_V)",
