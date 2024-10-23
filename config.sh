@@ -65,6 +65,10 @@ if command -v tmux >/dev/null 2>&1; then
   fi
 fi
 
+if command -v bat >/dev/null 2>&1; then
+  \bat cache --build
+fi
+
 if [ -d $HOME/miniconda3 ]; then
     ~/miniconda3/bin/conda init bash
 fi
