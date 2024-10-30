@@ -31,7 +31,7 @@ cmd file_explorer ${{
 }}
 
 cmd vim_open ${{
-  nvim 
+  nvim -c 'Alpha' +':Neotree filesystem reveal left'
 }}
 
 # ------------------- Basic functionaly -----------------
