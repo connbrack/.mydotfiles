@@ -210,7 +210,9 @@ if [ $docker -eq 1 ]; then
       sudo apt-get update
       sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
     else
-      sudo dnf install -y docker
+      sudo dnf -y install dnf-plugins-core
+      sudo dnf-3 config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+      sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
     fi
   fi
 fi
