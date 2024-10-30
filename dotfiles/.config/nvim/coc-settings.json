@@ -7,7 +7,11 @@
   "cSpell.userWords": [
     "Brackley",
     "Connor",
-    "cerc"
+    "Portainer",
+    "cerc",
+    "dotenv",
+    "mongodb",
+    "pymongo"
   ],
   "python.formatting.autopep8Args": ["--indent-size", "2"],
   "python.formatting.provider": "autopep8",
