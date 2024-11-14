@@ -33,3 +33,9 @@ chat() {
     done
     tgpt "${result% }"
 }
+
+
+load_history() {
+  history -r
+}
+bind -x '"\C-h": load_history'

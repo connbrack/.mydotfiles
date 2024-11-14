@@ -93,7 +93,7 @@ fi
 export VISUAL=nvim;
 export EDITOR=nvim;
 
-[[ -s ~/.autojump/etc/profile.d/autojump.sh ]] && source ~/.autojump/etc/profile.d/autojump.sh
+export PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 
 # -------------------------- Programs ---------------------------
 
