@@ -57,16 +57,19 @@ header() {
 
 # -------------------------- Terminal Packages Installs ----------------------------------
 # essential packges
-if [ $essential -eq 1 ] && [ $packagemanager = "apt" ]; then
-
+if [ $essential -eq 1 ]; then
+  if [ $packagemanager = "apt" ]; then
     header "Installing essential packages"
 
     sudo apt install \
       software-properties-common build-essential \
-      curl make ripgrep gawk bat trash-cli \
+      curl make ripgrep gawk trash-cli \
       xclip xsel xdotool -y
-    mkdir -p ~/.local/bin
-    ln -s /usr/bin/batcat ~/.local/bin/bat
+  else
+    sudo dnf install \
+      make trash-cli ripgrep
+  fi
+
 fi
 
 
@@ -96,6 +99,11 @@ if [ $packagemanager = "apt" ] && [ $termpac -eq 1 ]; then
 
     # starship
     curl -sS https://starship.rs/install.sh | sh -s -- --yes
+
+    # bat
+    sudo apt install -y bat
+    mkdir -p ~/.local/bin
+    ln -s /usr/bin/batcat ~/.local/bin/bat
 fi
 
 if [ $packagemanager = "dnf" ] && [ $termpac -eq 1 ]; then
