@@ -26,6 +26,7 @@ alias upgrade-all='apt-upgrade && flatpak-upgrade && nix-upgrade'
 alias nix-upgrade='echo && echo -e "\x1b[30;42m Updating nix \x1b[m" && nix-channel --update && home-manager switch'
 alias nix-packages='nvim ~/.config/home-manager/home.nix'
 alias nix-search='bash -c "xdg-open https://search.nixos.org" 2> /dev/null'
+alias nix-clean='nix-collect-garbage --delete-older-than 30d'
 
 # ---------------------- File exploring --------------------------------
 alias lf='lfcd'
