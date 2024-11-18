@@ -1,0 +1,4 @@
+# vim: filetype=bash
+
+ble-import integration/fzf-completion
+ble-bind -f C-f fzf-complete
