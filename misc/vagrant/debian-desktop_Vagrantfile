@@ -7,6 +7,30 @@ sudo localectl set-locale LANG=en_CA.UTF-8
 sudo apt update
 sudo apt install git -y
 
+# Resize based on extra partition!
+# Make sure grep command matches size of partition
+
+sudo apt install cloud-guest-utils
+export PATH=$PATH:/sbin
+
+if ! lvdisplay /dev/primary/root | grep -q '15G'; then
+  # Partition the new disk using parted
+  parted --script /dev/vdb mklabel gpt
+  parted --script /dev/vdb mkpart primary 0% 100%
+  parted --script /dev/vdb set 1 lvm on
+
+  # Add the new partition to the LVM
+  pvcreate /dev/vdb1
+  vgextend primary /dev/vdb1
+  lvextend -l +100%FREE /dev/primary/root
+  resize2fs /dev/primary/root
+
+  echo "Disk successfully resized."
+else
+  echo "Disk already resized."
+fi
+
+
 git clone https://github.com/connbrack/.mydotfiles.git --depth 1
 cd ~/.mydotfiles
 ./install.sh --essential-packages --nix-packages --blesh --node --pyenv
@@ -22,16 +46,20 @@ Vagrant.configure("2") do |config|
     libvirt.cpus = 8
     libvirt.memory = 8192
     libvirt.memorybacking :access, :mode => "shared"
-    libvirt.storage :file, size: '15G'
+    libvirt.storage :file, :size => '15G'
     libvirt.uri = "qemu:///system"
     libvirt.loader = "/usr/share/edk2/ovmf/OVMF.amdsev.fd"
   end
+  config.vm.hostname = "debian-desktop"
 
   config.vm.synced_folder "./", "/vagrant", type: "virtiofs"
   config.vm.synced_folder "~/Downloads", "/home/vagrant/Downloads", type: "virtiofs"
 
   config.ssh.forward_agent = true
   config.ssh.forward_x11 = true
+
+  config.ssh.extra_args = ["-R", "27017:localhost:27017"]
+  config.ssh.extra_args = ["-R", "5432:localhost:5432"]
 
   config.vm.provision "shell", inline: $provision_script, privileged: false
 end

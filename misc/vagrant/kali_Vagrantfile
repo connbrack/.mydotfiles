@@ -36,6 +36,7 @@ Vagrant.configure("2") do |config|
   config.vm.provider 'libvirt' do |libvirt|
     libvirt.cpus = 8
     libvirt.memory = 8192
+    libvirt.storage :file, :size => '15G'
     libvirt.memorybacking :access, :mode => "shared"
     libvirt.loader = "/usr/share/edk2/ovmf/OVMF.amdsev.fd"
   end
