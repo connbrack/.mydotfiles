@@ -6,6 +6,7 @@ vim.g.mapleader = ","
 
 vim.cmd("set modeline")
 vim.cmd("inoremap jj <ESC>")
+vim.cmd("set tabstop=2")
 
 
 vim.cmd("nnoremap <C-h> <C-o>")
