@@ -101,18 +101,17 @@ if [ -d "/nix" ]; then
   . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
 fi
 
-if command -v go &> /dev/null; then
-  export PATH="$(go env GOPATH)/bin:$PATH"
-fi
+#if command -v go &> /dev/null; then
+#  export PATH="$(go env GOPATH)/bin:$PATH"
+#fi
 
-if command -v yarn &> /dev/null; then
-  export PATH="$(yarn global bin):$PATH"
-fi
+#if command -v yarn &> /dev/null; then
+#  export PATH="$(yarn global bin):$PATH"
+#fi
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-
 
 if [ -d "$HOME/.pyenv" ]; then
   export PYENV_ROOT="$HOME/.pyenv"

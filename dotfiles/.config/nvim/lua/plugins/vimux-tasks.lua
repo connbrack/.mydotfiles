@@ -7,7 +7,7 @@ return {
       'junegunn/fzf.vim'
     },
     config = function()
-      vim.keymap.set('n', '<leader>rt', ':w | VimuxTasks<CR>', {})
+      vim.keymap.set('n', '<leader>rj', ':w | VimuxTasks<CR>', {})
     end
   }
 }
