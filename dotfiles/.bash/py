@@ -43,7 +43,7 @@ function py (){
 
   function py-create() (
     trap - INT
-    VERSION=$(python -V)
+    CURRENT_VERSION=$(python -V 2>&1 | awk '{print $2}')
     fresh="false"
 
     if [ -d ".venv" ]; then
@@ -62,24 +62,25 @@ function py (){
     fi
 
     if [ -z "$1" ]; then
-        read -p "Please enter the name of your environment: " user_input
-        set -- "$user_input"
-        if [ "$user_input" == "" ]; then
-              echo; echo "No name was provided"
+        read -p "Please enter the name of your environment: " env_name
+        if [ "$env_name" == "" ]; then
+          echo; echo "No name was provided"
           return 1
         fi
+        set -- "$env_name" "$2"
     fi
 
-    read -p "Please enter python version (Enter to use $VERSION): " version_input
-    if [ "$version_input" != "" ]; then
-      VERSION=$version_input
-      pyenv global $version_input
-      if [ $? -ne 0 ]; then
-          return 1
+    if [ -z "$2" ]; then
+      read -p "Please enter python version (Enter to use $CURRENT_VERSION): " version_input
+      if [ "$version_input" == "" ]; then
+        version_input=$CURRENT_VERSION
       fi
+      set -- "$1" "$version_input"
     fi
 
-    echo; echo "-----> Installing virtual environment [$1] using $VERSION"
+
+    pyenv global $2 || return 1
+    echo; echo "-----> Installing virtual environment [$1] using Python $2"
     mkdir .venv
     python -m venv .venv/$1
     source .venv/$1/bin/activate
@@ -89,7 +90,7 @@ function py (){
       pip install -r requirements.txt
     fi
 
-    pyenv global 3
+    pyenv global $CURRENT_VERSION
 
     echo; echo "Done!"
   )
@@ -98,14 +99,12 @@ function py (){
     find . -type d -name ".venv"
   }
 
-
-
   if [ $1 = 'activate' ]; then
     py-activate
   elif [ $1 = 'freeze' ]; then
     py-freeze
   elif [ $1 = 'create' ]; then
-    py-create $2 && py-activate
+    py-create $2 $3 && py-activate
   elif [ $1 = 'find-env' ]; then
     py_env_find
   else
