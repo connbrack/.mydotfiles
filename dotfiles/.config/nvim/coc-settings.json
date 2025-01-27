@@ -11,6 +11,7 @@
     "Portainer",
     "cerc",
     "dotenv",
+    "jsonify",
     "mongodb",
     "pymongo"
   ],
