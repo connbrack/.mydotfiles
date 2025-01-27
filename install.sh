@@ -146,7 +146,6 @@ if [ $nixpac -eq 1 ]; then
     nix-channel --update
     nix-shell '<home-manager>' -A install
     . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
-    rm -r ~/.config/home-manager
     cp -r ~/.mydotfiles/misc/home-manager/ ~/.config/
     sed -i "s/__username__/$(whoami)/g" ~/.config/home-manager/home.nix
     home-manager switch
