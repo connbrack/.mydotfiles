@@ -19,6 +19,11 @@ vim.cmd("nnoremap <silent> <backspace> :noh<CR>:pc<CR>:cclose<CR>")
 vim.cmd("noremap <leader>ql :cnext<CR>")
 vim.cmd("noremap <leader>qh :cprevious<CR>")
 
+-- tab hot keys
+vim.cmd("nnoremap <leader>tt :tabnew<CR>")
+vim.cmd("nnoremap <leader>tn :tabnext<CR>")
+vim.cmd("nnoremap <leader>tp :tabprevious<CR>")
+
 -- [[ Setting options ]]
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
@@ -27,7 +32,7 @@ vim.cmd("noremap <leader>qh :cprevious<CR>")
 vim.o.hlsearch = true
 
 -- Make line numbers default
-vim.o.relativenumber = true
+vim.o.relativenumber = false
 vim.o.number = true
 
 -- Enable mouse mode
