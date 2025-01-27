@@ -1,0 +1,75 @@
+# vim: filetype=bash
+
+function vpn (){
+
+  function vpn-up() {
+    local vpn_list="$HOME/.local/share/vpn/vpn_list"
+
+    if [ -z "$1" ]; then
+      echo "VPN name required"
+    elif ! grep -Fxq "$1" "$vpn_list" 2>/dev/null; then
+      echo "VPN name \"$1\" not recognize"
+    else
+      sudo wg-quick up $1
+    fi
+  }
+
+  function vpn-down() {
+    local current_vpn=$(sudo wg show interfaces 2>/dev/null)
+    if [ -n "$current_vpn" ]; then
+      sudo wg-quick down $current_vpn
+    else
+      echo "vpn is not active"
+    fi
+  }
+
+  function vpn-update() {
+    mkdir -p $HOME/.local/share/vpn
+    sudo ls -1 /etc/wireguard/ | sed -e 's/\..*$//' > $HOME/.local/share/vpn/vpn_list
+  }
+
+  function vpn-list() {
+    local vpn_list="$HOME/.local/share/vpn/vpn_list"
+    cat "$vpn_list" 2>/dev/null
+  }
+
+
+  if [ $1 = 'up' ]; then
+    vpn-up $2
+  elif [ $1 = 'down' ]; then
+    vpn-down
+  elif [ $1 = 'update' ]; then
+    vpn-update
+  elif [ $1 = 'list' ]; then
+    vpn-list
+  else
+    echo "ERROR: Command not found"
+  fi
+}
+
+
+
+
+function _vpn() {
+  local opts="up down update list"
+  local vpn_list="$HOME/.local/share/vpn/vpn_list"
+
+  COMPREPLY=()
+
+  if [ $COMP_CWORD -eq 1 ]; then
+    COMPREPLY=($(compgen -W "$opts" -- "${COMP_WORDS[COMP_CWORD]}"))
+
+  elif [ $COMP_CWORD -eq 2 ]; then
+    case "${COMP_WORDS[1]}" in
+      up)
+        local up_opts=$(cat "$vpn_list" 2>/dev/null)
+        COMPREPLY=($(compgen -W "$up_opts" -- "${COMP_WORDS[COMP_CWORD]}"))
+        ;;
+      *)
+        COMPREPLY=()
+        ;;
+    esac
+  fi
+}
+
+complete -F _vpn vpn
