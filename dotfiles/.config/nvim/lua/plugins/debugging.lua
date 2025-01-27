@@ -25,17 +25,18 @@ return {
 
     vim.keymap.set('n', '<leader>dt', dap.toggle_breakpoint, {})
     vim.keymap.set('n', '<leader>dc', dap.continue, {})
+    vim.keymap.set('n', '<leader>ds', dap.terminate, {})
+    vim.keymap.set('n', '<leader>dn', dap.step_into, {})
 
-
-    dap.configurations.python = {
-      {
-        type = 'python';
-        request = 'launch';
-        name = "Launch file";
-        program = "${command:pickFile}";
-      },
-    }
-
+    -- dap.configurations.python = {
+    --   {
+    --     type = 'python';
+    --     request = 'launch';
+    --     name = "Launch file";
+    --     program = "${command:pickFile}";
+    --   },
+    -- }
+    --
 
 
   end
