@@ -8,18 +8,43 @@ return {
   },
   config = function()
     require("neo-tree").setup({
-      window = {
-        position = "left",
-        width = 40,
-        mapping_options = {
-          noremap = true,
-          nowait = true,
-        },
-        mappings = {
-          ["Z"] = "expand_all_nodes",
-        },
-      },
+
       filesystem = {
+        window = {
+          position = "left",
+          width = 40,
+          mapping_options = {
+            noremap = true,
+            nowait = true,
+          },
+          mappings = {
+            ["Z"] = "expand_all_nodes",
+            ["D"] = "delete",
+            ["d"] = function(state)
+              local inputs = require('neo-tree.ui.inputs')
+              local path = state.tree:get_node().path
+              local utils = require('neo-tree.utils')
+              local _, name = utils.split_path(path)
+
+              local msg = string.format("Are you sure you want to trash '%s'?", name)
+
+              inputs.confirm(msg, function(confirmed)
+                if not confirmed then return end
+
+                pcall(function()
+                  vim.fn.system({ 'trash', vim.fn.fnameescape(path) })
+                  if vim.v.shell_error ~= 0 then
+                    msg = 'trash command failed.'
+                    vim.notify(msg, vim.log.levels.ERROR, { title = 'Neo-tree' })
+                  end
+                end)
+
+                require('neo-tree.sources.manager').refresh(state.name)
+              end)
+            end,
+
+          },
+        },
         filtered_items = {
           follow_current_file = true,
           visible = false,

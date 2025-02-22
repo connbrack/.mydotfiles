@@ -16,13 +16,24 @@ vim.cmd("nnoremap <C-l> <C-i>")
 vim.cmd("nnoremap <silent> <backspace> :noh<CR>:pc<CR>:cclose<CR>")
 
 -- Quick fix navigation
-vim.cmd("noremap <leader>ql :cnext<CR>")
-vim.cmd("noremap <leader>qh :cprevious<CR>")
+vim.cmd("noremap <C-]> :cnext<CR>")
+vim.cmd("noremap <C-[> :cprevious<CR>")
 
 -- tab hot keys
-vim.cmd("nnoremap <leader>tt :tabnew<CR>")
+vim.cmd("nnoremap <leader>tc :tabnew<CR>")
 vim.cmd("nnoremap <leader>tn :tabnext<CR>")
 vim.cmd("nnoremap <leader>tp :tabprevious<CR>")
+
+vim.keymap.set("n", "<A-l>", '<C-w>l')
+vim.keymap.set("n", "<A-k>", '<C-w>k')
+vim.keymap.set("n", "<A-j>", '<C-w>j')
+vim.keymap.set("n", "<A-h>", '<C-w>h')
+vim.keymap.set("n", "<A-v>", '<C-w>v')
+vim.keymap.set("n", "<A-s>", '<C-w>s')
+vim.keymap.set("n", "<A-c>", '<C-w>q')
+
+-- cool nav stuff
+vim.keymap.set("n", "<leader>tr", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 
 -- [[ Setting options ]]
 -- See `:help vim.o`
