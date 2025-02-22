@@ -12,7 +12,7 @@ return {
     vim.keymap.set("n", "<leader>ms", ":Markview splitToggle<CR>", {})
 
     require('markview').setup({
-      initial_state = false,
+      preview = enabled,
     })
   end
 }
