@@ -1,0 +1,71 @@
+#!/bin/bash
+
+function backup (){
+  trap - INT
+  config_file="${HOME}/.config/backup.conf"
+  # Config File Format
+  # {
+  #   "local_path": "/path/to/backup/"
+  #   "cloud_remote": "remote_name",
+  #   "backup_folders": [
+  #     "backup",
+  #     "files"
+  #   ],
+  #   "exclude_patterns": [
+  #     "**/.venv/**"
+  #   ]
+  # }
+
+  function get_args() {
+
+    readarray -t backup_folders < <(jq -r '.backup_folders[]' "$config_file")
+    readarray -t exclude_patterns < <(jq -r '.exclude_patterns[]' $config_file)
+
+    exclude_args=()
+    for pattern in "${exclude_patterns[@]}"; do
+      exclude_args+=("--exclude" "$pattern")
+    done
+  }
+
+  function backup-local() {
+    get_args
+    local_path=$(jq -r '.local_path' $config_file)
+    for folder in "${backup_folders[@]}"; do
+      echo -e "\x1b[30;42m Backing up: $folder \x1b[m"
+      sudo rsync -ah --delete --info=progress2 -stats ~/$folder $local_path$folder
+      echo
+    done
+  }
+
+  function backup-cloud() {
+    get_args
+    cloud_remote=$(jq -r '.cloud_remote' $config_file)
+    for folder in "${backup_folders[@]}"; do
+      echo -e "\x1b[30;42m Backing up: $folder \x1b[m"
+      rclone sync ~/"$folder" "$cloud_remote:$folder" -LP "${exclude_args[@]}"
+      echo
+    done
+  }
+
+  if [ $1 = 'local' ]; then
+    sudo true
+    backup-local
+  elif [ $1 = 'cloud' ]; then
+    backup-cloud
+  else
+    echo "ERROR: Command should be local or cloud"
+  fi
+
+}
+
+function _backup() {
+  local opts="local cloud"
+
+  COMPREPLY=()
+
+  if [ $COMP_CWORD -eq 1 ]; then
+    COMPREPLY=($(compgen -W "$opts" -- ${COMP_WORDS[COMP_CWORD]}))
+  fi
+}
+
+complete -F _backup backup
