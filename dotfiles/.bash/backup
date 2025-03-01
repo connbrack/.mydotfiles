@@ -42,7 +42,7 @@ function backup (){
     cloud_remote=$(jq -r '.cloud_remote' $config_file)
     for folder in "${backup_folders[@]}"; do
       echo -e "\x1b[30;42m Backing up: $folder \x1b[m"
-      rclone sync ~/"$folder" "$cloud_remote:$folder" -LP "${exclude_args[@]}"
+      rclone sync ~/"$folder" "$cloud_remote:$folder" -LP  --transfers=16 --checkers=16 --buffer-size=64M --fast-list "${exclude_args[@]}"
       echo
     done
   }
