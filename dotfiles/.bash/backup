@@ -3,6 +3,7 @@
 function backup (){
   trap - INT
   config_file="${HOME}/.config/backup.conf"
+
   # Config File Format
   # {
   #   "local_path": "/path/to/backup/"
@@ -17,7 +18,6 @@ function backup (){
   # }
 
   function get_args() {
-
     readarray -t backup_folders < <(jq -r '.backup_folders[]' "$config_file")
     readarray -t exclude_patterns < <(jq -r '.exclude_patterns[]' $config_file)
 
@@ -47,13 +47,21 @@ function backup (){
     done
   }
 
-  if [ $1 = 'local' ]; then
-    sudo true
-    backup-local
-  elif [ $1 = 'cloud' ]; then
-    backup-cloud
+  if [ ! -f "$config_file" ]; then
+    echo "config file not found"
   else
-    echo "ERROR: Command should be local or cloud"
+    if [ -z "$1" ]; then
+      echo "ERROR: No command provided. Please use 'local' or 'cloud'."
+    else
+      if [ $1 = 'local' ]; then
+        sudo true
+        backup-local
+      elif [ $1 = 'cloud' ]; then
+        backup-cloud
+      else
+        echo "ERROR: Command should be local or cloud"
+      fi
+    fi
   fi
 
 }
