@@ -1,16 +1,23 @@
 # vim: filetype=bash
 
 function vpn (){
+  local vpn_list="$HOME/.local/share/vpn/vpn_list"
 
   function vpn-up() {
-    local vpn_list="$HOME/.local/share/vpn/vpn_list"
 
-    if [ -z "$1" ]; then
-      echo "VPN name required"
-    elif ! grep -Fxq "$1" "$vpn_list" 2>/dev/null; then
-      echo "VPN name \"$1\" not recognize"
+    local current_vpn=$(sudo wg show interfaces 2>/dev/null)
+    local vpn_list="$vpn_list"
+
+    if [ -n "$current_vpn" ]; then
+      echo "VPN is already active: $current_vpn"
     else
-      sudo wg-quick up $1
+      if [ -z "$1" ]; then
+        echo "VPN name required"
+      elif ! grep -Fxq "$1" "$vpn_list" 2>/dev/null; then
+        echo "VPN name \"$1\" not recognize"
+      else
+        sudo wg-quick up $1
+      fi
     fi
   }
 
@@ -25,25 +32,28 @@ function vpn (){
 
   function vpn-update() {
     mkdir -p $HOME/.local/share/vpn
-    sudo ls -1 /etc/wireguard/ | sed -e 's/\..*$//' > $HOME/.local/share/vpn/vpn_list
+    sudo ls -1 /etc/wireguard/ | sed -e 's/\..*$//' > $vpn_list
   }
 
   function vpn-list() {
-    local vpn_list="$HOME/.local/share/vpn/vpn_list"
     cat "$vpn_list" 2>/dev/null
   }
 
 
-  if [ $1 = 'up' ]; then
-    vpn-up $2
-  elif [ $1 = 'down' ]; then
-    vpn-down
-  elif [ $1 = 'update' ]; then
-    vpn-update
-  elif [ $1 = 'list' ]; then
-    vpn-list
+  if [ -z "$1" ]; then
+    echo "ERROR: No command provided."
   else
-    echo "ERROR: Command not found"
+    if [ $1 = 'up' ]; then
+      vpn-up $2
+    elif [ $1 = 'down' ]; then
+      vpn-down
+    elif [ $1 = 'update' ]; then
+      vpn-update
+    elif [ $1 = 'list' ]; then
+      vpn-list
+    else
+      echo "ERROR: Command not found"
+    fi
   fi
 }
 
