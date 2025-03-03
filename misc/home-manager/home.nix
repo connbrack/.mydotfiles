@@ -8,8 +8,8 @@
     '';
   };
 
-  home.username = "__username__";
-  home.homeDirectory = "/home/__username__";
+  home.username = "connor";
+  home.homeDirectory = "/home/connor";
   home.stateVersion = "24.05";
 
   nixpkgs.config.permittedInsecurePackages = [
@@ -29,28 +29,28 @@
     pkgs.bat
 
     ## Extras
-    #pkgs.tldr
-    #pkgs.tgpt
-    #pkgs.pokeget-rs
-    #pkgs.cmatrix
-    #pkgs.cowsay
+    # pkgs.tldr
+    # pkgs.tgpt
+    # pkgs.pokeget-rs
+    # pkgs.cmatrix
+    # pkgs.cowsay
 
     ## Desktop tools
-    #pkgs.rofi-wayland
-    #pkgs.rofimoji
-    #pkgs.rbw
-    #pkgs.rofi-rbw-wayland
+    # pkgs.rofi-wayland
+    # pkgs.rofimoji
+    # pkgs.rbw
+    # pkgs.rofi-rbw-wayland
 
     ## Graphical Apps
-    #pkgs.firefox
-    #pkgs.vscodium
-    #pkgs.audacity
-    #pkgs.logseq
-    #pkgs.zotero
+    # pkgs.firefox
+    # pkgs.vscodium
+    # pkgs.audacity
+    # pkgs.logseq
+    # pkgs.zotero
 
     ## Phone
-    #pkgs.android-tools
-    #pkgs.scrcpy
+    # pkgs.android-tools
+    # pkgs.scrcpy
 
   ];
 
