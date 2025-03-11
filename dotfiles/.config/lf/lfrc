@@ -34,7 +34,7 @@ cmd vim_open ${{
   nvim
 }}
 
-# ------------------- Basic functionaly -----------------
+# ------------------- Basic functionality -----------------
 cmd mkdir ${{
   mkdir $1
 }}
@@ -128,6 +128,18 @@ cmd bulk-rename ${{
 }}
 
 
+cmd fuzzy_cd ${{
+    selection=$(
+        fd . $1 --type d --hidden -E ".git" -E "node_modules" -E ".venv" -E "cache" \
+          | fzf -e \
+            --layout=reverse --padding=2 \
+            --header '[C-f] C-h:home, C-d:dotfiles' \
+            --bind 'ctrl-h:reload(fd . ~/ -d 1 | xargs -I % fd . % --type d --hidden -E ".git" -E "node_modules" -E ".venv" -E "cache")' \
+            --bind 'ctrl-f:reload(fd . $1 --type d --hidden -E ".git" -E "node_modules" -E ".venv" -E "cache")' \
+            --bind 'ctrl-d:reload(fd . ~/.mydotfiles --type d --hidden -E ".git" -E "node_modules" -E ".venv" -E "cache")' \
+    )
+    [ -n "$selection" ] && lf -remote "send cd $selection"
+}}
 
 
 # -------------- Mapping --------------
@@ -149,6 +161,9 @@ map R reload
 map mf mkfile
 map md mkdir
 map Y copyf
+
+# fuzzy
+map <c-f> fuzzy_cd
 
 # Movement
 map gh cd ~
