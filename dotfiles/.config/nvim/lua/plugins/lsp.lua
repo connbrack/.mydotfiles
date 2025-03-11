@@ -38,18 +38,19 @@ return {
         vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
       end
 
-      -- vim.o.updatetime = 250
-      -- vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
-      vim.keymap.set("n", "<leader>tt", function()
+      vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, {})
+      vim.keymap.set("n", "<leader>dd", function()
         vim.diagnostic.config({ virtual_text = not vim.diagnostic.config().virtual_text })
       end)
 
-      vim.keymap.set("n", "<leader>t", vim.diagnostic.open_float, {})
+      local opts = { silent = true }
+      vim.keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts) -- show lsp definitions
+      vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+      vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<CR>", opts)
+      vim.keymap.set("n", "ga", vim.lsp.buf.code_action, {})
       vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
-      vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
-      vim.keymap.set("n", "gr", vim.lsp.buf.references, {})
-      vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {})
-      vim.keymap.set("n", "<leader>p", vim.lsp.buf.format, {})
+
+      vim.api.nvim_create_user_command("Format", function() vim.cmd [[lua vim.lsp.buf.format()]] end, {})
     end
   },
   {
@@ -68,8 +69,6 @@ return {
           }),
         },
       })
-
-      vim.keymap.set("n", "<leader>", vim.lsp.buf.format, {})
     end
   },
   {
