@@ -1,0 +1,7 @@
+[user]
+	email = noreply@git.com
+	name = Connor B
+[credential]
+	helper = store
+[init]
+	defaultBranch = main
