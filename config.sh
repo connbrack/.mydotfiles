@@ -35,6 +35,7 @@ files_to_link=(
 	".bashrc" 
 	".bash" 
 	".blerc" 
+  ".gitconfig"
   ".config/bat"
   ".config/bottom"
   ".config/lf"
