@@ -96,7 +96,7 @@ function py (){
   )
 
   function py_env_find() {
-    find . -type d -name ".venv"
+    fd ".venv" --hidden --type d
   }
 
   if [ $1 = 'activate' ]; then

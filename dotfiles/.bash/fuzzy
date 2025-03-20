@@ -26,3 +26,9 @@ fh_inline() {
   fi
 }
 bind -x '"\C-r": fh_inline'
+
+
+load_history() {
+  history -r
+}
+bind -x '"\C-h": load_history'
