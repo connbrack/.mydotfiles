@@ -1,4 +1,3 @@
-
 # vim: filetype=bash:
 
 mkcd ()
@@ -25,17 +24,3 @@ copyf (){
     printf "%s\n" "${@}" | xargs -d '\n' realpath | sed 's/.*/file:\/\/&/' | xclip -i -selection clipboard -t text/uri-list
   fi
 }
-
-chat() {
-    local result=""
-    for arg in "$@"; do
-        result+="$arg "
-    done
-    tgpt "${result% }"
-}
-
-
-load_history() {
-  history -r
-}
-bind -x '"\C-h": load_history'
