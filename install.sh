@@ -56,7 +56,7 @@ header() {
 
 
 # -------------------------- Terminal Packages Installs ----------------------------------
-# essential packges
+# essential packages
 if [ $essential -eq 1 ]; then
   if [ $packagemanager = "apt" ]; then
     header "Installing essential packages"
@@ -64,7 +64,7 @@ if [ $essential -eq 1 ]; then
     sudo apt install \
       software-properties-common build-essential \
       curl make ripgrep gawk trash-cli \
-      xclip xsel xdotool -y
+      fd-find xclip xsel xdotool -y
   else
     sudo dnf install \
       make trash-cli ripgrep
@@ -206,14 +206,14 @@ if [ $docker -eq 1 ]; then
       sudo apt-get update
       sudo apt-get install ca-certificates curl
       sudo install -m 0755 -d /etc/apt/keyrings
-      sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+      sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
       sudo chmod a+r /etc/apt/keyrings/docker.asc
 
       # Add the repository to Apt sources:
       echo \
-      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-      $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-      sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+        "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
+        $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+        sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
       sudo apt-get update
       sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
     else
@@ -221,11 +221,15 @@ if [ $docker -eq 1 ]; then
       sudo dnf-3 config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
       sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
     fi
+
+    # Post install
+    sudo groupadd docker
+    sudo usermod -aG docker $USER
   fi
 fi
 
 
-# ------------------------ Other usefull install scripts --------------------------------------
+# ------------------------ Other useful install scripts --------------------------------------
 
 ## Clean up nix
 #/nix/nix-installer uninstall
