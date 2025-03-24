@@ -36,7 +36,6 @@ alias bat='bat --theme="Catppuccin Mocha"'
 # ---------------------- misc --------------------------------
 alias tkill='tmux kill-server'
 alias sleep='systemctl suspend'
-alias neogit='vim -c "Neogit"'
 
 alias ipad="ip -brief -f inet address | fzf +m --reverse --height 10 | awk '{gsub(\"/.*\",\"\",\$3);print\$3}' | tee /dev/tty | xclip -r -in -selection clipboard"
 
