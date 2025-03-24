@@ -29,7 +29,7 @@
     pkgs.bat
 
     ## Extras
-    # pkgs.tldr
+    # pkgs.tealdeer
     # pkgs.tgpt
     # pkgs.pokeget-rs
     # pkgs.cmatrix
@@ -40,13 +40,6 @@
     # pkgs.rofimoji
     # pkgs.rbw
     # pkgs.rofi-rbw-wayland
-
-    ## Graphical Apps
-    # pkgs.firefox
-    # pkgs.vscodium
-    # pkgs.audacity
-    # pkgs.logseq
-    # pkgs.zotero
 
     ## Phone
     # pkgs.android-tools
