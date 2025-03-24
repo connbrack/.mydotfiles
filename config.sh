@@ -43,8 +43,6 @@ files_to_link=(
   ".config/starship.toml"
   ".config/tmux"
   #".config/rofi"
-  #".config/latte"
-  #".config/lattedockrc"
 )
 
 # --------------------------------- Run script -------------------------------------------------
