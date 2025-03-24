@@ -1,0 +1,22 @@
+# vim: filetype=bash:
+
+chat() {
+  local query=""
+  for arg in "$@"; do
+    query+="$arg "
+  done
+  tgpt "${query% }"
+}
+
+
+qchat() {
+  local language="$1"
+  local query=""
+  for arg in "${@:2}"; do
+    query+="$arg "
+  done
+  local prompt="using the language ${language} how do I do the following: ${query}\
+     please be as concise as possible, focus on the code example"
+  tgpt "${prompt% }"
+
+}
