@@ -5,3 +5,7 @@
 	helper = store
 [init]
 	defaultBranch = main
+[push]
+	default = current
+[alias]
+	ffl = push --force-with-lease
