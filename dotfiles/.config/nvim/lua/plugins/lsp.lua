@@ -122,4 +122,19 @@ return {
     end,
 
   },
+  {
+    "kamykn/spelunker.vim",
+    config = function()
+      vim.o.spell = false
+      vim.g.enable_spelunker_vim = 1
+      vim.g.enable_spelunker_vim = 1
+
+      vim.cmd("highlight SpelunkerSpellBad cterm=underline ctermfg=NONE gui=underline guifg=NONE")
+
+      vim.keymap.set("n", "zl", "<Plug>(spelunker-correct-from-list)", { silent = true })
+      vim.keymap.set("n", "zg", "<Plug>(add-spelunker-good)", { silent = true })
+      vim.keymap.set("n", "zug", "<Plug>(undo-spelunker-good)", { silent = true })
+    end
+
+  }
 }

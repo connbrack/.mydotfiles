@@ -8,11 +8,11 @@ vim.cmd("set modeline")
 vim.cmd("inoremap jj <ESC>")
 vim.cmd("set tabstop=2")
 
-
+-- "arrow" navigation
 vim.cmd("nnoremap <C-h> <C-o>")
 vim.cmd("nnoremap <C-l> <C-i>")
 
--- Map backspack
+-- Sick backspack
 vim.cmd("nnoremap <silent> <backspace> :noh<CR>:pc<CR>:cclose<CR>")
 
 -- Quick fix navigation
@@ -24,6 +24,7 @@ vim.cmd("nnoremap <leader>tc :tabnew<CR>")
 vim.cmd("nnoremap <leader>tn :tabnext<CR>")
 vim.cmd("nnoremap <leader>tp :tabprevious<CR>")
 
+-- Moving with alt!
 vim.keymap.set("n", "<A-l>", '<C-w>l')
 vim.keymap.set("n", "<A-k>", '<C-w>k')
 vim.keymap.set("n", "<A-j>", '<C-w>j')
