@@ -1,2 +1,4 @@
-dotfiles/.bash/private
 lazy-lock.json
+
+dotfiles/.bash/private
+dotfiles/.config/nvim/spell

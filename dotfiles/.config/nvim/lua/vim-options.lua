@@ -1,6 +1,5 @@
 vim.cmd("set expandtab")
 
-
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.g.mapleader = ","
 
@@ -8,13 +7,15 @@ vim.cmd("set modeline")
 vim.cmd("inoremap jj <ESC>")
 vim.cmd("set tabstop=2")
 
+-- spelling
+vim.opt.spelllang = 'en_us'
+vim.opt.spell = true
+
 -- "arrow" navigation
 vim.cmd("nnoremap <C-h> <C-o>")
 vim.cmd("nnoremap <C-l> <C-i>")
 
--- Sick backspack
-vim.cmd("nnoremap <silent> <backspace> :noh<CR>:pc<CR>:cclose<CR>")
-
+-- Sick backspace vim.cmd("nnoremap <silent> <backspace> :noh<CR>:pc<CR>:cclose<CR>")
 -- Quick fix navigation
 vim.cmd("noremap <C-]> :cnext<CR>")
 vim.cmd("noremap <C-[> :cprevious<CR>")
@@ -47,12 +48,12 @@ vim.o.hlsearch = true
 vim.o.relativenumber = false
 vim.o.number = true
 
+
 -- Enable mouse mode
 vim.o.mouse = 'a'
 
 -- Sync clipboard between OS and Neovim.
---  Remove this option if you want your OS clipboard to remain independent.
---  See `:help 'clipboard'`
+--  Remove this option if you want your OS clipboard to remain independent. See `:help 'clipboard'`
 vim.o.clipboard = 'unnamedplus'
 
 -- Enable break indent
