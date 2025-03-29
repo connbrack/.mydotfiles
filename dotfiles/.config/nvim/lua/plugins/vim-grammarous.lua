@@ -1,4 +1,0 @@
-
-return {
-  'rhysd/vim-grammarous'
-}
