@@ -1,6 +1,0 @@
-return {
-  {
-    'easymotion/vim-easymotion',
-  }
-}
-
