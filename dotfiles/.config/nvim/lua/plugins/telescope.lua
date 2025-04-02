@@ -39,8 +39,8 @@ return {
       }
       require("telescope").load_extension("ui-select")
 
-      vim.keymap.set('n', '<leader>sf', builtin.find_files, {})
-      vim.keymap.set('n', '<leader>ss', builtin.live_grep, {})
+      vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+      vim.keymap.set('n', '<leader>fs', builtin.live_grep, {})
     end
 
   },

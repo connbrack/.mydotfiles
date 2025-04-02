@@ -1,7 +1,7 @@
 vim.cmd("set expandtab")
 
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
-vim.g.mapleader = ","
+vim.g.mapleader = " "
 
 vim.cmd("set modeline")
 vim.cmd("inoremap jj <ESC>")
@@ -15,7 +15,8 @@ vim.opt.spell = true
 vim.cmd("nnoremap <C-h> <C-o>")
 vim.cmd("nnoremap <C-l> <C-i>")
 
--- Sick backspace vim.cmd("nnoremap <silent> <backspace> :noh<CR>:pc<CR>:cclose<CR>")
+-- Sick backspace 
+vim.cmd("nnoremap <silent> <backspace> :noh<CR>:pc<CR>:cclose<CR>")
 -- Quick fix navigation
 vim.cmd("noremap <C-]> :cnext<CR>")
 vim.cmd("noremap <C-[> :cprevious<CR>")
