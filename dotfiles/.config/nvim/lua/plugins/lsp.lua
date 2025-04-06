@@ -27,19 +27,37 @@ return {
       local lspconfig = require('lspconfig')
       lspconfig.lua_ls.setup({})
       lspconfig.pyright.setup({})
-      lspconfig.ts_ls.setup({})
+      lspconfig.ts_ls.setup({
+        -- handlers = {
+        --   ["textDocument/publishDiagnostics"] = function() end, -- Ignore diagnostics
+        -- },
+      })
       lspconfig.rust_analyzer.setup({})
       -- lspconfig.harper_ls.setup({})
 
       -- make pretty
-      local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
-      for type, icon in pairs(signs) do
-        local hl = "DiagnosticSign" .. type
-        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-      end
+      vim.diagnostic.config({
+        signs = {
+          text = {
+            [vim.diagnostic.severity.ERROR] = "󰅚 ",
+            [vim.diagnostic.severity.WARN] = "󰀪 ",
+            [vim.diagnostic.severity.INFO] = " ",
+            [vim.diagnostic.severity.HINT] = "󰌶 ",
+          },
+        },
+      })
+      vim.diagnostic.config({
+        virtual_text = true,
+        float = {
+          source = "always",
+        },
+        signs = true,
+        underline = true,
+        update_in_insert = false,
+      })
 
-      vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, {})
-      vim.keymap.set("n", "<leader>dd", function()
+      vim.keymap.set("n", "<leader>l", vim.diagnostic.open_float, {})
+      vim.keymap.set("n", "<leader>lt", function()
         vim.diagnostic.config({ virtual_text = not vim.diagnostic.config().virtual_text })
       end)
 
@@ -62,6 +80,7 @@ return {
       local null_ls = require("null-ls")
       null_ls.setup({
         sources = {
+          require("none-ls.diagnostics.eslint"),
           null_ls.builtins.formatting.prettier,
           require("none-ls.formatting.jq"),
           require("none-ls.formatting.autopep8").with({
