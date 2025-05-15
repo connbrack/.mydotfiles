@@ -27,13 +27,8 @@ return {
       local lspconfig = require('lspconfig')
       lspconfig.lua_ls.setup({})
       lspconfig.pyright.setup({})
-      lspconfig.ts_ls.setup({
-        -- handlers = {
-        --   ["textDocument/publishDiagnostics"] = function() end, -- Ignore diagnostics
-        -- },
-      })
+      lspconfig.ts_ls.setup({})
       lspconfig.rust_analyzer.setup({})
-      -- lspconfig.harper_ls.setup({})
 
       -- make pretty
       vim.diagnostic.config({
