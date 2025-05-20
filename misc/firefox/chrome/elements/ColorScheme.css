@@ -1,0 +1,43 @@
+:root {
+  --color-accent-primary: #c9a4f6 !important;
+
+  --tab-selected-bgcolor: #f5a87e !important;
+  --tab-selected-textcolor: #34384d !important;
+
+  --toolbox-bgcolor: #121322 !important;
+  --toolbox-bgcolor-inactive: #121322 !important;
+
+  --toolbar-bgcolor: #121322 !important;
+
+  --toolbar-field-focus-color: #8ad4c9 !important;
+  --toolbar-field-color: #8ad4c9 !important;
+  --toolbar-field-bgcolor: #8ad4c9 !important;
+
+  --urlbar-bg: #202438;
+  --urlbar-fg: #c9a4f6;
+  --urlbar-border-active: #c9a4f6;
+}
+
+/* URL bar background & text */
+#urlbar-input-container {
+  background-color: var(--urlbar-bg) !important;
+  color: var(--urlbar-fg) !important;
+}
+
+/* Ensure the actual input text uses correct color */
+#urlbar-input {
+  color: var(--urlbar-fg) !important;
+  background-color: transparent !important; /* inherits from container */
+}
+
+/* URL bar when focused */
+#urlbar[focused="true"] > #urlbar-background {
+  background-color: var(--urlbar-bg) !important;
+}
+
+/* Optional: border and shadow removal for cleaner look */
+#urlbar-background {
+  box-shadow: none !important;
+  border: 1px solid var(--urlbar-border) !important;
+  background-color: var(--urlbar-bg) !important;
+}
