@@ -23,6 +23,7 @@ blesh=0
 docker=0
 node=0
 pyenv=0
+vagrant=0
 
 # Process flags
 for arg in "$@"; do
@@ -34,6 +35,7 @@ for arg in "$@"; do
       --docker) docker=1;;
       --node) node=1 ;;
       --pyenv) pyenv=1 ;;
+      --vagrant) vagrant=1 ;;
       *) echo "Unknown option: $arg"; exit 1 ;;
   esac
   shift
@@ -228,6 +230,22 @@ if [ $docker -eq 1 ]; then
   fi
 fi
 
+if [ $vagrant -eq 1 ]; then
+  header "Installing vagrant"
+  if command -v vagrant >/dev/null 2>&1; then
+    echo "vagrant is already installed"
+  else
+
+    if [ $packagemanager = "apt" ];then
+      echo "No install script implemented for apt"
+    else
+      sudo dnf install @virtualization @vagrant
+      sudo systemctl enable --now virtqemud.service
+      sudo systemctl enable --now virtnetworkd.service
+      sudo usermod -aG libvirt $USER
+    fi
+  fi
+fi
 
 # ------------------------ Other useful install scripts --------------------------------------
 
