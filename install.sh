@@ -1,19 +1,16 @@
 #!/bin/bash
 
 # ----------------------------- Example Uses ------------------------------------------
-
+#
 # all flags:
-# ./install.sh --essential-packages --terminal-packages --nix-packages --blesh --desktop --node --pyenv
-
-# Terminal setup:
-# ./install.sh --essential-packages --terminal-packages --terminal-packages --blesh
-
-# Nix terminal setup:
-# ./install.sh --essential-packages --nix-packages --blesh
-
-# Coding setup:
-# ./install.sh --docker --node --pyenv
-
+# ./install.sh --essential-packages --terminal-packages --nix-packages --blesh --docker --node --pyenv --vagrant
+#
+# terminal setup:
+# ./install.sh --essential-packages --nix-packages --blesh 
+#
+# extras:
+# ./install.sh  --docker --node --pyenv --vagrant
+#
 # ----------------------------- Flags ------------------------------------------
 
 essential=0
@@ -63,13 +60,13 @@ if [ $essential -eq 1 ]; then
   if [ $packagemanager = "apt" ]; then
     header "Installing essential packages"
 
-    sudo apt install \
+    sudo apt install -y \
       software-properties-common build-essential \
       curl make ripgrep gawk trash-cli \
-      fd-find xclip xsel xdotool -y
+      fd-find xclip xsel xdotool
   else
-    sudo dnf install \
-      make trash-cli ripgrep
+    sudo dnf install -y \
+      make trash-cli ripgrep fd-find
   fi
 
 fi
@@ -217,7 +214,7 @@ if [ $docker -eq 1 ]; then
         $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
         sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
       sudo apt-get update
-      sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+      sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
     else
       sudo dnf -y install dnf-plugins-core
       sudo dnf-3 config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
