@@ -129,6 +129,10 @@ if [ -d "$HOME/.cargo" ]; then
   . "$HOME/.cargo/env"
 fi
 
+if [ -d "$HOME/.qmk_firmware" ]; then
+  export QMK_HOME="$HOME/.qmk_firmware"
+fi
+
 # -------------------------- Extra files ---------------------------
 
 if [ -e "$HOME/.bash" ] || [ -L "$HOME/.bash" ]; then
@@ -138,5 +142,3 @@ fi
 if [ -d "$HOME/Apps/scripts" ]; then
   export PATH=$PATH:"$HOME/Apps/scripts"
 fi
-
-# pnpm
