@@ -1,79 +1,93 @@
 #!/bin/bash
 
-function backup (){
-  trap - INT
-  config_file="${HOME}/.config/backup.conf"
+function backup() {
 
-  # Config File Format
-  # {
-  #   "local_path": "/path/to/backup/"
-  #   "cloud_remote": "remote_name",
-  #   "backup_folders": [
-  #     "backup",
-  #     "files"
-  #   ],
-  #   "exclude_patterns": [
-  #     "**/.venv/**"
-  #   ]
-  # }
+	config_file="${HOME}/.config/backup.conf"
 
-  function get_args() {
-    readarray -t backup_folders < <(jq -r '.backup_folders[]' "$config_file")
-    readarray -t exclude_patterns < <(jq -r '.exclude_patterns[]' $config_file)
+	# Config File Format
+	# {
+	#   "local_path": "/path/to/backup/"
+	#   "cloud_remote": "remote_name",
+	#   "backup_folders": [
+	#     "backup",
+	#     "files"
+	#   ],
+	#   "exclude_patterns": [
+	#     "**/.venv/**"
+	#   ]
+	# }
 
-    exclude_args=()
-    for pattern in "${exclude_patterns[@]}"; do
-      exclude_args+=("--exclude" "$pattern")
-    done
-  }
+	function get_args() {
+		local_path=$(readlink -f $(jq -r '.local_path' $config_file))
+		cloud_remote=$(jq -r '.cloud_remote' $config_file)
+		readarray -t backup_folders < <(jq -r '.backup_folders[]' "$config_file")
+		readarray -t exclude_patterns < <(jq -r '.exclude_patterns[]' $config_file)
 
-  function backup-local() {
-    get_args
-    local_path=$(jq -r '.local_path' $config_file)
-    for folder in "${backup_folders[@]}"; do
-      echo -e "\x1b[30;42m Backing up: $folder \x1b[m"
-      sudo rsync -ah --delete --info=progress2,stats1 "$HOME/$folder/" "$local_path/$folder/"
-      echo
-    done
-  }
+		exclude_args=()
+		for pattern in "${exclude_patterns[@]}"; do
+			exclude_args+=("--exclude" "$pattern")
+		done
+	}
 
-  function backup-cloud() {
-    get_args
-    cloud_remote=$(jq -r '.cloud_remote' $config_file)
-    for folder in "${backup_folders[@]}"; do
-      echo -e "\x1b[30;42m Backing up: $folder \x1b[m"
-      rclone sync "$HOME/$folder/" $cloud_remote:$folder -LP  --transfers=16 --checkers=16 --buffer-size=64M --fast-list "${exclude_args[@]}"
-      echo
-    done
-  }
+	function backup-local() {
+		get_args
 
-  if [ ! -f "$config_file" ]; then
-    echo "config file not found"
-  else
-    if [ -z "$1" ]; then
-      echo "ERROR: No command provided. Please use 'local' or 'cloud'."
-    else
-      if [ $1 = 'local' ]; then
-        sudo true
-        backup-local
-      elif [ $1 = 'cloud' ]; then
-        backup-cloud
-      else
-        echo "ERROR: Command should be local or cloud"
-      fi
-    fi
-  fi
+		if ! lsblk -o MOUNTPOINT | grep -q $local_path; then
+			echo "Error: No drive found at '$local_path'." >&2
+		else
+
+			for folder in "${backup_folders[@]}"; do
+				echo -e "\x1b[30;42m Backing up: $folder \x1b[m"
+				sudo rsync -ah --delete --info=progress2,stats1 "$HOME/$folder/" "$local_path/$folder/"
+				echo
+			done
+
+		fi
+	}
+
+	function backup-cloud() {
+		trap - INT
+		get_args
+
+		if ! rclone lsd "${cloud_remote}:" >/dev/null 2>&1; then
+			echo "Error: connection to rclone drive '$cloud_remote' could not be established." >&2
+		else
+
+			for folder in "${backup_folders[@]}"; do
+				echo -e "\x1b[30;42m Backing up: $folder \x1b[m"
+				rclone sync "$HOME/$folder/" $cloud_remote:$folder -LP --transfers=16 --checkers=16 --buffer-size=64M --fast-list "${exclude_args[@]}"
+				echo
+			done
+		fi
+	}
+
+	if [ ! -f "$config_file" ]; then
+		echo "config file not found"
+	else
+		if [ -z "$1" ]; then
+			echo "ERROR: No command provided. Please use 'local' or 'cloud'."
+		else
+			if [ $1 = 'local' ]; then
+				sudo true
+				backup-local
+			elif [ $1 = 'cloud' ]; then
+				backup-cloud
+			else
+				echo "ERROR: Command should be local or cloud"
+			fi
+		fi
+	fi
 
 }
 
 function _backup() {
-  local opts="local cloud"
+	local opts="local cloud"
 
-  COMPREPLY=()
+	COMPREPLY=()
 
-  if [ $COMP_CWORD -eq 1 ]; then
-    COMPREPLY=($(compgen -W "$opts" -- ${COMP_WORDS[COMP_CWORD]}))
-  fi
+	if [ $COMP_CWORD -eq 1 ]; then
+		COMPREPLY=($(compgen -W "$opts" -- ${COMP_WORDS[COMP_CWORD]}))
+	fi
 }
 
 complete -F _backup backup

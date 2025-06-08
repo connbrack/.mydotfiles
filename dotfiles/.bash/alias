@@ -19,9 +19,10 @@ alias l='ls -CF'
 alias copy="xclip -i -r -selection clipboard"
 
 # ----------- Package Management -----------------------------------
+alias upgrade-all='if command -v apt >/dev/null 2>&1; then apt-upgrade; else dnf-upgrade; fi && nix-upgrade && flatpak-upgrade'
 alias apt-upgrade='sudo echo && echo -e "\x1b[30;42m Updating apt \x1b[m" && sudo apt update && sudo apt upgrade -y && echo'
+alias dnf-upgrade='sudo echo && echo -e "\x1b[30;42m Updating dnf \x1b[m" && sudo dnf update -y && echo'
 alias flatpak-upgrade='echo && echo -e "\x1b[30;42m Updating flatpak \x1b[m" && flatpak update -y && echo'
-alias upgrade-all='apt-upgrade && flatpak-upgrade && nix-upgrade'
 
 alias nix-upgrade='echo && echo -e "\x1b[30;42m Updating nix \x1b[m" && nix-channel --update && home-manager switch'
 alias nix-packages='nvim ~/.config/home-manager/home.nix'
@@ -31,11 +32,9 @@ alias nix-clean='nix-collect-garbage --delete-older-than 30d'
 # ---------------------- File exploring --------------------------------
 alias lf='lfcd'
 alias vim='nvim'
-alias bat='bat --theme="Catppuccin Mocha"'
 
 # ---------------------- misc --------------------------------
 alias tkill='tmux kill-server'
-alias sleep='systemctl suspend'
 
 alias ipad="ip -brief -f inet address | fzf +m --reverse --height 10 | awk '{gsub(\"/.*\",\"\",\$3);print\$3}' | tee /dev/tty | xclip -r -in -selection clipboard"
 
