@@ -5,10 +5,29 @@ return {
     "nvim-lua/plenary.nvim",
     "nvim-tree/nvim-web-devicons",
     "MunifTanjim/nui.nvim",
+    "antosha417/nvim-lsp-file-operations",
   },
   config = function()
+    require("lsp-file-operations").setup()
     require("neo-tree").setup({
-
+      default_component_configs = {
+        name = { use_git_status_colors = true },
+        git_status = {
+          symbols = {
+            -- Change type
+            added     = "",
+            deleted   = "",
+            modified  = "",
+            renamed   = "",
+            -- Status type
+            untracked = "",
+            ignored   = "",
+            unstaged  = "",
+            staged    = "",
+            conflict  = "",
+          }
+        }
+      },
       filesystem = {
         window = {
           position = "left",
