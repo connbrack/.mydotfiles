@@ -1,6 +1,4 @@
-vim.cmd("set expandtab")
-
-vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
+vim.cmd("set expandtab") vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.g.mapleader = " "
 
 vim.cmd("set modeline")
@@ -14,6 +12,9 @@ vim.opt.spell = true
 -- "arrow" navigation
 vim.cmd("nnoremap <C-h> <C-o>")
 vim.cmd("nnoremap <C-l> <C-i>")
+
+-- xdg open
+vim.api.nvim_create_user_command("XdgOpen", function() vim.fn.jobstart({ "xdg-open", vim.fn.expand("%:p") }, { detach = true }) end, {})
 
 -- Sick backspace 
 vim.cmd("nnoremap <silent> <backspace> :noh<CR>:pc<CR>:cclose<CR>")
@@ -46,7 +47,10 @@ vim.keymap.set("n", "<leader>tr", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left>
 vim.o.hlsearch = true
 
 -- Make line numbers default
-vim.o.relativenumber = false
+vim.o.relativenumber = true
+vim.keymap.set('n', '<leader>or', function()
+  vim.o.relativenumber = not vim.o.relativenumber
+end, { desc = 'Toggle relative number' })
 vim.o.number = true
 
 

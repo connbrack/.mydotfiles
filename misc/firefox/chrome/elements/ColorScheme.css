@@ -4,11 +4,10 @@
   --tab-selected-bgcolor: #f5a87e !important;
   --tab-selected-textcolor: #34384d !important;
 
-  --toolbox-bgcolor: #121322 !important;
-  --toolbox-bgcolor-inactive: #121322 !important;
+  --toolbox-bgcolor: #191c2e !important;
+  --toolbox-bgcolor-inactive: #191c2e !important;
 
-  --toolbar-bgcolor: #121322 !important;
-
+  --toolbar-bgcolor: #191c2e !important;
   --toolbar-field-focus-color: #8ad4c9 !important;
   --toolbar-field-color: #8ad4c9 !important;
   --toolbar-field-bgcolor: #8ad4c9 !important;
