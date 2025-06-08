@@ -1,26 +1,35 @@
 # vim: filetype=bash:
 
-mkcd ()
-{
-    mkdir -p -- "$1" &&
-       cd -P -- "$1"
+mkcd() {
+	mkdir -p -- "$1" &&
+		cd -P -- "$1"
 }
 
-mkmv ()
-{
-    mkdir -p -- "$2" &&
-    mv "$1 $2/"
+mkmv() {
+	mkdir -p -- "$2" &&
+		mv "$1 $2/"
 }
 
-
-lfcd () { 
-  cd "$(command lf -print-last-dir "$@")"
+lfcd() {
+	cd "$(command lf -print-last-dir "$@")"
 }
 
-copyf (){
-  if [[ $# == 0 ]]; then
-    xargs -d '\n' realpath | sed 's/.*/file:\/\/&/' | xclip -i -selection clipboard -t text/uri-list
-  else
-    printf "%s\n" "${@}" | xargs -d '\n' realpath | sed 's/.*/file:\/\/&/' | xclip -i -selection clipboard -t text/uri-list
-  fi
+copyf() {
+	if [[ $# == 0 ]]; then
+		xargs -d '\n' realpath | sed 's/.*/file:\/\/&/' | xclip -i -selection clipboard -t text/uri-list
+	else
+		printf "%s\n" "${@}" | xargs -d '\n' realpath | sed 's/.*/file:\/\/&/' | xclip -i -selection clipboard -t text/uri-list
+	fi
+}
+
+notify() {
+	OPTIND=1
+	play_sound=0
+	while getopts s _; do play_sound=1; done
+
+	notify-send "Task Done!" "Whatever you were doing is done"
+
+	if [ "$play_sound" = 1 ]; then
+		paplay /usr/share/sounds/freedesktop/stereo/service-login.oga || true
+	fi
 }
