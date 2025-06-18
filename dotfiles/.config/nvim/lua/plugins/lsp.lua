@@ -5,7 +5,7 @@ return {
       require("mason").setup()
     end
   },
-{
+  {
     "neovim/nvim-lspconfig",
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
@@ -17,6 +17,7 @@ return {
       lspconfig.ts_ls.setup({})
       lspconfig.clangd.setup({})
       lspconfig.rust_analyzer.setup({})
+      lspconfig.bashls.setup({})
 
       -- make pretty
       vim.diagnostic.config({
@@ -35,11 +36,15 @@ return {
       })
 
       vim.keymap.set("n", "<leader>l", vim.diagnostic.open_float, {})
+      vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format, {})
       vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, {})
       vim.keymap.set("n", "<leader>lx", "<cmd>LspRestart<CR>", {})
       vim.keymap.set("n", "<leader>lt", function()
         vim.diagnostic.config({ virtual_text = not vim.diagnostic.config().virtual_text })
       end)
+      vim.keymap.set('n', '<leader>lT', function()
+        vim.diagnostic[vim.diagnostic.is_enabled() and 'disable' or 'enable']()
+      end, { noremap = true, silent = true })
 
       local opts = { silent = true }
       vim.keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts) -- show lsp definitions
@@ -48,7 +53,8 @@ return {
       vim.keymap.set("n", "ga", vim.lsp.buf.code_action, {})
       vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
 
-      vim.api.nvim_create_user_command("Format", function() vim.cmd [[lua vim.lsp.buf.format()]] end, {})
+
+      -- vim.api.nvim_create_user_command("Format", function() vim.cmd [[lua vim.lsp.buf.format()]] end, {})
     end
   },
   {
@@ -60,15 +66,19 @@ return {
       local null_ls = require("null-ls")
       null_ls.setup({
         sources = {
-          require("none-ls.diagnostics.eslint"),
-          null_ls.builtins.formatting.prettier,
-          require("none-ls.formatting.jq"),
+          -- Bash
           require("null-ls").builtins.formatting.shfmt,
+          -- Python
           null_ls.builtins.diagnostics.pylint,
-          null_ls.builtins.diagnostics.clang_format,
           require("none-ls.formatting.autopep8").with({
             extra_args = { "--max-line-length=120", "--indent-size=2" }
           }),
+          -- JS
+          require("none-ls.diagnostics.eslint"),
+          null_ls.builtins.formatting.prettier,
+          -- json
+          require("none-ls.formatting.jq"),
+          null_ls.builtins.formatting.clang_format,
         },
       })
     end

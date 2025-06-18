@@ -15,15 +15,15 @@ return {
     --     vim.cmd('FzfLua files')
     --   end
     -- end, opts)
-    vim.keymap.set('n', '<leader>pf', ':FzfLua files<CR>', opts)
-    vim.keymap.set('n', '<leader>pb', ':FzfLua buffers<CR>', opts)
-    vim.keymap.set('n', '<leader>pl', ':FzfLua lines<CR>', opts)
+    vim.keymap.set('n', '<leader>p', ':FzfLua files<CR>', opts)
+    vim.keymap.set('n', '<leader>zb', ':FzfLua buffers<CR>', opts)
+    vim.keymap.set('n', '<leader>zl', ':FzfLua lines<CR>', opts)
     vim.keymap.set('n', '<leader>f', ':FzfLua live_grep<CR>', opts)
     vim.keymap.set('n', '<leader>/', ':FzfLua search_history<CR>', opts)
     vim.keymap.set('n', '<leader>:', ':FzfLua command_history<CR>', opts)
-    vim.keymap.set('n', '<leader>pm', ':FzfLua keymaps<CR>', opts)
-    vim.keymap.set('n', '<leader>pj', ':FzfLua jumps<CR>', opts)
-    vim.keymap.set('n', '<leader>pc', ':FzfLua commands<CR>', opts)
+    vim.keymap.set('n', '<leader>zm', ':FzfLua keymaps<CR>', opts)
+    vim.keymap.set('n', '<leader>zj', ':FzfLua jumps<CR>', opts)
+    vim.keymap.set('n', '<leader>zc', ':FzfLua commands<CR>', opts)
 
     -- Visual mode mappings
     vim.keymap.set('v', '<leader>f', ':FzfLua grep_visual<CR>', opts)
