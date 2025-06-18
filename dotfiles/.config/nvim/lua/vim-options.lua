@@ -23,9 +23,10 @@ vim.cmd("noremap <C-]> :cnext<CR>")
 vim.cmd("noremap <C-[> :cprevious<CR>")
 
 -- tab hot keys
-vim.cmd("nnoremap <leader>tc :tabnew<CR>")
-vim.cmd("nnoremap <leader>tn :tabnext<CR>")
-vim.cmd("nnoremap <leader>tp :tabprevious<CR>")
+vim.keymap.set('n', '<C-w>c', ':tabnew<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-w>n', ':tabnext<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-w>p', ':tabprevious<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<C-w>z', ':tab split<CR>', { noremap = true, silent = true })
 
 -- Moving with alt!
 vim.keymap.set("n", "<A-l>", '<C-w>l')
