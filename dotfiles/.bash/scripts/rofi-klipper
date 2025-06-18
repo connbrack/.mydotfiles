@@ -1,0 +1,13 @@
+#!/bin/bash
+
+clipboard-history(){
+    seq 0 19 | xargs -n 1 -P 5 -I {} bash -c \
+    'qdbus-qt6 org.kde.klipper /klipper org.kde.klipper.klipper.getClipboardHistoryItem {} | tr -d "\n" | cut -c1-75 | tr -d "\r"'
+}
+
+selected=$(clipboard-history | /usr/bin/rofi -dmenu -format i -i -p "clipboard")
+if [ $? == 0 ] ; then
+	qdbus-qt6 org.kde.klipper /klipper org.kde.klipper.klipper.getClipboardHistoryItem $selected \
+		| head -c -1 \
+		| xargs -0 -IREPLACE qdbus-qt6 org.kde.klipper /klipper org.kde.klipper.klipper.setClipboardContents REPLACE
+fi
