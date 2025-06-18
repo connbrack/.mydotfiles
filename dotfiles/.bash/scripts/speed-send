@@ -1,0 +1,47 @@
+#!/bin/bash
+
+delete_paths=()
+
+# Parse options
+while getopts "d:" opt; do
+  case $opt in
+    d)
+      delete_paths+=("$OPTARG")
+      ;;
+    *)
+      echo "Usage: $0 [-d path_to_delete] ... <source_dir_or_ssh_path>"
+      exit 1
+      ;;
+  esac
+done
+
+shift $((OPTIND -1))  # remove parsed options from positional params
+
+# Now $1 should be the source directory
+if [ -z "$1" ]; then
+  echo "Error: Missing source directory."
+  echo "Usage: speed-send [-d path_to_delete] ... <source_dir_or_ssh_path>"
+  exit 1
+fi
+
+dst_dir="$1"
+
+src_dir=$PWD
+base_name=$(basename $src_dir)
+tmp_dir="/tmp/${base_name}_$$"
+
+echo "Copying $src_dir to  $tmp_dir ..."
+cp -r "$src_dir" "$tmp_dir"
+
+for path in "${delete_paths[@]}"; do
+  echo "Deleting $tmp_dir/$path ..."
+  rm -rf "$tmp_dir/$path"
+done
+
+echo "Running rsync between $tmp_dir and $dst_dir ..."
+rsync -av --delete "$tmp_dir/" "$dst_dir/"
+
+echo "Removing $tmp_dir"
+rm -rf "$tmp_dir"
+
+echo "Done."

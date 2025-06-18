@@ -1,8 +1,8 @@
 # vim: filetype=bash
 
-function py (){
+function boa (){
 
-  function py-activate() {
+  function boa-activate() {
     if [ ! -d ".venv" ]; then
         echo; echo "ERROR: No .venv folder exists in this directory"
       else
@@ -16,7 +16,7 @@ function py (){
     fi
   }
 
-  function py-freeze() {
+  function boa-freeze() {
     if ! command -v pigar &> /dev/null; then
         echo; echo "pigar not installed. Install with: 'pip install pigar'" 1>&2
       else
@@ -41,7 +41,7 @@ function py (){
     fi
   }
 
-  function py-create() (
+  function boa-create() (
     trap - INT
     CURRENT_VERSION=$(python -V 2>&1 | awk '{print $2}')
     fresh="false"
@@ -95,18 +95,18 @@ function py (){
     echo; echo "Done!"
   )
 
-  function py_env_find() {
+  function boa-env-find() {
     fd ".venv" --hidden --type d
   }
 
   if [ $1 = 'activate' ]; then
-    py-activate
+    boa-activate
   elif [ $1 = 'freeze' ]; then
-    py-freeze
+    boa-freeze
   elif [ $1 = 'create' ]; then
-    py-create $2 $3 && py-activate
+    boa-create $2 $3 && boa-activate
   elif [ $1 = 'find-env' ]; then
-    py_env_find
+    boa-env-find
   else
     echo "ERROR: Command not found"
   fi
@@ -114,7 +114,7 @@ function py (){
 }
 
 
-function _py() {
+function _boa() {
   local opts="activate create freeze find-env"
 
   COMPREPLY=()
@@ -125,4 +125,4 @@ function _py() {
 }
 
 
-complete -F _py py
+complete -F _boa boa

@@ -135,10 +135,10 @@ fi
 
 # -------------------------- Extra files ---------------------------
 
-if [ -e "$HOME/.bash" ] || [ -L "$HOME/.bash" ]; then
- for f in $HOME/.bash/*; do source $f; done
+if [ -e "$HOME/.bash/source" ]; then
+ for f in $HOME/.bash/source/*; do source $f; done
 fi
 
-if [ -d "$HOME/Apps/scripts" ]; then
-  export PATH=$PATH:"$HOME/Apps/scripts"
+if [ -e "$HOME/.bash/scripts" ]; then
+  export PATH=$PATH:"$HOME/.bash/scripts"
 fi
