@@ -47,9 +47,9 @@ return {
       end, { noremap = true, silent = true })
 
       local opts = { silent = true }
-      vim.keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts) -- show lsp definitions
+      vim.keymap.set("n", "gd", "<cmd>lua require('fzf-lua').lsp_definitions()<CR>", opts) -- show lsp definitions
       vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-      vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<CR>", opts)
+      vim.keymap.set("n", "gr", "<cmd>lua require('fzf-lua').lsp_references()<CR>", opts)
       vim.keymap.set("n", "ga", vim.lsp.buf.code_action, {})
       vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
 
