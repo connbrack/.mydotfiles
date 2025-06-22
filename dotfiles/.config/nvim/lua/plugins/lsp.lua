@@ -35,14 +35,14 @@ return {
         update_in_insert = false,
       })
 
-      vim.keymap.set("n", "<leader>l", vim.diagnostic.open_float, {})
-      vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format, {})
-      vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, {})
-      vim.keymap.set("n", "<leader>lx", "<cmd>LspRestart<CR>", {})
-      vim.keymap.set("n", "<leader>lt", function()
+      vim.keymap.set("n", "gl", vim.diagnostic.open_float, {})
+      vim.keymap.set("n", "gf", vim.lsp.buf.format, {})
+      vim.keymap.set("n", "gn", vim.lsp.buf.rename, {})
+      vim.keymap.set("n", "gx", "<cmd>LspRestart<CR>", {})
+      vim.keymap.set("n", "gt", function()
         vim.diagnostic.config({ virtual_text = not vim.diagnostic.config().virtual_text })
       end)
-      vim.keymap.set('n', '<leader>lT', function()
+      vim.keymap.set('n', 'gT', function()
         vim.diagnostic[vim.diagnostic.is_enabled() and 'disable' or 'enable']()
       end, { noremap = true, silent = true })
 
@@ -66,8 +66,8 @@ return {
       local null_ls = require("null-ls")
       null_ls.setup({
         sources = {
-          -- Bash
-          require("null-ls").builtins.formatting.shfmt,
+          -- bash
+          null_ls.builtins.formatting.shfmt,
           -- Python
           null_ls.builtins.diagnostics.pylint,
           require("none-ls.formatting.autopep8").with({

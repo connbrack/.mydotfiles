@@ -17,10 +17,13 @@ vim.cmd("nnoremap <C-l> <C-i>")
 vim.api.nvim_create_user_command("XdgOpen", function() vim.fn.jobstart({ "xdg-open", vim.fn.expand("%:p") }, { detach = true }) end, {})
 
 -- Sick backspace 
-vim.cmd("nnoremap <silent> <backspace> :noh<CR>:pc<CR>:cclose<CR>")
+vim.keymap.set('n', '<backspace>', ':noh<CR>:pc<CR>:cclose<CR>', { noremap = true, silent = true })
+
 -- Quick fix navigation
-vim.cmd("noremap <C-]> :cnext<CR>")
-vim.cmd("noremap <C-[> :cprevious<CR>")
+vim.keymap.set('n', ']c', ':cnext<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', ']@', ':cnext<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '[c', ':cprevious<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '[@', ':cprevious<CR>', { noremap = true, silent = true })
 
 -- tab hot keys
 vim.keymap.set('n', '<C-w>c', ':tabnew<CR>', { noremap = true, silent = true })
@@ -37,9 +40,6 @@ vim.keymap.set("n", "<A-v>", '<C-w>v')
 vim.keymap.set("n", "<A-s>", '<C-w>s')
 vim.keymap.set("n", "<A-c>", '<C-w>q')
 
--- cool nav stuff
-vim.keymap.set("n", "<leader>tr", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
-
 -- [[ Setting options ]]
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
@@ -49,7 +49,7 @@ vim.o.hlsearch = true
 
 -- Make line numbers default
 vim.o.relativenumber = true
-vim.keymap.set('n', '<leader>or', function()
+vim.keymap.set('n', ',or', function()
   vim.o.relativenumber = not vim.o.relativenumber
 end, { desc = 'Toggle relative number' })
 vim.o.number = true
@@ -96,7 +96,9 @@ vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
+vim.keymap.set('n', '[=', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
+vim.keymap.set('n', ']=', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
