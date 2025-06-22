@@ -38,9 +38,6 @@ return {
         },
       }
       require("telescope").load_extension("ui-select")
-
-      vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
-      vim.keymap.set('n', '<leader>fs', builtin.live_grep, {})
     end
 
   },
@@ -53,15 +50,4 @@ return {
     end
 
   },
-
-  {
-    "isak102/telescope-git-file-history.nvim",
-    dependencies = { "tpope/vim-fugitive" },
-    config = function()
-      require("telescope").load_extension("git_file_history")
-      vim.keymap.set("n", "<leader>gC", "<cmd>Telescope git_file_history<cr>")
-    end
-
-  }
-
 }

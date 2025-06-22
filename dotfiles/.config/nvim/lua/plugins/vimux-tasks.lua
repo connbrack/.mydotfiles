@@ -23,7 +23,7 @@ return {
       vim.cmd("let g:asynctasks_config_name = '.vim/tasks.ini'")
       vim.cmd("let g:asynctasks_term_pos = 'tmux'")
 
-      vim.keymap.set("n", "<leader>rt", ":Telescope asynctasks all<CR>", {})
+      vim.keymap.set("n", "<leader>t", ":Telescope asynctasks all<CR>", {})
     end
   },
 }

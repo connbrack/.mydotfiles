@@ -6,7 +6,7 @@ return {
     local opts = { noremap = true, silent = true }
 
     -- Normal mode mappings
-    vim.keymap.set('n', '<leader>F', ':FzfLua<CR>', opts)
+    vim.keymap.set('n', '<leader>z', ':FzfLua<CR>', opts)
     vim.keymap.set('n', '<leader>R', ':FzfLua resume<CR>', opts)
     -- vim.keymap.set('n', '<leader>p', function()
     --   if vim.fn['fugitive#Head']() ~= '' then
@@ -16,24 +16,23 @@ return {
     --   end
     -- end, opts)
     vim.keymap.set('n', '<leader>p', ':FzfLua files<CR>', opts)
-    vim.keymap.set('n', '<leader>zb', ':FzfLua buffers<CR>', opts)
-    vim.keymap.set('n', '<leader>zl', ':FzfLua lines<CR>', opts)
+    vim.keymap.set('n', '<leader>b', ':FzfLua buffers<CR>', opts)
+    -- vim.keymap.set('n', '<leader>zl', ':FzfLua lines<CR>', opts)
     vim.keymap.set('n', '<leader>f', ':FzfLua live_grep<CR>', opts)
     vim.keymap.set('n', '<leader>/', ':FzfLua search_history<CR>', opts)
     vim.keymap.set('n', '<leader>:', ':FzfLua command_history<CR>', opts)
-    vim.keymap.set('n', '<leader>zm', ':FzfLua keymaps<CR>', opts)
-    vim.keymap.set('n', '<leader>zj', ':FzfLua jumps<CR>', opts)
-    vim.keymap.set('n', '<leader>zc', ':FzfLua commands<CR>', opts)
+    vim.keymap.set('n', '<leader>m', ':FzfLua keymaps<CR>', opts)
+    -- vim.keymap.set('n', '<leader>zj', ':FzfLua jumps<CR>', opts)
+    -- vim.keymap.set('n', '<leader>z', ':FzfLua commands<CR>', opts)
 
     -- Visual mode mappings
     vim.keymap.set('v', '<leader>f', ':FzfLua grep_visual<CR>', opts)
-    vim.keymap.set('v', '<leader>gc', ':FzfLua git_bcommits<CR>', opts)
 
     -- Git-related mappings (normal mode)
-    vim.keymap.set('n', '<leader>gb', ':FzfLua git_branches<CR>', opts)
-    vim.keymap.set('n', '<leader>gt', ':FzfLua git_tags<CR>', opts)
-    vim.keymap.set('n', '<leader>gc', ':FzfLua git_bcommits<CR>', opts)
-    vim.keymap.set('n', '<leader>gC', ':FzfLua git_commits<CR>', opts)
+    vim.keymap.set('n', 'gb', ':FzfLua git_branches<CR>', opts)
+    -- vim.keymap.set('n', 'gt', ':FzfLua git_tags<CR>', opts)
+    vim.keymap.set('n', '<leader>g', ':FzfLua git_bcommits<CR>', opts)
+    vim.keymap.set('n', '<leader>G', ':FzfLua git_commits<CR>', opts)
 
 
     local fzf_lua = require("fzf-lua")
