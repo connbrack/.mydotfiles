@@ -36,7 +36,6 @@ return {
       })
 
       vim.keymap.set("n", "gl", vim.diagnostic.open_float, {})
-      vim.keymap.set("n", "gf", vim.lsp.buf.format, {})
       vim.keymap.set("n", "gn", vim.lsp.buf.rename, {})
       vim.keymap.set("n", "gx", "<cmd>LspRestart<CR>", {})
       vim.keymap.set("n", "gt", function()
@@ -53,34 +52,55 @@ return {
       vim.keymap.set("n", "ga", vim.lsp.buf.code_action, {})
       vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
 
+      vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
+      vim.keymap.set('n', '[=', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
+      vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
+      vim.keymap.set('n', ']=', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
+
 
       -- vim.api.nvim_create_user_command("Format", function() vim.cmd [[lua vim.lsp.buf.format()]] end, {})
     end
   },
   {
-    "nvimtools/none-ls.nvim",
-    dependencies = {
-      "nvimtools/none-ls-extras.nvim",
-    },
+    'stevearc/conform.nvim',
     config = function()
-      local null_ls = require("null-ls")
-      null_ls.setup({
-        sources = {
-          -- bash
-          null_ls.builtins.formatting.shfmt,
-          -- Python
-          null_ls.builtins.diagnostics.pylint,
-          require("none-ls.formatting.autopep8").with({
-            extra_args = { "--max-line-length=120", "--indent-size=2" }
-          }),
-          -- JS
-          require("none-ls.diagnostics.eslint"),
-          null_ls.builtins.formatting.prettier,
-          -- json
-          require("none-ls.formatting.jq"),
-          null_ls.builtins.formatting.clang_format,
+      local conform = require("conform")
+      conform.setup({
+        formatters_by_ft = {
+          bash = { "shfmt" },
+          python = { "autopep8" },
+          rust = { "rustfmt" },
+          javascript = { "prettierd", "prettier", stop_after_first = true },
+          json = { "jq" },
         },
       })
-    end
+
+      vim.keymap.set({ "n", "v" }, "gf", function()
+        conform.format({
+          lsp_fallback = true,
+          async = false,
+          timeout_ms = 1000,
+        })
+      end, { desc = "Format file or range" })
+    end,
   },
+  {
+    'mfussenegger/nvim-lint',
+    config = function()
+      local lint = require("lint")
+
+      lint.linters_by_ft = {
+        javascript = { "eslint" },
+      }
+
+      local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
+
+      vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
+        group = lint_augroup,
+        callback = function()
+          lint.try_lint()
+        end,
+      })
+    end
+  }
 }
