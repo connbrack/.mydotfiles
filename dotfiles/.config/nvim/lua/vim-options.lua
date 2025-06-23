@@ -1,9 +1,9 @@
-vim.cmd("set expandtab") vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
+vim.cmd("set expandtab")
+vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.g.mapleader = " "
 
 vim.cmd("set modeline")
 vim.cmd("inoremap jj <ESC>")
-vim.cmd("set tabstop=2")
 
 -- spelling
 vim.opt.spelllang = 'en_us'
@@ -14,9 +14,10 @@ vim.cmd("nnoremap <C-h> <C-o>")
 vim.cmd("nnoremap <C-l> <C-i>")
 
 -- xdg open
-vim.api.nvim_create_user_command("XdgOpen", function() vim.fn.jobstart({ "xdg-open", vim.fn.expand("%:p") }, { detach = true }) end, {})
+vim.api.nvim_create_user_command("XdgOpen",
+  function() vim.fn.jobstart({ "xdg-open", vim.fn.expand("%:p") }, { detach = true }) end, {})
 
--- Sick backspace 
+-- Sick backspace
 vim.keymap.set('n', '<backspace>', ':noh<CR>:pc<CR>:cclose<CR>', { noremap = true, silent = true })
 
 -- Quick fix navigation
@@ -87,20 +88,11 @@ vim.o.termguicolors = true
 
 -- [[ Basic Keymaps ]]
 
--- Keymaps for better default experience
--- See `:help vim.keymap.set()`
-
 -- Remap for dealing with word wrap
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
-vim.keymap.set('n', '[=', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
-vim.keymap.set('n', ']=', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
@@ -113,10 +105,22 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
--- Force shift width of 2
+-- vim.bo.tabstop = 4
+-- vim.bo.shiftwidth = 4
+-- vim.bo.softtabstop = 4
+
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = "*",
+  pattern = { "python", "c", "java", "rust" },
+  callback = function()
+    vim.bo.shiftwidth = 4
+    vim.bo.tabstop = 4
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "javascript", "html", "css", "ruby", "lua" },
   callback = function()
     vim.bo.shiftwidth = 2
+    vim.bo.tabstop = 2
   end,
 })
