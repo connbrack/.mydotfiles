@@ -6,9 +6,6 @@ return {
       'junegunn/fzf',
       'junegunn/fzf.vim'
     },
-    config = function()
-      vim.keymap.set('n', '<leader>rj', ':w | VimuxTasks<CR>', {})
-    end
   },
   {'GustavoKatel/telescope-asynctasks.nvim',
     dependencies = {

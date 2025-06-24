@@ -17,21 +17,13 @@ return {
       dapui.open()
     end
 
-    -- use Esc to close the dap-float window type
-    vim.api.nvim_create_autocmd("FileType", {
-      pattern = "dap-float",
-      callback = function()
-        vim.api.nvim_buf_set_keymap(0, "n", "<Esc>", "<cmd>close!<CR>", { noremap = true, silent = true })
-      end
-    })
-
-    vim.keymap.set('n', '<leader>dt', dap.toggle_breakpoint, {})
-    vim.keymap.set('n', '<leader>dc', dap.continue, {})
-    vim.keymap.set('n', '<leader>ds', dap.terminate, {})
-    vim.keymap.set('n', '<leader>dn', dap.step_into, {})
-    vim.keymap.set('n', '<leader>dr', dap.restart, {})
-    vim.keymap.set('n', '<leader>du', dapui.toggle, {})
-    vim.keymap.set('n', '<leader>di', require('dap.ui.widgets').hover, {})
+    vim.keymap.set('n', '<leader>dt', dap.toggle_breakpoint, { desc = 'DAP - Toggle breakpoint' })
+    vim.keymap.set('n', '<leader>dc', dap.continue, { desc = 'DAP - Start/Continue debugging' })
+    vim.keymap.set('n', '<leader>ds', dap.terminate, { desc = 'DAP - Terminate debugging session' })
+    vim.keymap.set('n', '<leader>dn', dap.step_into, { desc = 'DAP - Step into' })
+    vim.keymap.set('n', '<leader>dr', dap.restart, { desc = 'DAP - Restart debugging session' })
+    vim.keymap.set('n', '<leader>du', dapui.toggle, { desc = 'DAP - Toggle debug UI' })
+    vim.keymap.set('n', '<leader>di', require('dap.ui.widgets').hover, { desc = 'DAP - Inspect variable (hover)' })
 
 
     -- *******************************************

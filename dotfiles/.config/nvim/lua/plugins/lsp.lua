@@ -46,16 +46,16 @@ return {
       end, { noremap = true, silent = true })
 
       local opts = { silent = true }
-      vim.keymap.set("n", "gd", "<cmd>lua require('fzf-lua').lsp_definitions()<CR>", opts) -- show lsp definitions
-      vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-      vim.keymap.set("n", "gr", "<cmd>lua require('fzf-lua').lsp_references()<CR>", opts)
-      vim.keymap.set("n", "ga", vim.lsp.buf.code_action, {})
-      vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
+      vim.keymap.set("n", "gd", "<cmd>lua require('fzf-lua').lsp_definitions()<CR>", { silent = true, desc = 'LSP - go to definition'}) -- show lsp definitions
+      vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { silent = true, desc = 'LSP - go to Declaration'})
+      vim.keymap.set("n", "gr", "<cmd>lua require('fzf-lua').lsp_references()<CR>", { silent = true, desc = 'LSP - find references'})
+      vim.keymap.set("n", "ga", vim.lsp.buf.code_action, { desc = 'LSP - Show available code actions' })
+      vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = 'LSP - Show hover documentation' })
 
-      vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
-      vim.keymap.set('n', '[=', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
-      vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
-      vim.keymap.set('n', ']=', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
+      vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'LSP - Go to previous diagnostic message' })
+      vim.keymap.set('n', '[=', vim.diagnostic.goto_prev, { desc = 'LSP - Go to previous diagnostic message' })
+      vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'LSP - Go to next diagnostic message' })
+      vim.keymap.set('n', ']=', vim.diagnostic.goto_next, { desc = 'LSP - Go to next diagnostic message' })
 
 
       -- vim.api.nvim_create_user_command("Format", function() vim.cmd [[lua vim.lsp.buf.format()]] end, {})
@@ -73,15 +73,14 @@ return {
           javascript = { "prettierd", "prettier", stop_after_first = true },
           json = { "jq" },
         },
+        default_format_opts = { lsp_format = "fallback", },
       })
 
       vim.keymap.set({ "n", "v" }, "gf", function()
-        conform.format({
-          lsp_fallback = true,
-          async = false,
-          timeout_ms = 1000,
-        })
-      end, { desc = "Format file or range" })
+        conform.format({ async = false, })
+      end, { desc = "Formatters - Format file or range" })
+
+      vim.api.nvim_set_keymap('n', 'gs', ':!isort %<CR>', { noremap = true, silent = true, desc = "Formatters - Sort imports (python)"})
     end,
   },
   {
