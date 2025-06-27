@@ -5,6 +5,7 @@ return {
       require("mason").setup()
     end
   },
+
   {
     "neovim/nvim-lspconfig",
     dependencies = {
@@ -46,9 +47,11 @@ return {
       end, { noremap = true, silent = true })
 
       local opts = { silent = true }
-      vim.keymap.set("n", "gd", "<cmd>lua require('fzf-lua').lsp_definitions()<CR>", { silent = true, desc = 'LSP - go to definition'}) -- show lsp definitions
-      vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { silent = true, desc = 'LSP - go to Declaration'})
-      vim.keymap.set("n", "gr", "<cmd>lua require('fzf-lua').lsp_references()<CR>", { silent = true, desc = 'LSP - find references'})
+      vim.keymap.set("n", "gd", "<cmd>lua require('fzf-lua').lsp_definitions()<CR>",
+        { silent = true, desc = 'LSP - go to definition' })                                                                             -- show lsp definitions
+      vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { silent = true, desc = 'LSP - go to Declaration' })
+      vim.keymap.set("n", "gr", "<cmd>lua require('fzf-lua').lsp_references()<CR>",
+        { silent = true, desc = 'LSP - find references' })
       vim.keymap.set("n", "ga", vim.lsp.buf.code_action, { desc = 'LSP - Show available code actions' })
       vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = 'LSP - Show hover documentation' })
 
@@ -80,7 +83,8 @@ return {
         conform.format({ async = false, })
       end, { desc = "Formatters - Format file or range" })
 
-      vim.api.nvim_set_keymap('n', 'gs', ':!isort %<CR>', { noremap = true, silent = true, desc = "Formatters - Sort imports (python)"})
+      vim.api.nvim_set_keymap('n', 'gs', ':!isort %<CR>',
+        { noremap = true, silent = true, desc = "Formatters - Sort imports (python)" })
     end,
   },
   {

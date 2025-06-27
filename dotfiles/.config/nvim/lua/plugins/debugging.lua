@@ -3,12 +3,18 @@ return {
   dependencies = {
     'rcarriga/nvim-dap-ui',
     'mfussenegger/nvim-dap-python',
-    'nvim-neotest/nvim-nio'
+    'nvim-neotest/nvim-nio',
   },
   config = function()
     local dap, dapui = require("dap"), require("dapui")
     dapui.setup()
     require("dap-python").setup("~/.local/share/nvim/mason/packages/debugpy/venv/bin/python")
+
+    dap.adapters.lldb = {
+        type = "executable",
+        command = vim.loop.os_homedir() .. "/.local/share/nvim/mason/packages/codelldb/codelldb",
+        name = "lldb",
+    }
 
     dap.listeners.before.attach.dapui_config = function()
       dapui.open()
@@ -75,6 +81,23 @@ return {
         module = 'pytest',
         args = { "${file}" },
         justMyCode = false,
+      },
+    }
+
+    -- *******************************************
+    -- *************++ RUST **+*******************
+    -- *******************************************
+
+    dap.configurations.rust = {
+      {
+        name = "Run",
+        type = "lldb",
+        request = "launch",
+        program = function()
+          return vim.fn.getcwd() .. "/target/debug/c107"
+        end,
+        cwd = "${workspaceFolder}",
+        stopOnEntry = false,
       },
     }
   end
