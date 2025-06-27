@@ -6,9 +6,9 @@ function boa (){
     if [ ! -d ".venv" ]; then
         echo; echo "ERROR: No .venv folder exists in this directory"
       else
-        target=$(readlink .venv/*/bin/python)
+        target=$(readlink .venv/bin/python)
         if [ -e "$target" ]; then
-          source .venv/*/bin/activate
+          source .venv/bin/activate
         else
           echo; echo "The symlink ($target) does not exist"
           echo "It could be that this version of python is not installed"
@@ -43,7 +43,6 @@ function boa (){
 
   function boa-create() (
     trap - INT
-    CURRENT_VERSION=$(python -V 2>&1 | awk '{print $2}')
     fresh="false"
 
     if [ -d ".venv" ]; then
@@ -79,18 +78,17 @@ function boa (){
     fi
 
 
-    pyenv global $2 || return 1
+    pyenv shell $2 || return 1
     echo; echo "-----> Installing virtual environment [$1] using Python $2"
     mkdir .venv
-    python -m venv .venv/$1
-    source .venv/$1/bin/activate
+    python -m venv .venv
+    echo "prompt = $1" >> .venv/pyvenv.cfg
+    source .venv/bin/activate
 
     if [ "$fresh" = "false" ]; then
       echo; echo "-----> Install packages"
       pip install -r requirements.txt
     fi
-
-    pyenv global $CURRENT_VERSION
 
     echo; echo "Done!"
   )
