@@ -3,8 +3,6 @@ return {
   dependencies = { "nvim-tree/nvim-web-devicons" },
 
   config = function()
-    local opts = { noremap = true, silent = true }
-
     -- Normal mode mappings
     vim.keymap.set('n', '<leader>z', ':FzfLua<CR>',
       { noremap = true, silent = true, desc = 'FzfLua - Open main menu' })
@@ -30,6 +28,10 @@ return {
       { noremap = true, silent = true, desc = 'FzfLua - List git commits for current buffer' })
     vim.keymap.set('n', '<leader>G', ':FzfLua git_commits<CR>',
       { noremap = true, silent = true, desc = 'FzfLua - List git commits' })
+    vim.keymap.set('n', '<leader>d', ':FzfLua lsp_document_symbols<CR>',
+      { noremap = true, silent = true, desc = 'FzfLua - lsp document symbols' })
+    vim.keymap.set('n', '<leader>l', ':FzfLua lsp_document_diagnostics<CR>',
+      { noremap = true, silent = true, desc = 'FzfLua - lsp document diagnostics' })
 
     local fzf_lua = require("fzf-lua")
     local actions = fzf_lua.actions
@@ -43,6 +45,7 @@ return {
         ["--layout"]  = false,
         ["--tmux"]    = "center,90%,70%",
         ["--history"] = vim.fn.stdpath("data") .. '/fzf-lua-history',
+        ["--color"]   = "bg+:#2a2a37,hl+:underline:bold:italic",
       },
       fzf_colors = {
         ["border"] = { "fg", "Comment" },
@@ -89,9 +92,6 @@ return {
           previewer = "codeaction_native",
           -- preview_pager = "delta --side-by-side --width=$FZF_PREVIEW_COLUMNS",
         }
-      },
-      grep = {
-        winopts = { preview = { hidden = true } }
       },
       tags = { previewer = "bat" },
       btags = { previewer = "bat" },
