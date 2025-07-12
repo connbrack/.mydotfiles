@@ -1,126 +1,136 @@
 # vim: filetype=bash
 
-function boa (){
+function boa() {
 
-  function boa-activate() {
-    if [ ! -d ".venv" ]; then
-        echo; echo "ERROR: No .venv folder exists in this directory"
-      else
-        target=$(readlink .venv/bin/python)
-        if [ -e "$target" ]; then
-          source .venv/bin/activate
+    function boa-activate() {
+        if [ ! -d ".venv" ]; then
+            echo
+            echo "ERROR: No .venv folder exists in this directory"
         else
-          echo; echo "The symlink ($target) does not exist"
-          echo "It could be that this version of python is not installed"
+            target=$(readlink .venv/bin/python)
+            if [ -e "$target" ]; then
+                source .venv/bin/activate
+            else
+                echo
+                echo "The symlink ($target) does not exist"
+                echo "It could be that this version of python is not installed"
+            fi
         fi
-    fi
-  }
+    }
 
-  function boa-freeze() {
-    if ! command -v pigar &> /dev/null; then
-        echo; echo "pigar not installed. Install with: 'pip install pigar'" 1>&2
-      else
+    function boa-freeze() {
+        if ! command -v pigar &>/dev/null; then
+            echo
+            echo "pigar not installed. Install with: 'uv pip install pigar'" 1>&2
+        else
 
-      TMPFILE=$(mktemp /tmp/pip-freeze-pigar-XXXXXX)
-      pigar generate --dont-show-differences -f $TMPFILE | awk '!/Requirements has been written to \/tmp\/pip-freeze-pigar-.*/'
-      sed -i '1,2d' $TMPFILE
+            TMPFILE=$(mktemp /tmp/pip-freeze-pigar-XXXXXX)
+            pigar generate --dont-show-differences -f $TMPFILE | awk '!/Requirements has been written to \/tmp\/pip-freeze-pigar-.*/'
+            sed -i '1,2d' $TMPFILE
 
-      VERSION=$(python -V)
-      line="# $VERSION"
-      sed -i "1s/^/$line\n/" $TMPFILE
+            VERSION=$(python -V)
+            line="# $VERSION"
+            sed -i "1s/^/$line\n/" $TMPFILE
 
-      myarray=(`find ./ -type f -name "*.ipynb"`)
-      if [ ${#myarray[@]} -gt 0 ]; then 
-          line="# Requires Jupyter Notebook (pip install notebook)"
-          sed -i "1s/^/$line\n/" $TMPFILE
-      fi
+            myarray=($(find ./ -type f -name "*.ipynb"))
+            if [ ${#myarray[@]} -gt 0 ]; then
+                line="# Requires Jupyter Notebook (pip install notebook)"
+                sed -i "1s/^/$line\n/" $TMPFILE
+            fi
 
-      cat $TMPFILE
-      rm $TMPFILE
-
-    fi
-  }
-
-  function boa-create() (
-    trap - INT
-    fresh="false"
-
-    if [ -d ".venv" ]; then
-        echo "ERROR: .venv folder already exists"
-        return 1
-    fi
-
-    if [ ! -f "requirements.txt" ]; then
-        echo "Warning: No requirements.txt file found in folder "
-        read -p "Would you like to create a fresh environment ? (y/[n]): " user_input
-        if [ ! "$user_input" == "y" ]; then
-          echo; echo "Exiting"
-          return 1
+            cat $TMPFILE
+            rm $TMPFILE
         fi
-        fresh="true"
-    fi
+    }
 
-    if [ -z "$1" ]; then
-        read -p "Please enter the name of your environment: " env_name
-        if [ "$env_name" == "" ]; then
-          echo; echo "No name was provided"
-          return 1
+    function boa-create() (
+        trap - INT
+        fresh="false"
+
+        local python_version=""
+        local venv_prompt=""
+        OPTIND=1
+
+        while getopts "v:n:h" opt; do
+            case $opt in
+            v) python_version=$OPTARG ;;
+            n) venv_prompt=$OPTARG ;;
+            h)
+                echo "Usage: boa create [-v python-version] [-n env-name] [-h]"
+                exit 0
+                ;;
+            *)
+                echo "Invalid option"
+                exit 1
+                ;;
+            esac
+        done
+        shift $((OPTIND - 1))
+
+        if [ -d ".venv" ]; then
+            echo "ERROR: .venv folder already exists"
+            exit 1
         fi
-        set -- "$env_name" "$2"
+
+        if [ ! -f "requirements.txt" ]; then
+            echo "Warning: No requirements.txt file found in folder "
+            read -p "Would you like to create a fresh environment ? (y/[n]): " user_input
+            if [ ! "$user_input" == "y" ]; then
+                echo
+                echo "Exiting"
+                exit 1
+            fi
+            fresh="true"
+        fi
+
+        if [ -z $python_version ]; then
+            python_version="3"
+        fi
+
+        if [ -z $venv_prompt ]; then
+            venv_prompt=$(basename $PWD)
+        fi
+
+        echo
+        echo "-----> Installing virtual environment [${venv_prompt}] using Python ${python_version}"
+        uv venv --python ${python_version} --prompt ${venv_prompt} || exit 1
+        source .venv/bin/activate || exit 1
+
+        if [ "$fresh" = "false" ]; then
+            echo
+            echo "-----> Install packages"
+            uv pip install -r requirements.txt || exit 1
+        fi
+
+        echo
+        echo "Done!"
+    )
+
+    function boa-env-find() {
+        fd ".venv" --hidden --type d --no-ignore
+    }
+
+    if [ $1 = 'activate' ]; then
+        boa-activate
+    elif [ $1 = 'freeze' ]; then
+        boa-freeze
+    elif [ $1 = 'create' ]; then
+        boa-create $2 $3 && boa-activate
+    elif [ $1 = 'find-env' ]; then
+        boa-env-find
+    else
+        echo "ERROR: Command not found"
     fi
-
-    if [ -z "$2" ]; then
-      read -p "Please enter python version (Enter to use $CURRENT_VERSION): " version_input
-      if [ "$version_input" == "" ]; then
-        version_input=$CURRENT_VERSION
-      fi
-      set -- "$1" "$version_input"
-    fi
-
-
-    pyenv shell $2 || return 1
-    echo; echo "-----> Installing virtual environment [$1] using Python $2"
-    mkdir .venv
-    python -m venv .venv
-    echo "prompt = $1" >> .venv/pyvenv.cfg
-    source .venv/bin/activate
-
-    if [ "$fresh" = "false" ]; then
-      echo; echo "-----> Install packages"
-      pip install -r requirements.txt
-    fi
-
-    echo; echo "Done!"
-  )
-
-  function boa-env-find() {
-    fd ".venv" --hidden --type d
-  }
-
-  if [ $1 = 'activate' ]; then
-    boa-activate
-  elif [ $1 = 'freeze' ]; then
-    boa-freeze
-  elif [ $1 = 'create' ]; then
-    boa-create $2 $3 && boa-activate
-  elif [ $1 = 'find-env' ]; then
-    boa-env-find
-  else
-    echo "ERROR: Command not found"
-  fi
 
 }
-
 
 function _boa() {
-  local opts="activate create freeze find-env"
+    local opts="activate create freeze find-env"
+    COMPREPLY=()
 
-  COMPREPLY=()
-
-  if [ $COMP_CWORD -eq 1 ]; then
-    COMPREPLY=($(compgen -W "$opts" -- ${COMP_WORDS[COMP_CWORD]}))
-  fi
+    if [ $COMP_CWORD -eq 1 ]; then
+        COMPREPLY=($(compgen -W "$opts" -- ${COMP_WORDS[COMP_CWORD]}))
+    fi
 }
-
 
 complete -F _boa boa

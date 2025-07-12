@@ -101,13 +101,9 @@ if [ -d "/nix" ]; then
   . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
 fi
 
-#if command -v go &> /dev/null; then
-#  export PATH="$(go env GOPATH)/bin:$PATH"
-#fi
-
-#if command -v yarn &> /dev/null; then
-#  export PATH="$(yarn global bin):$PATH"
-#fi
+if command -v go &> /dev/null; then
+  export PATH="$(go env GOPATH)/bin:$PATH"
+fi
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
@@ -119,12 +115,6 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 
-if [ -d "$HOME/.pyenv" ]; then
-  export PYENV_ROOT="$HOME/.pyenv"
-  export PATH="$PYENV_ROOT/bin:$PATH"
-  eval "$(pyenv init -)"
-fi
-
 if [ -d "$HOME/.cargo" ]; then
   . "$HOME/.cargo/env"
 fi
@@ -132,6 +122,17 @@ fi
 if [ -d "$HOME/.qmk_firmware" ]; then
   export QMK_HOME="$HOME/.qmk_firmware"
 fi
+
+# -------------------------- Base VENV ---------------------------
+
+unset VIRTUAL_ENV
+export BASE_VENV="$HOME/.uv/.venv"
+_auto_activate_base_venv() {
+    if [[ -z "$VIRTUAL_ENV" ]]; then
+        source "$BASE_VENV/bin/activate"
+    fi
+}
+PROMPT_COMMAND="_auto_activate_base_venv; $PROMPT_COMMAND"
 
 # -------------------------- Extra files ---------------------------
 

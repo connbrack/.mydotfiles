@@ -1,0 +1,15 @@
+# vim: filetype=bash
+
+uv() {
+  if [[ "$1" == "-g" ]]; then
+    shift
+    command uv --directory ~/.uv "$@"
+  else
+    command uv "$@"
+  fi
+}
+
+if type _uv &>/dev/null; then
+  complete -F _uv uv
+  complete -F _uv uvg
+fi
