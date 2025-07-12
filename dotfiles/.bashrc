@@ -78,9 +78,12 @@ if ! shopt -oq posix; then
   fi
 fi
 
-
 # ----------- terminal setup --------------------------
-#
+
+if [ -d "/nix" ]; then
+  . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+  export PATH="$HOME/.nix-profile/bin:$PATH"
+fi
 
 if command -V starship >/dev/null 2>&1; then
   eval "$(starship init bash)"
@@ -96,10 +99,6 @@ export EDITOR=nvim;
 export PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 
 # -------------------------- Programs ---------------------------
-
-if [ -d "/nix" ]; then
-  . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
-fi
 
 if command -v go &> /dev/null; then
   export PATH="$(go env GOPATH)/bin:$PATH"
