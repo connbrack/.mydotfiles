@@ -3,7 +3,7 @@
 # ----------------------------- Example Uses ------------------------------------------
 #
 # all flags:
-# ./install.sh --essential-packages --terminal-packages --nix-packages --blesh --docker --node --pyenv --vagrant
+# ./install.sh --essential-packages --terminal-packages --nix-packages --blesh --docker --js --py --vagrant
 #
 # ----------------------------- Flags ------------------------------------------
 
@@ -12,8 +12,8 @@ termpac=0
 nixpac=0
 blesh=0
 docker=0
-node=0
-pyenv=0
+js=0
+py=0
 vagrant=0
 
 # Process flags
@@ -24,8 +24,8 @@ for arg in "$@"; do
       --nix-packages) nixpac=1 ;;
       --blesh) blesh=1 ;;
       --docker) docker=1;;
-      --node) node=1 ;;
-      --pyenv) pyenv=1 ;;
+      --js) js=1 ;;
+      --py) py=1 ;;
       --vagrant) vagrant=1 ;;
       *) echo "Unknown option: $arg"; exit 1 ;;
   esac
@@ -158,10 +158,10 @@ if [ $blesh -eq 1 ]; then
   fi
 fi
 
-if [ $node -eq 1 ]; then
+if [ $js -eq 1 ]; then
   header "Installing node"
   if [ -d "$HOME/.nvm" ]; then
-      echo "pyenv is already installed"
+      echo "nvm is already installed"
   else
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
     export NVM_DIR="$HOME/.nvm"
@@ -172,20 +172,16 @@ if [ $node -eq 1 ]; then
   fi
 fi
 
-if [ $pyenv -eq 1 ]; then
-  header "Installing pyenv"
-  if [ -d "$HOME/.pyenv" ]; then
-      echo "pyenv is already installed"
+if [ $py -eq 1 ]; then
+  header "Installing uv for python"
+  if command -v uv >/dev/null 2>&1; then
+      echo "uv is already installed"
   else
     if [ $packagemanager = "apt" ];then
-      sudo apt install build-essential libssl-dev zlib1g-dev \
-      libbz2-dev libreadline-dev libsqlite3-dev curl git \
-      libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev -y
-  else
-      sudo dnf install -y gcc make patch zlib-devel bzip2 bzip2-devel readline-devel \
-        sqlite sqlite-devel openssl-devel tk-devel libffi-devel xz-devel
+      curl -LsSf https://astral.sh/uv/install.sh | sh
+    else
+      sudo dnf install -y uv
     fi
-    curl https://pyenv.run | bash
   fi
 fi
 

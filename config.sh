@@ -68,6 +68,11 @@ if command -v bat >/dev/null 2>&1; then
   \bat cache --build
 fi
 
+if command -v uv >/dev/null 2>&1 && [ ! -d ~/.uv ]; then
+  mkdir ~/.uv
+  uv --directory ~/.uv venv
+fi
+
 if [ -d $HOME/miniconda3 ]; then
     ~/miniconda3/bin/conda init bash
 fi
