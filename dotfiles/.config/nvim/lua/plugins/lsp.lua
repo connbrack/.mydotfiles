@@ -46,9 +46,8 @@ return {
         vim.diagnostic[vim.diagnostic.is_enabled() and 'disable' or 'enable']()
       end, { noremap = true, silent = true })
 
-      local opts = { silent = true }
       vim.keymap.set("n", "gd", "<cmd>lua require('fzf-lua').lsp_definitions()<CR>",
-        { silent = true, desc = 'LSP - go to definition' })                                                                             -- show lsp definitions
+        { silent = true, desc = 'LSP - go to definition' })
       vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { silent = true, desc = 'LSP - go to Declaration' })
       vim.keymap.set("n", "gr", "<cmd>lua require('fzf-lua').lsp_references()<CR>",
         { silent = true, desc = 'LSP - find references' })
@@ -83,8 +82,11 @@ return {
         conform.format({ async = false, })
       end, { desc = "Formatters - Format file or range" })
 
-      vim.api.nvim_set_keymap('n', 'gs', ':!isort %<CR>',
-        { noremap = true, silent = true, desc = "Formatters - Sort imports (python)" })
+vim.api.nvim_create_user_command('SortImports', function()
+  vim.cmd('!isort %')
+end, {
+  desc = "Formatters - Sort imports (python)",
+})
     end,
   },
   {
