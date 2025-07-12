@@ -29,15 +29,13 @@
     pkgs.bat
 
     ## Extras
-    # pkgs.tealdeer
+    pkgs.tealdeer
     # pkgs.tgpt
     # pkgs.pokeget-rs
     # pkgs.cmatrix
     # pkgs.cowsay
 
     ## Desktop tools
-    # pkgs.rofi-wayland
-    # pkgs.rofimoji
     # pkgs.rbw
     # pkgs.rofi-rbw-wayland
 
@@ -51,7 +49,6 @@
   };
 
   home.sessionVariables = {
-    # EDITOR = "emacs";
   };
 
   programs.home-manager.enable = true;
