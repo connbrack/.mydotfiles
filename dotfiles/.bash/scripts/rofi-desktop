@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Get filtered windows as "matchId<TAB>Title"
+get_windows() {
+  qdbus-qt6 --literal org.kde.KWin /WindowsRunner org.kde.krunner1.Match "" | \
+  grep -oP '\[Argument: \(sssida\{sv\}\) "[^"]+", "[^"]+"' | \
+  sed -E 's/\[Argument: \(sssida\{sv\}\) "([^"]+)", "([^"]+)"/\1\t\2/' | \
+  grep -vP '\tDesktop [0-9]+' | \
+  grep -vP '\tWayland to X Recording bridge — Xwayland Video Bridge' | \
+  awk '!seen[$1]++ { print $0 }'
+}
+
+# Show only titles in rofi, output index
+selected_index=$(get_windows | cut -f2 | /usr/bin/rofi -dmenu -i -p "Windows" -format i)
+
+if [ $? -eq 0 ] && [ -n "$selected_index" ]; then
+  # Get the matchId corresponding to the selected index
+  matchId=$(get_windows | sed -n "$((selected_index + 1))p" | cut -f1)
+  
+  if [ -n "$matchId" ]; then
+    # Activate the window using Run(matchId, "default")
+    qdbus-qt6 org.kde.KWin /WindowsRunner org.kde.krunner1.Run "$matchId" "default"
+  fi
+fi

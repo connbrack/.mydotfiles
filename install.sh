@@ -5,12 +5,6 @@
 # all flags:
 # ./install.sh --essential-packages --terminal-packages --nix-packages --blesh --docker --node --pyenv --vagrant
 #
-# terminal setup:
-# ./install.sh --essential-packages --nix-packages --blesh 
-#
-# extras:
-# ./install.sh  --docker --node --pyenv --vagrant
-#
 # ----------------------------- Flags ------------------------------------------
 
 essential=0
