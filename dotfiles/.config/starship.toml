@@ -1,9 +1,10 @@
 format = """\
+${custom.python_warning}\
 $docker_context\
 $git_branch\
 $git_status\
-$python\
 $nodejs\
+${custom.python}\
 $directory\
 $hostname\
 [❯ ](blue)"""
@@ -42,13 +43,39 @@ format = "[$read_only]($read_only_style)[$path ]($style)"
 symbol = ""
 format = '[ $symbol ($version) ]($style)'
 
-[python]
+# [python]
+# symbol = ""
+# style = "bg:#4B884B fg:#A6DA95"
+# detect_extensions=[]
+# detect_files=[]
+# version_format='v${major}.${minor}'
+# format = '[](#4B884B)[${symbol} $version \($virtualenv\)]($style)[ ](#4B884B)'
+
+[custom.python]
+command = '''
+python_path=$(which python3)
+if [[ -n "$VIRTUAL_ENV" && "$python_path" != "$HOME/.uv/.venv/"* ]]; then
+    prompt_name=""
+    if [[ -n "$VIRTUAL_ENV" && -f "$VIRTUAL_ENV/pyvenv.cfg" ]]; then
+        prompt_name=$(awk -F ' = ' '/^prompt = / { print $2 }' "$VIRTUAL_ENV/pyvenv.cfg")
+        if [[ -z "$prompt_name" ]]; then
+            prompt_name=$(basename "$VIRTUAL_ENV")
+        fi
+    fi
+    version=$("$python_path" -c 'import sys; print(f"v{sys.version_info.major}.{sys.version_info.minor}")')
+    echo "${version} (${prompt_name})"
+fi
+
+'''
+when = '[ -n "$VIRTUAL_ENV" ] && [ "$VIRTUAL_ENV" != "$HOME/.uv/.venv" ]'
 symbol = ""
 style = "bg:#4B884B fg:#A6DA95"
-detect_extensions=[]
-detect_files=[]
-version_format='v${major}.${minor}'
-format = '[](#4B884B)[${symbol} $version \($virtualenv\)]($style)[ ](#4B884B)'
+format = '[](#4B884B)[${symbol} $output]($style)[ ](#4B884B)'
+
+[custom.python_warning]
+when = "test \"$(which python)\" = \"/usr/bin/python\""
+symbol = ""
+format = '[!${symbol} ](#C51E3A)'
 
 [docker_context]
 symbol = ""
