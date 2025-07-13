@@ -124,14 +124,16 @@ fi
 
 # -------------------------- Base VENV ---------------------------
 
-unset VIRTUAL_ENV
-export BASE_VENV="$HOME/.uv/.venv"
-_auto_activate_base_venv() {
-    if [[ -z "$VIRTUAL_ENV" ]]; then
-        source "$BASE_VENV/bin/activate"
-    fi
-}
-PROMPT_COMMAND="_auto_activate_base_venv; $PROMPT_COMMAND"
+if [ -d $HOME/.uv/.venv ]; then
+  unset VIRTUAL_ENV
+  export BASE_VENV="$HOME/.uv/.venv"
+  _auto_activate_base_venv() {
+      if [[ -z "$VIRTUAL_ENV" ]]; then
+          source "$BASE_VENV/bin/activate"
+      fi
+  }
+  PROMPT_COMMAND="_auto_activate_base_venv; $PROMPT_COMMAND"
+fi
 
 # -------------------------- Extra files ---------------------------
 
