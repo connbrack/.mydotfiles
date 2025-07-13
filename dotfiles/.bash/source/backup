@@ -18,6 +18,7 @@ function backup() {
 	# }
 
 	function get_args() {
+        jq -r '.local_path' $config_file
 		local_path=$(readlink -f $(jq -r '.local_path' $config_file))
 		cloud_remote=$(jq -r '.cloud_remote' $config_file)
 		readarray -t backup_folders < <(jq -r '.backup_folders[]' "$config_file")
