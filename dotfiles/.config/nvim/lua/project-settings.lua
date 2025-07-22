@@ -1,10 +1,10 @@
 local function cerc_settings()
-
   vim.api.nvim_create_autocmd("FileType", {
     pattern = "*",
     callback = function()
-      vim.bo.shiftwidth = 2
-      vim.bo.tabstop = 2
+      vim.opt.shiftwidth = 2
+      vim.opt.tabstop = 2
+      vim.opt.expandtab = true
     end,
   })
 
@@ -23,9 +23,9 @@ local function cerc_settings()
 
   local ok_conform, conform = pcall(require, "conform")
   if ok_conform then
-  conform.formatters.autopep8 = {
-    prepend_args = { "--max-line-length=120", "--indent-size=2" }
-  }
+    conform.formatters.autopep8 = {
+      prepend_args = { "--max-line-length=120", "--indent-size=2" }
+    }
   else
     vim.notify("conform.nvim not found", vim.log.levels.WARN)
     return

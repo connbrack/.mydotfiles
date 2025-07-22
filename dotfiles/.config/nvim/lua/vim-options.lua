@@ -108,19 +108,3 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 vim.bo.tabstop = 4
 vim.bo.shiftwidth = 4
 vim.bo.softtabstop = 4
-
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "python", "c", "java", "rust" },
-  callback = function()
-    vim.bo.shiftwidth = 4
-    vim.bo.tabstop = 4
-  end,
-})
-
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "javascript", "html", "css", "ruby", "lua" },
-  callback = function()
-    vim.bo.shiftwidth = 2
-    vim.bo.tabstop = 2
-  end,
-})
