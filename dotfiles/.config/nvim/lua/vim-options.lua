@@ -41,6 +41,9 @@ vim.keymap.set("n", "<A-v>", '<C-w>v')
 vim.keymap.set("n", "<A-s>", '<C-w>s')
 vim.keymap.set("n", "<A-c>", '<C-w>q')
 
+-- pretty
+-- vim.opt.winborder = "rounded"
+
 -- [[ Setting options ]]
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!

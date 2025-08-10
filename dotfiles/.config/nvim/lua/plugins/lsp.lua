@@ -8,9 +8,6 @@ return {
 
   {
     "neovim/nvim-lspconfig",
-    dependencies = {
-      "hrsh7th/cmp-nvim-lsp",
-    },
     config = function()
       local lspconfig = require('lspconfig')
       lspconfig.lua_ls.setup({})
@@ -82,30 +79,30 @@ return {
         conform.format({ async = false, })
       end, { desc = "Formatters - Format file or range" })
 
-vim.api.nvim_create_user_command('SortImports', function()
-  vim.cmd('!isort %')
-end, {
-  desc = "Formatters - Sort imports (python)",
-})
+      vim.api.nvim_create_user_command('SortImports', function()
+        vim.cmd('!isort %')
+      end, {
+        desc = "Formatters - Sort imports (python)",
+      })
     end,
   },
-  {
-    'mfussenegger/nvim-lint',
-    config = function()
-      local lint = require("lint")
-
-      lint.linters_by_ft = {
-        javascript = { "eslint" },
-      }
-
-      local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
-
-      vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
-        group = lint_augroup,
-        callback = function()
-          lint.try_lint()
-        end,
-      })
-    end
-  }
+  -- {
+  --   'mfussenegger/nvim-lint',
+  --   config = function()
+  --     local lint = require("lint")
+  --
+  --     lint.linters_by_ft = {
+  --       javascript = { "eslint" },
+  --     }
+  --
+  --     local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
+  --
+  --     vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
+  --       group = lint_augroup,
+  --       callback = function()
+  --         lint.try_lint()
+  --       end,
+  --     })
+  --   end
+  -- }
 }

@@ -31,13 +31,13 @@ return {
         dapui.open()
       end
 
-      vim.keymap.set('n', '<leader>dt', dap.toggle_breakpoint, { desc = 'DAP - Toggle breakpoint' })
-      vim.keymap.set('n', '<leader>dc', dap.continue, { desc = 'DAP - Start/Continue debugging' })
-      vim.keymap.set('n', '<leader>ds', dap.terminate, { desc = 'DAP - Terminate debugging session' })
-      vim.keymap.set('n', '<leader>dn', dap.step_into, { desc = 'DAP - Step into' })
-      vim.keymap.set('n', '<leader>dr', dap.restart, { desc = 'DAP - Restart debugging session' })
-      vim.keymap.set('n', '<leader>du', dapui.toggle, { desc = 'DAP - Toggle debug UI' })
-      vim.keymap.set('n', '<leader>di', require('dap.ui.widgets').hover, { desc = 'DAP - Inspect variable (hover)' })
+      vim.keymap.set('n', ',b', dap.toggle_breakpoint, { desc = 'DAP - Toggle breakpoint' })
+      vim.keymap.set('n', ',d', dap.continue, { desc = 'DAP - Start/Continue debugging' })
+      vim.keymap.set('n', ',s', dap.terminate, { desc = 'DAP - Terminate debugging session' })
+      vim.keymap.set('n', ']=', dap.step_into, { desc = 'DAP - Step into' })
+      -- vim.keymap.set('n', '<leader>dr', dap.restart, { desc = 'DAP - Restart debugging session' })
+      vim.keymap.set('n', ',u', dapui.toggle, { desc = 'DAP - Toggle debug UI' })
+      -- vim.keymap.set('n', '<leader>di', require('dap.ui.widgets').hover, { desc = 'DAP - Inspect variable (hover)' })
 
 
       -- *******************************************
