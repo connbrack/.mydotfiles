@@ -9,7 +9,36 @@ uv() {
   fi
 }
 
-if type _uv &>/dev/null; then
-  complete -F _uv uv
-  complete -F _uv uvg
+activate() {
+  if [[ -f ".venv/bin/activate" ]]; then
+    source .venv/bin/activate
+  else
+    echo ".venv/bin/activate not found"
+    return 1
+  fi
+}
+
+DEFAULT_VENV="$HOME/.uv/.venv"
+if [ -d $DEFAULT_VENV ]; then
+  function _auto_activate_venv() {
+    local dir="$PWD"
+    while [ "$dir" != "/" ]; do
+      if [ -f "$dir/.venv/bin/activate" ]; then
+        source "$dir/.venv/bin/activate"
+        return
+      fi
+      dir=$(dirname "$dir")
+    done
+
+    if [ -f "$DEFAULT_VENV/bin/activate" ]; then
+      source "$DEFAULT_VENV/bin/activate"
+    fi
+  }
+
+  PROMPT_COMMAND="_auto_activate_venv;$PROMPT_COMMAND"
+
+  disable_auto_venv() {
+    PROMPT_COMMAND=$(echo "$PROMPT_COMMAND" | sed 's/_auto_activate_venv;*//g')
+    echo "Auto venv activation disabled."
+  }
 fi

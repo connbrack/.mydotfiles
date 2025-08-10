@@ -122,19 +122,6 @@ if [ -d "$HOME/.qmk_firmware" ]; then
   export QMK_HOME="$HOME/.qmk_firmware"
 fi
 
-# -------------------------- Base VENV ---------------------------
-
-if [ -d $HOME/.uv/.venv ]; then
-  unset VIRTUAL_ENV
-  export BASE_VENV="$HOME/.uv/.venv"
-  _auto_activate_base_venv() {
-      if [[ -z "$VIRTUAL_ENV" ]]; then
-          source "$BASE_VENV/bin/activate"
-      fi
-  }
-  PROMPT_COMMAND="_auto_activate_base_venv; $PROMPT_COMMAND"
-fi
-
 # -------------------------- Extra files ---------------------------
 
 if [ -e "$HOME/.bash/source" ]; then
