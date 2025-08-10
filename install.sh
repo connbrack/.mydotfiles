@@ -128,6 +128,12 @@ if [ $packagemanager = "dnf" ] && [ $termpac -eq 1 ]; then
     # starship
     sudo dnf copr enable -y atim/starship
     sudo dnf install -y starship
+
+    # bat
+    sudo dnf install bat
+
+    # fd-find
+    sudo dnf install fd-find
 fi
 
 

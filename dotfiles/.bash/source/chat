@@ -8,7 +8,6 @@ chat() {
   tgpt "${query% }"
 }
 
-
 qchat() {
   local language="$1"
   local query=""
@@ -16,7 +15,7 @@ qchat() {
     query+="$arg "
   done
   local prompt="using the language ${language} how do I do the following: ${query}\
-     please be as concise as possible, focus on the code example"
+     please be as concise as possible, focus on the code or command line example"
   tgpt "${prompt% }"
 
 }
