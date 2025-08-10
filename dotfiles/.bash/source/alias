@@ -18,6 +18,9 @@ alias la='ls -A'
 alias l='ls -CF'
 alias copy="xclip -i -r -selection clipboard"
 
+alias lf='lfcd'
+alias vim='nvim'
+
 # ----------- Package Management -----------------------------------
 alias upgrade-all='if command -v apt >/dev/null 2>&1; then apt-upgrade; else dnf-upgrade; fi && nix-upgrade && flatpak-upgrade'
 alias apt-upgrade='sudo echo && echo -e "\x1b[30;42m Updating apt \x1b[m" && sudo apt update && sudo apt upgrade -y && echo'
@@ -29,15 +32,9 @@ alias nix-packages='nvim ~/.config/home-manager/home.nix'
 alias nix-search='bash -c "xdg-open https://search.nixos.org" 2> /dev/null'
 alias nix-clean='nix-collect-garbage --delete-older-than 30d'
 
-# ---------------------- File exploring --------------------------------
-alias lf='lfcd'
-alias vim='nvim'
-
 # ---------------------- misc --------------------------------
-alias tkill='tmux kill-server'
-
+alias py="ipython"
 alias ipad="ip -brief -f inet address | fzf +m --reverse --height 10 | awk '{gsub(\"/.*\",\"\",\$3);print\$3}' | tee /dev/tty | xclip -r -in -selection clipboard"
-
 
 # ----------------------------- VM --------------------------
 # connect to a qemu virtual machine console
@@ -45,7 +42,6 @@ alias vmview="virsh --connect qemu:///system list --name | head -n-1 | fzf --pro
 
 # delete qemu image
 alias vmimgdel="virsh vol-list --pool default --details | tail -n +3 | head -n-1|  awk '{print\$1\" \"\$6\" \"\$7}' | column -t | fzf --prompt='Delete image > ' | awk '{print\$1}' | xargs virsh vol-delete --pool default"
-
 
 # ----------------------------- kali alias's --------------------------
 alias ffuf="ffuf -c -ic"
