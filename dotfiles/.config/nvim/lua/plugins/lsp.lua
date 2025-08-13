@@ -79,30 +79,38 @@ return {
         conform.format({ async = false, })
       end, { desc = "Formatters - Format file or range" })
 
-      vim.api.nvim_create_user_command('SortImports', function()
+      vim.api.nvim_create_user_command('Isort', function()
         vim.cmd('!isort %')
       end, {
         desc = "Formatters - Sort imports (python)",
       })
     end,
   },
-  -- {
-  --   'mfussenegger/nvim-lint',
-  --   config = function()
-  --     local lint = require("lint")
-  --
-  --     lint.linters_by_ft = {
-  --       javascript = { "eslint" },
-  --     }
-  --
-  --     local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
-  --
-  --     vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
-  --       group = lint_augroup,
-  --       callback = function()
-  --         lint.try_lint()
-  --       end,
-  --     })
-  --   end
-  -- }
+  {
+    'mfussenegger/nvim-lint',
+    config = function()
+      local lint = require("lint")
+
+      lint.linters_by_ft = {
+        javascript = { "eslint" },
+        typescript = { "eslint" },
+        javascriptreact = { "eslint" },
+        typescriptreact = { "eslint" },
+      }
+
+      local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
+
+      vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
+        group = lint_augroup,
+        callback = function()
+          -- skip linting for Dadbod MongoDB buffers
+          local bufname = vim.api.nvim_buf_get_name(0)
+          if bufname:match(vim.loop.os_homedir() .. "/.local/share/db_ui/") then
+            return
+          end
+          lint.try_lint()
+        end,
+      })
+    end
+  }
 }
