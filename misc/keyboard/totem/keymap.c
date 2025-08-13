@@ -73,7 +73,7 @@ enum custom_keycodes {
 #define S_RGHT RSFT_T(KC_RGHT)
 
 // SPECIAL                         ├─────────────────┐
-#define S_ENT RSFT_T(KC_ENT)
+#define S_SPC RSFT_T(KC_SPC)
 #define C_TAB RCTL(KC_TAB)
 #define C_S_TAB RCS(KC_TAB)
 #define C_S_X RCS(KC_X)
@@ -105,7 +105,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    ┌─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┐
    │         │    Z    │    X    │    C    │    V    │    B    ││    N    │    M    │    ,    │    .    │    /    │         │
    └─────────┴─────────┴─────────┼─────────┼─────────┼─────────┤├─────────┼─────────┼─────────┼─────────┴─────────┴─────────┘
-                                 │   GUI   │  SYMBL  │   SPC   ││  S_ENT  │ NUM_ESC │   ALT   │  
+                                 │   GUI   │  SYMBL  │  S_SPC  ││   ENT   │ NUM_ESC │   ALT   │  
                                  └─────────┴─────────┴─────────┘└─────────┴─────────┴─────────┘*/ 
 
    [_QWERTY] = LAYOUT(
@@ -113,7 +113,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
               KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,      KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,  
               CTL_A,    SFT_S,    ALT_D,    KC_F,     KC_G,      KC_H,     KC_J,     ALT_K,    SFT_L,    CTL_QUOT,    
     XXXXXXX,  KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,      KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,  XXXXXXX,
-                                  KC_LGUI,  SYMBOLS,  KC_SPC,    S_ENT,    NUM_ESC,  KC_RALT
+                                  KC_LGUI,  SYMBOLS,  S_SPC,     KC_ENT,    NUM_ESC,  KC_RALT
  ),
 
 /*
