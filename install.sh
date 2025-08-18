@@ -19,15 +19,18 @@ vagrant=0
 # Process flags
 for arg in "$@"; do
   case $arg in
-      --essential-packages) essential=1 ;;
-      --terminal-packages) termpac=1 ;;
-      --nix-packages) nixpac=1 ;;
-      --blesh) blesh=1 ;;
-      --docker) docker=1;;
-      --js) js=1 ;;
-      --py) py=1 ;;
-      --vagrant) vagrant=1 ;;
-      *) echo "Unknown option: $arg"; exit 1 ;;
+  --essential-packages) essential=1 ;;
+  --terminal-packages) termpac=1 ;;
+  --nix-packages) nixpac=1 ;;
+  --blesh) blesh=1 ;;
+  --docker) docker=1 ;;
+  --js) js=1 ;;
+  --py) py=1 ;;
+  --vagrant) vagrant=1 ;;
+  *)
+    echo "Unknown option: $arg"
+    exit 1
+    ;;
   esac
   shift
 done
@@ -47,7 +50,6 @@ header() {
   echo && echo -e "\x1b[30;42m $1 \x1b[m"
 }
 
-
 # -------------------------- Terminal Packages Installs ----------------------------------
 # essential packages
 if [ $essential -eq 1 ]; then
@@ -65,77 +67,77 @@ if [ $essential -eq 1 ]; then
 
 fi
 
-
 if [ $packagemanager = "apt" ] && [ $termpac -eq 1 ]; then
 
-    header "Installing apt packages"
+  header "Installing apt packages"
 
-    # nvim
-    sudo add-apt-repository ppa:neovim-ppa/unstable -y &&\
-    sudo apt update &&\
+  # nvim
+  sudo add-apt-repository ppa:neovim-ppa/unstable -y &&
+    sudo apt update &&
     sudo apt install -y neovim
 
-    # lf
-    sudo apt install golang-go -y &&\
+  # lf
+  sudo apt install golang-go -y &&
     env CGO_ENABLED=0 go install -ldflags="-s -w" github.com/gokcehan/lf@latest
 
-    # tmux
-    sudo apt install -y tmux
+  # tmux
+  sudo apt install -y tmux
 
-    # fzf
-    sudo apt install -y fzf
+  # fzf
+  sudo apt install -y fzf
 
-    # btm
-    curl -LO https://github.com/ClementTsang/bottom/releases/download/0.9.7/bottom_0.9.7_amd64.deb
-    sudo apt install -y ./bottom_0.9.7_amd64.deb
-    rm ./bottom_0.9.7_amd64.deb
+  # btm
+  curl -LO https://github.com/ClementTsang/bottom/releases/download/0.9.7/bottom_0.9.7_amd64.deb
+  sudo apt install -y ./bottom_0.9.7_amd64.deb
+  rm ./bottom_0.9.7_amd64.deb
 
-    # starship
-    curl -sS https://starship.rs/install.sh | sh -s -- --yes
+  # starship
+  curl -sS https://starship.rs/install.sh | sh -s -- --yes
 
-    # bat
-    sudo apt install -y bat
-    mkdir -p ~/.local/bin
-    ln -s /usr/bin/batcat ~/.local/bin/bat
+  # bat
+  sudo apt install -y bat
+  mkdir -p ~/.local/bin
+  ln -s /usr/bin/batcat ~/.local/bin/bat
+  batcat cache --build
 
-    # fd
-    sudo apt install -y fd-find
-    mkdir -p ~/.local/bin
-    ln -s $(which fdfind) ~/.local/bin/fd
+  # fd
+  sudo apt install -y fd-find
+  mkdir -p ~/.local/bin
+  ln -s $(which fdfind) ~/.local/bin/fd
 fi
 
 if [ $packagemanager = "dnf" ] && [ $termpac -eq 1 ]; then
 
-    header "Installing dnf packages"
-    
-    # nvim
-    sudo dnf -y neovim
+  header "Installing dnf packages"
 
-    # lf
-    sudo dnf copr enable -y pennbauman/ports
-    sudo dnf install -y lf
+  # nvim
+  sudo dnf -y neovim
 
-    # tmux
-    sudo dnf install -y tmux
+  # lf
+  sudo dnf copr enable -y pennbauman/ports
+  sudo dnf install -y lf
 
-    # fzf
-    sudo dnf install -y fzf
+  # tmux
+  sudo dnf install -y tmux
 
-    # btm
-    sudo dnf copr enable -y atim/bottom
-    sudo dnf -y install bottom
+  # fzf
+  sudo dnf install -y fzf
 
-    # starship
-    sudo dnf copr enable -y atim/starship
-    sudo dnf install -y starship
+  # btm
+  sudo dnf copr enable -y atim/bottom
+  sudo dnf -y install bottom
 
-    # bat
-    sudo dnf install bat
+  # starship
+  sudo dnf copr enable -y atim/starship
+  sudo dnf install -y starship
 
-    # fd-find
-    sudo dnf install fd-find
+  # bat
+  sudo dnf install bat
+  bat cache --build
+
+  # fd-find
+  sudo dnf install fd-find
 fi
-
 
 if [ $nixpac -eq 1 ]; then
   header "Installing Nix"
@@ -150,8 +152,6 @@ if [ $nixpac -eq 1 ]; then
     nix-channel --update
     nix-shell '<home-manager>' -A install
     . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
-    cp -r ~/.mydotfiles/misc/home-manager/ ~/.config/
-    sed -i "s/__username__/$(whoami)/g" ~/.config/home-manager/home.nix
     home-manager switch
   fi
 fi
@@ -172,7 +172,7 @@ fi
 if [ $js -eq 1 ]; then
   header "Installing node"
   if [ -d "$HOME/.nvm" ]; then
-      echo "nvm is already installed"
+    echo "nvm is already installed"
   else
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
     export NVM_DIR="$HOME/.nvm"
@@ -186,13 +186,16 @@ fi
 if [ $py -eq 1 ]; then
   header "Installing uv for python"
   if command -v uv >/dev/null 2>&1; then
-      echo "uv is already installed"
+    echo "uv is already installed"
   else
-    if [ $packagemanager = "apt" ];then
+    if [ $packagemanager = "apt" ]; then
       curl -LsSf https://astral.sh/uv/install.sh | sh
     else
       sudo dnf install -y uv
     fi
+
+    mkdir ~/.uv
+    uv --directory ~/.uv venv
   fi
 fi
 
@@ -201,7 +204,7 @@ if [ $docker -eq 1 ]; then
   if command -v docker >/dev/null 2>&1; then
     echo "docker is already installed"
   else
-    if [ $packagemanager = "apt" ];then
+    if [ $packagemanager = "apt" ]; then
       # Add Docker's official GPG key:
       sudo apt-get update
       sudo apt-get install ca-certificates curl
@@ -212,8 +215,8 @@ if [ $docker -eq 1 ]; then
       # Add the repository to Apt sources:
       echo \
         "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
-        $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-        sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+        $(. /etc/os-release && echo "$VERSION_CODENAME") stable" |
+        sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
       sudo apt-get update
       sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
     else
@@ -234,7 +237,7 @@ if [ $vagrant -eq 1 ]; then
     echo "vagrant is already installed"
   else
 
-    if [ $packagemanager = "apt" ];then
+    if [ $packagemanager = "apt" ]; then
       echo "No install script implemented for apt"
     else
       sudo dnf install @virtualization @vagrant
@@ -244,26 +247,3 @@ if [ $vagrant -eq 1 ]; then
     fi
   fi
 fi
-
-# ------------------------ Other useful install scripts --------------------------------------
-
-## Clean up nix
-#/nix/nix-installer uninstall
-#rm ~/.local/state/nix/profiles/home-manager*
-#rm ~/.local/state/home-manager/gcroots/current-home
-#rm -r ~/.config/home-manager
-#rm -r ~/.nix-*
-
-## Install miniconda 
-#mkdir -p ~/miniconda3
-#wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh
-#bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
-#rm -rf ~/miniconda3/miniconda.sh
-#~/miniconda3/bin/conda init bash
-
-
-## Create swap storage - https://www.youtube.com/watch?v=i7q8JbNK-9s
-#sudo dd if=/dev/zero of=/mnt/swapfile bs=1024 count=2097152
-#sudo fallocate --length 2GiB /mnt/swapfile
-#sudo mkswap /mnt/swapfile
-#sudo swapon /mnt/swapfile
