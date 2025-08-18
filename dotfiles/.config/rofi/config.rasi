@@ -3,6 +3,8 @@ configuration {
 	drun-display-format: "{icon} {name}";
 	modi: "drun,run";
 	show-icons: true;
+	kb-accept: "";
+	kb-accept-custom: "";
 }
 
 @theme "~/.config/rofi/theme.rasi"

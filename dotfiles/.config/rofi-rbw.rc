@@ -1,0 +1,6 @@
+clipboarder=wl-copy
+typer=wtype
+selector=rofi
+clear-after=10
+action=copy
+keybindings=Control+Return:copy:username
