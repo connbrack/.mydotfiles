@@ -28,6 +28,7 @@
     fd
     bat
     fx
+    zoxide
 
     ## Extras
     tealdeer

@@ -98,6 +98,8 @@ export EDITOR=nvim;
 
 export PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 
+eval "$(zoxide init --cmd cd bash)"
+
 # -------------------------- Programs ---------------------------
 
 if command -v go &> /dev/null; then
