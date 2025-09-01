@@ -56,7 +56,14 @@ function backup() {
 
 			for folder in "${backup_folders[@]}"; do
 				echo -e "\x1b[30;42m Backing up: $folder \x1b[m"
-				rclone sync "$HOME/$folder/" $cloud_remote:$folder -LP --transfers=16 --checkers=16 --buffer-size=64M --fast-list "${exclude_args[@]}"
+				rclone sync "$HOME/$folder/" $cloud_remote:$folder \
+					--progress \
+					--transfers=16 \
+					--checkers=16 \
+					--buffer-size=64M \
+					--fast-list \
+					--links \
+					"${exclude_args[@]}"
 				echo
 			done
 		fi
