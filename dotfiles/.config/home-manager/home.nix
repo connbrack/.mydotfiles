@@ -21,6 +21,7 @@
     bottom
     starship
     lazygit
+    sc-im
 
     ## Core-tools
     fzf
@@ -29,13 +30,11 @@
     bat
     fx
     zoxide
+    skim
 
     ## Extras
     tealdeer
     tgpt
-    pokeget-rs
-    cmatrix
-    cowsay
 
   ];
 
