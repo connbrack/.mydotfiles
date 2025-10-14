@@ -1,0 +1,62 @@
+#!/home/connor/.uv/.venv/bin/python
+
+import argparse
+import json
+import re
+from pathlib import Path
+
+
+def load_json(path: Path):
+    with open(path, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def parse_path(expr: str):
+    """
+    Parse expressions like:
+      ['key1'][0]['key2']
+    into steps: ["key1", 0, "key2"]
+    """
+    tokens = re.findall(r"\['([^']+)'\]|\[(\d+)\]", expr)
+    steps = []
+    for key, idx in tokens:
+        if key:
+            steps.append(key)
+        elif idx:
+            steps.append(int(idx))
+    return steps
+
+
+def dig(obj, path_expr):
+    for step in parse_path(path_expr):
+        obj = obj[step]
+    return obj
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Count JSON list items in a file")
+    parser.add_argument("file", help="Path to JSON file")
+    parser.add_argument(
+        "-k", "--key",
+        help="Python-style path expression, e.g. ['key1'][0]['key2']"
+    )
+    parser.add_argument(
+        "-p", "--pattern",
+        help="Regex pattern to filter items before counting (applies to stringified items)"
+    )
+    args = parser.parse_args()
+
+    data = load_json(Path(args.file))
+
+    if args.key:
+        data = dig(data, args.key)
+
+    if args.pattern:
+        regex = re.compile(args.pattern)
+        data = [item for item in data if regex.search(str(item))]
+
+    print(len(data))
+
+
+if __name__ == "__main__":
+    main()
