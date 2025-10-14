@@ -50,7 +50,7 @@ return {
           type = "python",
           request = "launch",
           program = "${file}",
-          cwd = vim.fn.getcwd(),
+          cwd = "${workspaceFolder}",
           justMyCode = true,
           console = "integratedTerminal",
         },

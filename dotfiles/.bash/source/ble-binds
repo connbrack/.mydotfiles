@@ -1,5 +1,2 @@
 # vim: filetype=bash
 
-ble-import integration/zoxide
-ble-import integration/fzf-completion
-ble-bind -f 'C-c' fzf-complete

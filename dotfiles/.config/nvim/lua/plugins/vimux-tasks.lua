@@ -1,12 +1,4 @@
 return {
-  {
-    'orrors/vimux-tasks',
-    dependencies = {
-      'preservim/vimux',
-      'junegunn/fzf',
-      'junegunn/fzf.vim'
-    },
-  },
   {'GustavoKatel/telescope-asynctasks.nvim',
     dependencies = {
       'orrors/asynctasks.vim',

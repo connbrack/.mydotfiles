@@ -59,10 +59,10 @@ if [ $essential -eq 1 ]; then
     sudo apt install -y \
       software-properties-common build-essential \
       curl make ripgrep gawk trash-cli \
-      fd-find xclip xsel xdotool
+      xclip xsel
   else
     sudo dnf install -y \
-      make trash-cli ripgrep fd-find
+      make trash-cli ripgrep
   fi
 
 fi
