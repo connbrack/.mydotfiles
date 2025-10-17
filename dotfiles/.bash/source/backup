@@ -18,7 +18,7 @@ function backup() {
 	# }
 
 	function get_args() {
-        jq -r '.local_path' $config_file
+		jq -r '.local_path' $config_file
 		local_path=$(readlink -f $(jq -r '.local_path' $config_file))
 		cloud_remote=$(jq -r '.cloud_remote' $config_file)
 		readarray -t backup_folders < <(jq -r '.backup_folders[]' "$config_file")
@@ -33,10 +33,9 @@ function backup() {
 	function backup-local() {
 		get_args
 
-		if ! lsblk -o MOUNTPOINT | grep -q $local_path; then
-			echo "Error: No drive found at '$local_path'." >&2
+		if [ ! -d $local_path ]; then
+			echo "Error: backup location '$local_path' not found." >&2
 		else
-
 			for folder in "${backup_folders[@]}"; do
 				echo -e "\x1b[30;42m Backing up: $folder \x1b[m"
 				sudo rsync -ah --delete --info=progress2,stats1 "$HOME/$folder/" "$local_path/$folder/"
@@ -55,7 +54,6 @@ function backup() {
 		else
 
 			for folder in "${backup_folders[@]}"; do
-				echo -e "\x1b[30;42m Backing up: $folder \x1b[m"
 				rclone sync "$HOME/$folder/" $cloud_remote:$folder \
 					--progress \
 					--transfers=16 \
