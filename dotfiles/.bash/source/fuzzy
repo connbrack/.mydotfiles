@@ -42,8 +42,8 @@ cdf() {
           | fzf -e \
             --tac --reverse --height=20 \
             --header 'SEARCH [C-f] C-h:home, C-d:dotfiles' \
-            --bind "ctrl-f:reload(fd . $1 --type d --hidden -E '.git' -E 'node_modules' -E '.venv' -E 'cache')" \
-            --bind "ctrl-h:reload(fd . ~/ -d 1 | xargs -I % fd . % --type d --hidden -E '.git' -E 'node_modules' -E '.venv' -E 'cache')" \
+            --bind "ctrl-r:reload(fd . $1 --type d --hidden -E '.git' -E 'node_modules' -E '.venv' -E 'cache')" \
+            --bind "ctrl-f:reload(fd . ~/ -d 1 | xargs -I % fd . % --type d --hidden -E '.git' -E 'node_modules' -E '.venv' -E 'cache')" \
             --bind "ctrl-d:reload(fd . ~/.mydotfiles --type d --hidden -E '.git' -E 'node_modules' -E '.venv' -E 'cache')" \
     )
 
