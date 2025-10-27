@@ -17,9 +17,8 @@ function backup() {
 	#   ]
 	# }
 
-	function get_args() {
-		jq -r '.local_path' $config_file
-		local_path=$(readlink -f $(jq -r '.local_path' $config_file))
+	function _get_args() {
+		local_path=$(jq -r '.local_path' "$config_file")
 		cloud_remote=$(jq -r '.cloud_remote' $config_file)
 		readarray -t backup_folders < <(jq -r '.backup_folders[]' "$config_file")
 		readarray -t exclude_patterns < <(jq -r '.exclude_patterns[]' $config_file)
@@ -31,23 +30,23 @@ function backup() {
 	}
 
 	function backup-local() {
-		get_args
+		_get_args
 
-		if [ ! -d $local_path ]; then
+		if [ ! -d "$local_path" ]; then
 			echo "Error: backup location '$local_path' not found." >&2
 		else
 			for folder in "${backup_folders[@]}"; do
+				path=$(readlink -f "$local_path")
 				echo -e "\x1b[30;42m Backing up: $folder \x1b[m"
-				sudo rsync -ah --delete --info=progress2,stats1 "$HOME/$folder/" "$local_path/$folder/"
+				sudo rsync -ah --delete --info=progress2,stats1 "$HOME/$folder/" "$path/$folder/"
 				echo
 			done
-
 		fi
 	}
 
 	function backup-cloud() {
 		trap - INT
-		get_args
+		_get_args
 
 		if ! rclone lsd "${cloud_remote}:" >/dev/null 2>&1; then
 			echo "Error: connection to rclone drive '$cloud_remote' could not be established." >&2
