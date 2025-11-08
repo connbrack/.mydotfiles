@@ -9,13 +9,21 @@ return {
   {
     "neovim/nvim-lspconfig",
     config = function()
-      local lspconfig = require('lspconfig')
-      lspconfig.lua_ls.setup({})
-      lspconfig.pyright.setup({})
-      lspconfig.ts_ls.setup({})
-      lspconfig.clangd.setup({})
-      lspconfig.rust_analyzer.setup({})
-      lspconfig.bashls.setup({})
+      vim.lsp.config("lua_ls", {})
+      vim.lsp.config("pyright", {})
+      vim.lsp.config("ts_ls", {})
+      vim.lsp.config("clangd", {})
+      vim.lsp.config("rust_analyzer", {})
+      vim.lsp.config("bashls", {})
+
+      vim.lsp.enable({
+        "lua_ls",
+        "pyright",
+        "ts_ls",
+        "clangd",
+        "rust_analyzer",
+        "bashls",
+      })
 
       -- make pretty
       vim.diagnostic.config({
