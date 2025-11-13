@@ -1,26 +1,46 @@
 #!/bin/bash
 
-delete_paths=()
+input_delete_paths=()
+use_default_delete_list=true
 
-# Parse options
-while getopts "d:" opt; do
+while getopts "d:n" opt; do
   case $opt in
-    d)
-      delete_paths+=("$OPTARG")
-      ;;
-    *)
-      echo "Usage: $0 [-d path_to_delete] ... <source_dir_or_ssh_path>"
-      exit 1
-      ;;
+  d)
+    input_delete_paths+=("$OPTARG")
+    ;;
+  n)
+    use_default_delete_list=false
+    ;;
+  *)
+    echo "Usage: [-d path_to_delete] [-n] ... <destination_dir_or_ssh_path>"
+    exit 1
+    ;;
   esac
 done
 
-shift $((OPTIND -1))  # remove parsed options from positional params
+shift $((OPTIND - 1))
 
-# Now $1 should be the source directory
+default_delete_paths=(
+  # General
+  ".git"
+  ".idea"
+  ".vscode"
+  ".vim"
+
+  #Python
+  ".venv"
+  "__pycache__"
+  ".pytest_cache"
+  "*.pyc"
+  "*.pyo"
+
+  #js ts
+  "node_modules"
+)
+
 if [ -z "$1" ]; then
-  echo "Error: Missing source directory."
-  echo "Usage: speed-send [-d path_to_delete] ... <source_dir_or_ssh_path>"
+  echo "Error: Missing destination directory."
+  echo "Usage: [-d path_to_delete] [-n] ... <destination_dir_or_ssh_path>"
   exit 1
 fi
 
@@ -33,13 +53,19 @@ tmp_dir="/tmp/${base_name}_$$"
 echo "Copying $src_dir to  $tmp_dir ..."
 cp -r "$src_dir" "$tmp_dir"
 
+if [[ "$use_default_delete_list" == true ]]; then
+  delete_paths=("${default_delete_paths[@]}" "${input_delete_paths[@]}")
+fi
+
 for path in "${delete_paths[@]}"; do
-  echo "Deleting $tmp_dir/$path ..."
-  rm -rf "$tmp_dir/$path"
+  if [ -e $tmp_dir/$path ]; then
+    echo "Deleting $tmp_dir/$path ..."
+    rm -rf "$tmp_dir/$path"
+  fi
 done
 
 echo "Running rsync between $tmp_dir and $dst_dir ..."
-rsync -av --delete "$tmp_dir/" "$dst_dir/"
+rsync -avz --delete "$tmp_dir/" "$dst_dir/"
 
 echo "Removing $tmp_dir"
 rm -rf "$tmp_dir"
