@@ -58,11 +58,12 @@ if [ $essential -eq 1 ]; then
 
     sudo apt install -y \
       software-properties-common build-essential \
-      curl make ripgrep gawk trash-cli \
+      git curl make ripgrep gawk trash-cli \
       xclip xsel
   else
     sudo dnf install -y \
-      make trash-cli ripgrep
+      git curl make trash-cli ripgrep
+    sudo dnf install @development-tools
   fi
 
 fi
@@ -146,7 +147,7 @@ if [ $nixpac -eq 1 ]; then
   elif [ -d "~/.config/home-manager" ]; then
     echo "~/.config/home-manager exists, delete or move this file before running"
   else
-    curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install --no-confirm
+    curl -fsSL https://install.determinate.systems/nix | sh -s -- install --determinate --no-confirm
     . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
     nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
     nix-channel --update
