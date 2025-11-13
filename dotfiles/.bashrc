@@ -80,6 +80,10 @@ fi
 
 # ----------- terminal setup --------------------------
 
+if [ -d "$HOME/.local/bin" ]; then
+  export PATH="$HOME/.local/bin:$PATH"
+fi
+
 if [ -d "/nix" ]; then
   . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
   export PATH="$HOME/.nix-profile/bin:$PATH"

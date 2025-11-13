@@ -1,2 +1,6 @@
 # vim: filetype=bash
 
+if command -v dnf >/dev/null 2>&1; then
+  source /usr/share/bash-completion/bash_completion
+  source /usr/share/bash-completion/completions/dnf
+fi

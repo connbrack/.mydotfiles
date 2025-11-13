@@ -44,6 +44,29 @@ function backup() {
 		fi
 	}
 
+	function restore-local() {
+		_get_args
+		read -p "Are you absolutely sure???????? (y/n): " response
+
+		if [[ "$response" =~ ^[yY]$ ]]; then
+			echo "Proceeding with the operation..."
+		else
+			echo "Operation aborted."
+			exit 0
+		fi
+
+		if [ ! -d "$local_path" ]; then
+			echo "Error: backup location '$local_path' not found." >&2
+		else
+			for folder in "${backup_folders[@]}"; do
+				path=$(readlink -f "$local_path")
+				echo -e "\x1b[30;42m Backing up: $folder \x1b[m"
+				sudo rsync -ah --delete --info=progress2,stats1 "$path/$folder/" "$HOME/$folder/"
+				echo
+			done
+		fi
+	}
+
 	function backup-cloud() {
 		trap - INT
 		_get_args
@@ -53,6 +76,7 @@ function backup() {
 		else
 
 			for folder in "${backup_folders[@]}"; do
+				echo -e "\x1b[30;42m Backing up: $folder \x1b[m"
 				rclone sync "$HOME/$folder/" $cloud_remote:$folder \
 					--progress \
 					--transfers=16 \
