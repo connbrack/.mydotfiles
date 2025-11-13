@@ -1,25 +1,55 @@
-#pragma once
+/*
+Copyright 2022 GEIST <@geigeigeist>
 
-/* The way how "handedness" is decided (which half is which),
-see https://docs.qmk.fm/#/feature_split_keyboard?id=setting-handedness
-for more options.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#define MASTER_LEFT
-// #define MASTER_RIGHT
+#pragma once
+#define VENDOR_ID       0x3A3C
+#define PRODUCT_ID      0x0002
+#define DEVICE_VER      0x0003
+#define MANUFACTURER    "GEIST"
+#define PRODUCT         "TOTEM"
 
-//#define TAPPING_TERM 170
-#define TAPPING_TERM 170
+/* key matrix size */
+// Rows are doubled-up
+#define MATRIX_ROWS 8
+#define MATRIX_COLS 5
 
-// Enable rapid switch from tap to hold, disables double tap hold auto-repeat.
-#define TAPPING_FORCE_HOLD
 
-// Auto Shift
-#define NO_AUTO_SHIFT_ALPHA
-#define AUTO_SHIFT_TIMEOUT TAPPING_TERM
-#define AUTO_SHIFT_NO_SETUP
+// wiring of each half
+#define MATRIX_ROW_PINS { GP26, GP27, GP28, GP29 }
+#define MATRIX_COL_PINS { GP6, GP7, GP3, GP4, GP2 }
+#define DIODE_DIRECTION COL2ROW
 
-#undef LOCKING_SUPPORT_ENABLE
-#undef LOCKING_RESYNC_ENABLE
-#define NO_ACTION_ONESHOT
 
+//#define NO_ACTION_MACRO
+//#define NO_ACTION_FUNCTION
+
+#define DEBOUNCE 5
+
+
+/* Serial settings */
+#define USE_SERIAL
+/* serial.c configuration for split keyboard */
+#define SOFT_SERIAL_PIN GP0
+//#define SPLIT_LAYER_STATE_ENABLE
+//#define SPLIT_USB_DETECT
+#define SERIAL_USE_MULTI_TRANSACTION
+/* communication between sides */
+#define SERIAL_PIO_USE_PIO1
+
+
+#define RP2040_BOOTLOADER_DOUBLE_TAP_RESET
+#define RP2040_BOOTLOADER_DOUBLE_TAP_RESET_TIMEOUT 500U

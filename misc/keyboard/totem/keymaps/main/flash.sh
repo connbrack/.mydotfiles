@@ -2,7 +2,7 @@
 
 
 kb="totem"
-km="connor"
+km="main"
 
 qmkhome="$(qmk config | sed -n '/home/s/.*=\(.*\)/\1/p')"
 fname=$(qmk compile -kb $kb -km $km -n 2>&1 | tr ' ' '\n' | sed -n '/TARGET/s/TARGET=//p').uf2
