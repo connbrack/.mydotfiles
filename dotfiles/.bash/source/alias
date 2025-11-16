@@ -27,8 +27,8 @@ alias apt-upgrade='sudo echo && echo -e "\x1b[30;42m Updating apt \x1b[m" && sud
 alias dnf-upgrade='sudo echo && echo -e "\x1b[30;42m Updating dnf \x1b[m" && sudo dnf update -y && echo'
 alias flatpak-upgrade='echo && echo -e "\x1b[30;42m Updating flatpak \x1b[m" && flatpak update -y && echo'
 
-alias nix-upgrade='echo && echo -e "\x1b[30;42m Updating nix \x1b[m" && nix-channel --update && home-manager switch'
-alias nix-packages='nvim ~/.config/home-manager/home.nix'
+alias nix-upgrade='echo && echo -e "\x1b[30;42m Updating nix \x1b[m" && home-manager switch --flake /home/connor/.mydotfiles/misc/home-manager --impure'
+alias nix-packages='nvim ~/.mydotfiles/misc/home-manager/home.nix'
 alias nix-search='bash -c "xdg-open https://search.nixos.org" 2> /dev/null'
 alias nix-clean='nix-collect-garbage --delete-older-than 30d'
 
