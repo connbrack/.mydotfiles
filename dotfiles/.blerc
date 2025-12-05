@@ -1,4 +1,3 @@
-
 # Disable auto-complete (Note: auto-complete is enabled by default in bash-4.0+)
 bleopt complete_auto_complete=
 
@@ -6,5 +5,5 @@ bleopt complete_auto_complete=
 bleopt complete_auto_history=
 
 ble-import integration/zoxide
-ble-import integration/fzf-completion
-ble-bind -f 'C-s' fzf-complete
+# ble-import -d integration/fzf-completion
+# ble-import -d integration/fzf-key-bindings

@@ -2,29 +2,22 @@
 
 {
   home.packages = with pkgs; [
-
-    ## Tui
-    neovim-unwrapped
-    lf
-    tmux
-    bottom
-    starship
-    lazygit
-    sc-im
-
-    ## Core-tools
-    fzf
-    ripgrep
-    fd
     bat
+    blesh
+    bottom
+    fd
     fx
-    zoxide
+    fzf
+    lf
+    neovim
+    ripgrep
+    sc-im
     skim
-
-    ## Extras
+    starship
     tealdeer
     tgpt
-
+    tmux
+    zoxide
   ];
 
   news.display = "silent";

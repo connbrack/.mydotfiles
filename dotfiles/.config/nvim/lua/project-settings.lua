@@ -1,5 +1,8 @@
 local function cerc_settings()
 
+  -- set cerc settings
+  vim.opt.fixendofline = false
+
   --  set python shiftwidth
   vim.api.nvim_create_autocmd("FileType", {
     pattern = "python",
