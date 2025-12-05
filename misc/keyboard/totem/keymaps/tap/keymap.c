@@ -39,8 +39,9 @@ enum totem_layers {
 enum custom_keycodes {
     CTL_EXLM = SAFE_RANGE,
     SPL_STB = SAFE_RANGE + 1,
-    CTL_QWERTY = SAFE_RANGE + 2,
-    CTL_NUMBERS = SAFE_RANGE + 3,
+    CTL_QWRT = SAFE_RANGE + 2,
+    CTL_SYM = SAFE_RANGE + 3,
+    SFT_NUM = SAFE_RANGE + 4,
     SYMBOLS,
     NUMBERS,
     SPECIAL,
@@ -80,6 +81,7 @@ enum custom_keycodes {
 
 // SPECIAL                         ├─────────────────┐
 #define S_SPC RSFT_T(KC_SPC)
+#define S_ENT RSFT_T(KC_ENT)
 #define C_TAB RCTL(KC_TAB)
 #define C_S_TAB RCS(KC_TAB)
 #define C_S_X RCS(KC_X)
@@ -117,15 +119,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    ┌─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┐
    │         │    Z    │    X    │    C    │    V    │    B    ││    N    │    M    │    ,    │    .    │    /    │         │
    └─────────┴─────────┴─────────┼─────────┼─────────┼─────────┤├─────────┼─────────┼─────────┼─────────┴─────────┴─────────┘
-                                 │   GUI   │ CTL_NUM │  S_SPC  ││   ENT   │ SYMBOLS │   ALT   │  
+                                 │   GUI   │ CTL_SYM │  S_SPC  ││   ENT   │ SFT_NUM │   ALT   │  
                                  └─────────┴─────────┴─────────┘└─────────┴─────────┴─────────┘*/ 
 
-   [_QWERTY] = LAYOUT(
+    [_QWERTY] = LAYOUT(
  //╷         ╷         ╷         ╷         ╷         ╷         ╷╷         ╷         ╷         ╷         ╷         ╷         ╷
               KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,      KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,  
               KC_A,     KC_S,     KC_D,     KC_F,     KC_G,      KC_H,     KC_J,     KC_K,     KC_L,     KC_QUOT,    
     XXXXXXX,  KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,      KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,  XXXXXXX,
-                                  KC_LGUI,  CTL_NUMBERS, S_SPC,     KC_ENT,   SYMBOLS,  KC_RALT
+                                  KC_LGUI,  CTL_SYM,  KC_SPC,    S_ENT,    SFT_NUM,  KC_RALT
  ),
 
 /*
@@ -150,7 +152,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
               KC_ESC,   KC_LT,    KC_GRV,   KC_GT,    KC_PPLS,   KC_PIPE,  KC_LCBR,  KC_TILD,  KC_RCBR,  KC_BSPC, 
               KC_EXLM,  KC_CIRC,  KC_PEQL,  KC_DLR,   KC_ASTR,   KC_HASH,  KC_LPRN,  KC_PMNS,  KC_RPRN,  KC_COLN, 
     XXXXXXX,  KC_QUES,  KC_AMPR,  KC_AT,    KC_PERC,  KC_NO,     KC_SCLN,  KC_LBRC,  KC_UNDS,  KC_RBRC,  KC_BSLS,  XXXXXXX,
-                                  KC_LGUI,  CTL_QWERTY,  KC_SPC, KC_ENT,   SPECIAL,  KC_RALT
+                                KC_LGUI,    XXXXXXX,  KC_SPC,     S_ENT,     SPECIAL,  KC_RALT
  ),
 
 
@@ -175,7 +177,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
               KC_ESC,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_BSPC, 
               CTL_1,    SFT_2,    ALT_3,    KC_4,      KC_5,     KC_6,     KC_7,     ALT_8,    SFT_9,     CTL_0, 
     XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,   XXXXXXX,  XXXXXXX,  KC_COMM,  KC_DOT,   KC_SLSH,  XXXXXXX,
-                                  KC_LGUI,  CTL_QWERTY,  KC_TAB,    KC_ENT,    SPECIAL,  KC_RALT
+                                  KC_LGUI,  CTL_QWRT, KC_TAB,    KC_ENT,    SPECIAL,  KC_RALT
 
  ),
  /*
@@ -199,7 +201,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
               KC_ESC,   XXXXXXX,  XXXXXXX,  KC_MPLY,  XXXXXXX,   XXXXXXX,  KC_PGUP,   C_S_TAB,  C_TAB,     KC_DEL, 
               KC_LCTL,  S_HOME,   A_PGDN,   KC_END,   XXXXXXX,   KC_LEFT,  KC_DOWN,   A_UP,     S_RGHT,    KC_RCTL, 
     TRACK,    XXXXXXX,  C_S_X,    C_S_C,    C_S_V,    XXXXXXX,   KC_BRID,  KC_BRIU,   KC_VOLD,  KC_VOLU,   KC_MUTE, XXXXXXX, 
-                                  KC_LGUI,  CTL_QWERTY,  KC_SPC,    KC_ENT,   KC_TRNS,   KC_RALT
+                                  KC_LGUI,  CTL_QWRT,  KC_SPC,    KC_ENT,   KC_TRNS,   KC_RALT
  ),
 
  /*
@@ -262,6 +264,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   static uint16_t ctl_exlm_timer;
   static uint16_t spl_stb_timer;
   static uint16_t ctl_qwerty_timer;
+  static uint16_t ctl_symbol_timer;
+  static uint16_t sft_number_timer;
 
   switch (keycode) {
   case CTL_EXLM:
@@ -287,7 +291,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
     }
     return false;
-    case CTL_QWERTY:
+    case ALT_NUM:
         if (record->event.pressed) {
             ctl_qwerty_timer = timer_read();
             add_mods(MOD_BIT(KC_LCTL)); // hold: Ctrl
@@ -298,15 +302,29 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
         }
     return false;
-    case CTL_NUMBERS:
-        if (record->tap.count && record->event.pressed) {
-            layer_move(_NUMBERS); // tap: switch to NUMBERS
+    case CTL_SYM:
+        if (record->event.pressed) {
+            ctl_symbol_timer = timer_read();
+            add_mods(MOD_BIT(KC_LCTL)); // hold: Ctrl
         } else {
-            if (record->event.pressed) register_code(KC_LCTL); // hold: Ctrl
-            else unregister_code(KC_LCTL);
+            del_mods(MOD_BIT(KC_LCTL)); // release Ctrl
+            if (timer_elapsed(ctl_symbol_timer) < TAPPING_TERM) {
+                layer_move(_SYMBOLS); // tap: switch to QWERTY
+            }
         }
-        return false;
-  }
+    return false;
+    case SFT_NUM:
+        if (record->event.pressed) {
+            sft_number_timer = timer_read();
+            add_mods(MOD_BIT(KC_LSFT)); // hold: Ctrl
+        } else {
+            del_mods(MOD_BIT(KC_LSFT)); // release Ctrl
+            if (timer_elapsed(sft_number_timer) < TAPPING_TERM) {
+                layer_move(_NUMBERS); // tap: switch to QWERTY
+            }
+        }
+    return false;
+ }
   return true;
 }
 /*

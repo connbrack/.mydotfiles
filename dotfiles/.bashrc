@@ -93,14 +93,12 @@ if command -V starship >/dev/null 2>&1; then
   eval "$(starship init bash)"
 fi
 
-if [ -d "$HOME/.local/share/blesh/" ]; then
-  source ~/.local/share/blesh/ble.sh
+if [ -d "$(blesh-share)" ]; then
+  source $(blesh-share)/ble.sh
 fi
 
 export VISUAL=nvim;
 export EDITOR=nvim;
-
-export PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 
 # -------------------------- Programs ---------------------------
 

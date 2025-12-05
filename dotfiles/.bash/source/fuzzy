@@ -36,23 +36,23 @@ _gen_fzf_default_opts() {
 
 _gen_fzf_default_opts
 
-cdf() {
-    local selection=$(
-        fd . $1 --type d --hidden -E ".git" -E "node_modules" -E ".venv" -E "cache" \
-          | fzf -e \
-            --tac --reverse --height=20 \
-            --header 'SEARCH [C-f] C-h:home, C-d:dotfiles' \
-            --bind "ctrl-r:reload(fd . $1 --type d --hidden -E '.git' -E 'node_modules' -E '.venv' -E 'cache')" \
-            --bind "ctrl-f:reload(fd . ~/ -d 1 | xargs -I % fd . % --type d --hidden -E '.git' -E 'node_modules' -E '.venv' -E 'cache')" \
-            --bind "ctrl-d:reload(fd . ~/.mydotfiles --type d --hidden -E '.git' -E 'node_modules' -E '.venv' -E 'cache')" \
-    )
+ff() {
+  fd_opt="--type d -E ".git" -E "node_modules" -E ".venv" -E "cache""
+  selection=$(
+    fd . $fd_opt | fzf -e \
+      --reverse --height=20 \
+      --header 'SEARCH [C-f] C-h:home, C-d:dotfiles' \
+      --bind "ctrl-f:reload(fd . $fd_opt)" \
+      --bind "ctrl-h:reload(fd . ~ $fd_opt)" \
+      --bind "ctrl-d:reload(fd . ~/.mydotfiles $fd_opt --hidden )"
+  )
 
-    if [ -n "$selection" ]; then
-        cd "$selection"
-        eval "$PROMPT_COMMAND"
-    fi
+  if [ -n "$selection" ]; then
+    command -v zoxide >/dev/null 2>&1 && z "$selection" || cd "$selection"
+    eval "$PROMPT_COMMAND"
+  fi
 }
-bind -x '"\C-f": cdf'
+bind -x '"\C-f": ff'
 
 fh_inline() {
   local cmd=$(history | sed -E 's/ *[0-9]+ *//' | fzf --header "HISTORY" --query "$READLINE_LINE" --tac --reverse +s --tiebreak=index --height 20)

@@ -144,16 +144,11 @@ if [ $nixpac -eq 1 ]; then
   header "Installing Nix"
   if command -v nix >/dev/null; then
     echo "nix is already installed."
-  elif [ -d "~/.config/home-manager" ]; then
-    echo "~/.config/home-manager exists, delete or move this file before running"
   else
     curl -fsSL https://install.determinate.systems/nix | sh -s -- install --determinate --no-confirm
     . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
-    nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
-    nix-channel --update
-    nix-shell '<home-manager>' -A install
-    . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
-    home-manager switch
+    nix profile add github:nix-community/home-manager
+    home-manager switch --flake $HOME/.mydotfiles/misc/home-manager --impure
   fi
 fi
 

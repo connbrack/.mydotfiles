@@ -26,7 +26,9 @@ if [ -d $DEFAULT_VENV ]; then
     fi
   }
 
-  PROMPT_COMMAND="_auto_activate_venv;$PROMPT_COMMAND"
+if [[ ":$PROMPT_COMMAND:" != *"_auto_activate_venv;"* ]]; then
+    PROMPT_COMMAND="_auto_activate_venv;$PROMPT_COMMAND"
+fi
 
   disable_auto_venv() {
     PROMPT_COMMAND=$(echo "$PROMPT_COMMAND" | sed 's/_auto_activate_venv;*//g')
