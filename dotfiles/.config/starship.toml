@@ -54,7 +54,7 @@ format = '[ $symbol ($version) ]($style)'
 [custom.python]
 command = '''
 python_path=$(which python3)
-if [[ -n "$VIRTUAL_ENV" && "$python_path" != "$HOME/.uv/.venv/"* ]]; then
+if [[ -n "$VIRTUAL_ENV" && "$python_path" != "$HOME/.mydotfiles/dotfiles/.uv/"* ]]; then
     prompt_name=""
     if [[ -n "$VIRTUAL_ENV" && -f "$VIRTUAL_ENV/pyvenv.cfg" ]]; then
         prompt_name=$(awk -F ' = ' '/^prompt = / { print $2 }' "$VIRTUAL_ENV/pyvenv.cfg")
@@ -67,7 +67,7 @@ if [[ -n "$VIRTUAL_ENV" && "$python_path" != "$HOME/.uv/.venv/"* ]]; then
 fi
 
 '''
-when = '[ -n "$VIRTUAL_ENV" ] && [ "$VIRTUAL_ENV" != "$HOME/.uv/.venv" ]'
+when = '[[ -n "$VIRTUAL_ENV" && "$VIRTUAL_ENV" != "$HOME/.mydotfiles/dotfiles/.uv/"* ]]'
 symbol = ""
 style = "bg:#4B884B fg:#A6DA95"
 format = '[](#4B884B)[${symbol} $output]($style)[ ](#4B884B)'
