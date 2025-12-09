@@ -129,16 +129,19 @@ cmd bulk-rename ${{
 
 
 cmd fuzzy_cd ${{
-    selection=$(
-        fd . $1 --type d --hidden -E ".git" -E "node_modules" -E ".venv" -E "cache" \
-          | fzf -e \
-            --layout=reverse --padding=2 \
-            --header '[C-f] C-h:home, C-d:dotfiles' \
-            --bind 'ctrl-h:reload(fd . ~/ -d 1 | xargs -I % fd . % --type d --hidden -E ".git" -E "node_modules" -E ".venv" -E "cache")' \
-            --bind 'ctrl-f:reload(fd . $1 --type d --hidden -E ".git" -E "node_modules" -E ".venv" -E "cache")' \
-            --bind 'ctrl-d:reload(fd . ~/.mydotfiles --type d --hidden -E ".git" -E "node_modules" -E ".venv" -E "cache")' \
-    )
-    [ -n "$selection" ] && lf -remote "send cd $selection"
+  fd_opt="--type d -E ".git" -E "node_modules" -E ".venv" -E "cache""
+  selection=$(
+    fd . $fd_opt | fzf -e \
+      --reverse \
+      --header 'SEARCH [C-f] C-h:home, C-d:dotfiles' \
+      --bind "ctrl-f:reload(fd . $fd_opt)" \
+      --bind "ctrl-h:reload(fd . ~ $fd_opt)" \
+      --bind "ctrl-d:reload(fd . ~/.mydotfiles $fd_opt --hidden )"
+  )
+  if [ -n "$selection" ]; then
+    command -v zoxide >/dev/null 2>&1 && z add "$selection" 
+    lf -remote "send cd $selection"
+  fi
 }}
 
 
