@@ -39,6 +39,7 @@ return {
 
       -- fzf_bin = "fzf-tmux",
       -- fzf_tmux_opts = { ["-p"] = "90%,70%" },
+      fzf_layout = 'default',
       fzf_opts = {
         ["--border"]  = "rounded",
         ['--info']    = false,

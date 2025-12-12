@@ -1,6 +1,7 @@
 local function cerc_settings()
-
   -- set cerc settings
+
+  -- disable fixendofline to avoid merge conflicts
   vim.opt.fixendofline = false
 
   --  set python shiftwidth
@@ -32,7 +33,7 @@ local function cerc_settings()
     return
   end
 
-  print("Cerc settings loaded")
+  vim.notify("Cerc settings loaded", "info", { title = "Config", timeout = 10 })
 end
 
 -- create user command

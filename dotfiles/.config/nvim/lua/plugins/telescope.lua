@@ -27,14 +27,8 @@ return {
         },
 
         pickers = {
-          find_files = {
-            hidden = true
-          },
-          live_grep = {
-            additional_args = function(opts)
-              return { "--hidden" }
-            end
-          },
+          find_files = {},
+          live_grep = {},
         },
       }
       require("telescope").load_extension("ui-select")
