@@ -3,7 +3,6 @@
 {
   home.packages = with pkgs; [
     bat
-    blesh
     bottom
     fd
     fx

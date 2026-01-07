@@ -93,8 +93,8 @@ if command -V starship >/dev/null 2>&1; then
   eval "$(starship init bash)"
 fi
 
-if [ -d "$(blesh-share)" ]; then
-  source $(blesh-share)/ble.sh
+if [ -d "$HOME/.local/share/blesh/" ]; then
+  source ~/.local/share/blesh/ble.sh
 fi
 
 export VISUAL=nvim;
