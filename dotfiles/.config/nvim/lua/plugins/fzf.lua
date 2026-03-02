@@ -33,6 +33,8 @@ return {
     vim.keymap.set('n', '<leader>l', ':FzfLua lsp_document_diagnostics<CR>',
       { noremap = true, silent = true, desc = 'FzfLua - lsp document diagnostics' })
 
+
+
     local fzf_lua = require("fzf-lua")
     local actions = fzf_lua.actions
     fzf_lua.setup({
@@ -84,7 +86,11 @@ return {
         },
       },
       files = {
+        fd_opts = "--type f --hidden --exclude .git --exclude uv.lock --exclude node_modules --exclude .venv",
         file_icons = false, -- show file icons (true|"devicons"|"mini")?
+      },
+      grep = {
+        rg_opts = "--column --line-number --color=always --smart-case --hidden --glob '!.git/**' --glob '!uv.lock' --glob '!node_modules/**' --glob '!.venv/**'"
       },
       manpages = { previewer = "man_native" },
       helptags = { previewer = "help_native" },

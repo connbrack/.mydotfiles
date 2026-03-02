@@ -41,6 +41,18 @@ vim.keymap.set("n", "<A-v>", '<C-w>v')
 vim.keymap.set("n", "<A-s>", '<C-w>s')
 vim.keymap.set("n", "<A-c>", '<C-w>q')
 
+-- wrap
+vim.opt.wrap = false
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "markdown", "tex", "plaintex", "typst" },
+  callback = function()
+    vim.opt_local.wrap = true
+    vim.opt_local.linebreak = true
+    vim.opt_local.breakindent = true
+  end,
+})
+
+
 -- pretty
 -- vim.opt.winborder = "rounded"
 

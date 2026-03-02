@@ -9,8 +9,10 @@ return {
     ft = { "markdown" },
   },
   {
-    "ellisonleao/glow.nvim",
-    config = true,
-    cmd = "Glow"
+    'MeanderingProgrammer/render-markdown.nvim',
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    opts = {
+        enabled = false,
+    },
   }
 }

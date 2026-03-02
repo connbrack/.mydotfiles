@@ -96,8 +96,8 @@ function backup() {
 		if [ -z "$1" ]; then
 			echo "ERROR: No command provided. Please use 'local' or 'cloud'."
 		else
+			sudo true
 			if [ $1 = 'local' ]; then
-				sudo true
 				backup-local
 			elif [ $1 = 'cloud' ]; then
 				backup-cloud

@@ -87,7 +87,7 @@ return {
           request = 'launch',
           name = "Debug pytest method",
           module = 'pytest',
-          args = { "${file}" },
+          args = { '${file}', '--pdb', '-v', '-s' },
           justMyCode = false,
         },
       }
