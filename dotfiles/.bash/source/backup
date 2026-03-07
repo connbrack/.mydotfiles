@@ -71,13 +71,13 @@ function backup() {
 		trap - INT
 		_get_args
 
-		if ! rclone lsd "${cloud_remote}:" >/dev/null 2>&1; then
+		if ! sudo rclone lsd "${cloud_remote}:" >/dev/null 2>&1; then
 			echo "Error: connection to rclone drive '$cloud_remote' could not be established." >&2
 		else
 
 			for folder in "${backup_folders[@]}"; do
 				echo -e "\x1b[30;42m Backing up: $folder \x1b[m"
-				rclone sync "$HOME/$folder/" $cloud_remote:$folder \
+				sudo rclone sync "$HOME/$folder/" $cloud_remote:$folder \
 					--progress \
 					--transfers=16 \
 					--checkers=16 \
