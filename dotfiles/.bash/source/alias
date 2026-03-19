@@ -36,6 +36,7 @@ alias nix-clean='nix-collect-garbage --delete-older-than 30d'
 alias py="ipython"
 alias notes="cd $HOME/Documents/vimwiki/ && vim index.md"
 alias ipad="ip -brief -f inet address | fzf +m --reverse --height 10 | awk '{gsub(\"/.*\",\"\",\$3);print\$3}' | tee /dev/tty | xclip -r -in -selection clipboard"
+alias hours="hours --dbpath=$HOME/Apps/hours/hours.db"
 
 # ----------------------------- VM --------------------------
 # connect to a qemu virtual machine console

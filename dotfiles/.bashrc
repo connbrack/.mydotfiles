@@ -9,8 +9,8 @@ esac
 # History
 HISTCONTROL=ignoreboth
 shopt -s histappend
-HISTSIZE=1000
-HISTFILESIZE=2000
+HISTSIZE=20000
+HISTFILESIZE=40000
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -104,6 +104,12 @@ export EDITOR=nvim;
 
 if command -v go &> /dev/null; then
   export PATH="$(go env GOPATH)/bin:$PATH"
+fi
+
+if [ -d "$HOME/.goenv" ]; then
+  export GOENV_ROOT="$HOME/.goenv"
+  export PATH="$GOENV_ROOT/bin:$PATH"
+  eval "$(goenv init -)"
 fi
 
 export NVM_DIR="$HOME/.nvm"

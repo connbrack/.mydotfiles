@@ -1,6 +1,8 @@
 [user]
 	email = 80982854+connbrack@users.noreply.github.com
 	name = Connor B
+[includeIf "gitdir:~/Documents/cerc/"]
+    path = ~/.gitconfig-work
 [credential]
 	helper = store
 [init]
@@ -9,3 +11,4 @@
 	default = current
 [alias]
 	ffl = push --force-with-lease
+	lg = log --graph --pretty=format:'%C(yellow)%h%C(reset) %s %C(brightblack)%an (%cr)%C(reset)'

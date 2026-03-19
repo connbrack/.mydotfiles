@@ -1,0 +1,3 @@
+#!/bin/bash
+
+result=$(/home/connor/.local/bin/hours --dbpath=/home/connor/Apps/hours/hours.db active); [ -n "$result" ] && echo "◷ $result"

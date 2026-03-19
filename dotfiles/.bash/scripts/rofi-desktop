@@ -11,7 +11,7 @@ get_windows() {
 }
 
 # Show only titles in rofi, output index
-selected_index=$(get_windows | cut -f2 | /usr/bin/rofi -dmenu -i -p "Windows" -format i)
+selected_index=$(get_windows | cut -f2 | /usr/bin/rofi -dmenu -i -p "󱂬" -format i)
 
 if [ $? -eq 0 ] && [ -n "$selected_index" ]; then
   # Get the matchId corresponding to the selected index
