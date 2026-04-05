@@ -16,8 +16,8 @@ fi
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
-alias copy="xclip -i -r -selection clipboard"
 
+alias cd='z'
 alias lf='lfcd'
 alias vim='nvim'
 

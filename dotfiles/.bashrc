@@ -1,10 +1,9 @@
-# ~/.bashrc: executed by bash(1) for non-login shells.
-
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
       *) return;;
 esac
+
 
 # History
 HISTCONTROL=ignoreboth
@@ -80,9 +79,6 @@ fi
 
 # ----------- terminal setup --------------------------
 
-if [ -d "$HOME/.local/bin" ]; then
-  export PATH="$HOME/.local/bin:$PATH"
-fi
 
 if [ -d "/nix" ]; then
   . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
@@ -93,28 +89,26 @@ if command -V starship >/dev/null 2>&1; then
   eval "$(starship init bash)"
 fi
 
-if [ -d "$HOME/.local/share/blesh/" ]; then
-  source ~/.local/share/blesh/ble.sh
-fi
+# this must be after starship my god
+[[ -s "$HOME/.local/share/blesh/" ]] && export VIRTUAL_ENV_DISABLE_PROMPT=1 && source -- $HOME/.local/share/blesh/ble.sh --attach=none
 
+stty -ixon
 export VISUAL=nvim;
 export EDITOR=nvim;
 
 # -------------------------- Programs ---------------------------
-
-if command -v go &> /dev/null; then
-  export PATH="$(go env GOPATH)/bin:$PATH"
+if [ -d "$HOME/.local/bin" ]; then
+  export PATH="$HOME/.local/bin:$PATH"
 fi
 
-if [ -d "$HOME/.goenv" ]; then
-  export GOENV_ROOT="$HOME/.goenv"
-  export PATH="$GOENV_ROOT/bin:$PATH"
-  eval "$(goenv init -)"
-fi
+command -v go &>/dev/null && export PATH="$(go env GOPATH)/bin:$PATH"
+[ -s "${HOME}/.g/env" ] && \. "${HOME}/.g/env"
+
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" --no-use
+
 
 export PNPM_HOME="$HOME/.local/share/pnpm"
 case ":$PATH:" in
@@ -139,3 +133,6 @@ fi
 if [ -e "$HOME/.bash/scripts" ]; then
   export PATH=$PATH:"$HOME/.bash/scripts"
 fi
+
+# -------------------------- Finally ---------------------------
+[[ ! ${BLE_VERSION-} ]] || ble-attach

@@ -37,22 +37,27 @@ _gen_fzf_default_opts() {
 _gen_fzf_default_opts
 
 ff() {
-  fd_opt="--type d -E ".git" -E "node_modules" -E ".venv" -E "cache""
+  fd_opt="-E ".git" -E "node_modules" -E ".venv" -E "cache""
   selection=$(
     fd . $fd_opt | fzf -e \
       --reverse --height=20 \
       --header 'SEARCH [C-f] C-h:home, C-d:dotfiles' \
       --bind "ctrl-f:reload(fd . $fd_opt)" \
       --bind "ctrl-h:reload(fd . ~ $fd_opt)" \
-      --bind "ctrl-d:reload(fd . ~/.mydotfiles $fd_opt --hidden )"
+      --bind "ctrl-d:reload(fd . ~/.mydotfiles $fd_opt --hidden )" \
+      --bind "ctrl-v:execute(nvim {})+abort"
   )
 
   if [ -n "$selection" ]; then
+    if [ -f "$selection" ]; then
+      selection=$(dirname "$selection")
+    fi
     command -v zoxide >/dev/null 2>&1 && z "$selection" || cd "$selection"
     eval "$PROMPT_COMMAND"
   fi
 }
-bind -x '"\C-f": ff'
+bind -x '"\C-s": ff'
+bind -x '"\C-f": zi && eval "$PROMPT_COMMAND"'
 
 fh_inline() {
   local cmd=$(history | sed -E 's/ *[0-9]+ *//' | fzf --header "HISTORY" --query "$READLINE_LINE" --tac --reverse +s --tiebreak=index --height 20)
@@ -67,3 +72,7 @@ load_history() {
   history -r
 }
 bind -x '"\C-h": load_history'
+#
+# if [[ "$PROMPT_COMMAND" != *"history -a"* ]]; then
+#     PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+# fi

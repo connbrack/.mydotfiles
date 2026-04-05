@@ -99,6 +99,8 @@ function backup() {
 			sudo true
 			if [ $1 = 'local' ]; then
 				backup-local
+			elif [ $1 = 'local-restore' ]; then
+				restore-local
 			elif [ $1 = 'cloud' ]; then
 				backup-cloud
 			else
@@ -110,7 +112,7 @@ function backup() {
 }
 
 function _backup() {
-	local opts="local cloud"
+	local opts="local cloud restore-local"
 
 	COMPREPLY=()
 

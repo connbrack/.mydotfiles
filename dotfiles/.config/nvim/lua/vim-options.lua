@@ -52,6 +52,7 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+vim.opt.tabstop = 2
 
 -- pretty
 -- vim.opt.winborder = "rounded"
