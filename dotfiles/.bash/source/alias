@@ -18,6 +18,7 @@ alias la='ls -A'
 alias l='ls -CF'
 
 alias cd='z'
+alias cat='bat'
 alias lf='lfcd'
 alias vim='nvim'
 
