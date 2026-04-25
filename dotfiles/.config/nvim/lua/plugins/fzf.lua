@@ -57,7 +57,6 @@ return {
       winopts = {
         preview = {
           default = "bat",
-          border = "border-left",
           layout = "horizontal",
           horizontal = "right:50%",
         }

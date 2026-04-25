@@ -52,8 +52,6 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
-vim.opt.tabstop = 2
-
 -- pretty
 -- vim.opt.winborder = "rounded"
 
@@ -121,6 +119,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
-vim.bo.tabstop = 4
-vim.bo.shiftwidth = 4
-vim.bo.softtabstop = 4
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.softtabstop = 4

@@ -1,7 +1,7 @@
 return {
   {
     "stevearc/oil.nvim",
-    event = "VeryLazy",
+    lazy = false,
     opts = {},
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()

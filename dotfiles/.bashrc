@@ -118,6 +118,7 @@ esac
 
 if [ -d "$HOME/.cargo" ]; then
   . "$HOME/.cargo/env"
+  export PATH="$HOME/.cargo/bin:$PATH"
 fi
 
 if [ -d "$HOME/.qmk_firmware" ]; then

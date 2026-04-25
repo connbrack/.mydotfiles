@@ -6,6 +6,9 @@ return {
 		priority = 1000,
 		config = function()
 			vim.cmd.colorscheme("catppuccin-macchiato")
+			vim.opt.cursorline = true
+			vim.o.winborder = "rounded"
+			vim.api.nvim_set_hl(0, "CursorLine", { bg = "#1E2030" })
 		end,
 	},
 	{
