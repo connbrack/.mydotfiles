@@ -16,6 +16,12 @@ function backup() {
 	#     "**/.venv/**"
 	#   ]
 	# }
+	
+	function _keep_alive() {
+		sudo -v
+		( while sudo -v 2>/dev/null; do sleep 50; done ) &
+		_SUDO_KEEPALIVE=$!
+	}
 
 	function _get_args() {
 		local_path=$(jq -r '.local_path' "$config_file")
@@ -96,7 +102,8 @@ function backup() {
 		if [ -z "$1" ]; then
 			echo "ERROR: No command provided. Please use 'local' or 'cloud'."
 		else
-			sudo true
+			_keep_alive
+			trap 'kill $_SUDO_KEEPALIVE 2>/dev/null' RETURN
 			if [ $1 = 'local' ]; then
 				backup-local
 			elif [ $1 = 'local-restore' ]; then
@@ -112,7 +119,7 @@ function backup() {
 }
 
 function _backup() {
-	local opts="local cloud restore-local"
+	local opts="local cloud local-restore"
 
 	COMPREPLY=()
 
