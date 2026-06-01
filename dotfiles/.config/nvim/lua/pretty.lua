@@ -3,8 +3,6 @@ local function make_pretty()
 
   if ft == "csv" then
     vim.cmd("CsvViewToggle")
-  elseif ft == "markdown" then
-    vim.cmd("RenderMarkdown toggle")
   else
     print("No pretty defined for this filetype: " .. ft)
   end
@@ -24,5 +22,5 @@ local function open_preview()
   end
 end
 
-vim.keymap.set("n", ",p", make_pretty, { noremap = true, silent = true })
-vim.keymap.set("n", ",P", open_preview, { noremap = true, silent = true })
+vim.keymap.set("n", "\\pp", make_pretty, { noremap = true, silent = true })
+vim.keymap.set("n", "\\po", open_preview, { noremap = true, silent = true })

@@ -8,6 +8,9 @@
     fx
     fzf
     lf
+    jq
+    jaq
+    jqp
     neovim
     ripgrep
     sc-im
@@ -17,6 +20,9 @@
     tgpt
     tmux
     zoxide
+    zellij
+    lazygit
+    fastfetch
   ];
 
   news.display = "silent";

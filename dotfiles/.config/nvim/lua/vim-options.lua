@@ -76,6 +76,7 @@ vim.o.mouse = 'a'
 -- Sync clipboard between OS and Neovim.
 --  Remove this option if you want your OS clipboard to remain independent. See `:help 'clipboard'`
 vim.o.clipboard = 'unnamedplus'
+vim.g.clipboard = 'osc52'
 
 -- Enable break indent
 vim.o.breakindent = true
@@ -120,5 +121,3 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.softtabstop = 4

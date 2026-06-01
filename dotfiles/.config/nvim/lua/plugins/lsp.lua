@@ -81,6 +81,7 @@ return {
 			local conform = require("conform")
 			conform.setup({
 				formatters_by_ft = {
+					sh = { "shfmt" },
 					bash = { "shfmt" },
 					python = { "autopep8" },
 					rust = { "rustfmt" },
@@ -89,6 +90,14 @@ return {
 					lua = { "stylua" },
 				},
 				default_format_opts = { lsp_format = "fallback" },
+
+				formatters = {
+					shfmt = {
+						prepend_args = function()
+							return { "-i", tostring(vim.fn.shiftwidth()) }
+						end,
+					},
+				},
 			})
 
 			vim.keymap.set({ "n", "v" }, "gf", function()

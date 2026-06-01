@@ -10,6 +10,9 @@ return {
 			install_dir = vim.fn.stdpath("data") .. "/site",
 		})
 		ts.install({
+			"bash",
+			"javascript",
+			"typescript",
 			"lua",
 			"python",
 			"rust",
