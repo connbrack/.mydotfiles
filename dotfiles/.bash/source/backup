@@ -8,7 +8,7 @@ function backup() {
 	# {
 	#   "local_path": "/path/to/backup/"
 	#   "cloud_remote": "remote_name",
-	#   "backup_folders": [
+	#   "backup_folders": 
 	#     "backup",
 	#     "files"
 	#   ],
@@ -16,12 +16,6 @@ function backup() {
 	#     "**/.venv/**"
 	#   ]
 	# }
-	
-	function _keep_alive() {
-		sudo -v
-		( while sudo -v 2>/dev/null; do sleep 50; done ) &
-		_SUDO_KEEPALIVE=$!
-	}
 
 	function _get_args() {
 		local_path=$(jq -r '.local_path' "$config_file")
@@ -44,7 +38,7 @@ function backup() {
 			for folder in "${backup_folders[@]}"; do
 				path=$(readlink -f "$local_path")
 				echo -e "\x1b[30;42m Backing up: $folder \x1b[m"
-				sudo rsync -ah --delete --info=progress2,stats1 "$HOME/$folder/" "$path/$folder/"
+				rsync -ah --delete --info=progress2,stats1 "$HOME/$folder/" "$path/$folder/"
 				echo
 			done
 		fi
@@ -67,7 +61,7 @@ function backup() {
 			for folder in "${backup_folders[@]}"; do
 				path=$(readlink -f "$local_path")
 				echo -e "\x1b[30;42m Backing up: $folder \x1b[m"
-				sudo rsync -ah --delete --info=progress2,stats1 "$path/$folder/" "$HOME/$folder/"
+				rsync -ah --delete --info=progress2,stats1 "$path/$folder/" "$HOME/$folder/"
 				echo
 			done
 		fi
@@ -77,13 +71,13 @@ function backup() {
 		trap - INT
 		_get_args
 
-		if ! sudo rclone lsd "${cloud_remote}:" >/dev/null 2>&1; then
+		if ! rclone lsd "${cloud_remote}:" >/dev/null 2>&1; then
 			echo "Error: connection to rclone drive '$cloud_remote' could not be established." >&2
 		else
 
 			for folder in "${backup_folders[@]}"; do
 				echo -e "\x1b[30;42m Backing up: $folder \x1b[m"
-				sudo rclone sync "$HOME/$folder/" $cloud_remote:$folder \
+				rclone sync "$HOME/$folder/" $cloud_remote:$folder \
 					--progress \
 					--transfers=16 \
 					--checkers=16 \
@@ -102,8 +96,6 @@ function backup() {
 		if [ -z "$1" ]; then
 			echo "ERROR: No command provided. Please use 'local' or 'cloud'."
 		else
-			_keep_alive
-			trap 'kill $_SUDO_KEEPALIVE 2>/dev/null' RETURN
 			if [ $1 = 'local' ]; then
 				backup-local
 			elif [ $1 = 'local-restore' ]; then
