@@ -13,7 +13,6 @@ function boa() {
             else
                 echo
                 echo "The symlink ($target) does not exist"
-                echo "It could be that this version of python is not installed"
             fi
         fi
     }
@@ -24,22 +23,11 @@ function boa() {
             echo "pigar not installed. Install with: 'uv pip install pigar'" 1>&2
         else
 
-            TMPFILE=$(mktemp /tmp/pip-freeze-pigar-XXXXXX)
-            pigar generate --dont-show-differences -f $TMPFILE | awk '!/Requirements has been written to \/tmp\/pip-freeze-pigar-.*/'
-            sed -i '1,2d' $TMPFILE
-
-            VERSION=$(python -V)
-            line="# $VERSION"
-            sed -i "1s/^/$line\n/" $TMPFILE
-
-            myarray=($(find ./ -type f -name "*.ipynb"))
-            if [ ${#myarray[@]} -gt 0 ]; then
-                line="# Requires Jupyter Notebook (pip install notebook)"
-                sed -i "1s/^/$line\n/" $TMPFILE
-            fi
-
-            cat $TMPFILE
-            rm $TMPFILE
+            VERSION=$(python -V 2>&1)
+            {
+              printf '# %s\n' "$VERSION"
+              pigar generate --dont-show-differences -f /dev/stdout | sed '1,2d'
+            }
         fi
     }
 
@@ -51,12 +39,12 @@ function boa() {
         local venv_prompt=""
         OPTIND=1
 
-        while getopts "v:n:h" opt; do
+        while getopts "p:n:h" opt; do
             case $opt in
-            v) python_version=$OPTARG ;;
+            p) python_version=$OPTARG ;;
             n) venv_prompt=$OPTARG ;;
             h)
-                echo "Usage: boa create [-v python-version] [-n env-name] [-h]"
+                echo "Usage: boa create [-p python-version] [-n env-name] [-h]"
                 exit 0
                 ;;
             *)
@@ -78,7 +66,7 @@ function boa() {
             if [ ! "$user_input" == "y" ]; then
                 echo
                 echo "Exiting"
-                exit 1
+                exit 0
             fi
             fresh="true"
         fi
@@ -106,6 +94,25 @@ function boa() {
         echo "Done!"
     )
 
+    function boa-recreate() (
+        python_version=$(python -V 2>&1 | awk '{print $2}')
+        if [ ! -d ".venv" ]; then
+            echo "no .venv folder found in current directory"
+            exit 1
+        fi
+
+        echo "Warning: This action will delete your current enviroment"
+        read -p "Would you like to continue? (y/[n]): " user_input
+        if [ ! "$user_input" == "y" ]; then
+            echo
+            echo "Exiting"
+            exit 0
+        fi
+        rm -r ".venv"
+
+        boa-create -p $python_version
+        )
+
     function boa-env-find() {
         fd ".venv" --hidden --type d --no-ignore
     }
@@ -116,6 +123,8 @@ function boa() {
         boa-freeze
     elif [ $1 = 'create' ]; then
         boa-create $2 $3 && boa-activate
+    elif [ $1 = 'recreate' ]; then
+        boa-recreate $2 $3 && boa-activate
     elif [ $1 = 'find-env' ]; then
         boa-env-find
     else
@@ -125,12 +134,11 @@ function boa() {
 }
 
 function _boa() {
-    local opts="activate create freeze find-env"
+    local opts="create recreate freeze find-env"
     COMPREPLY=()
 
     if [ $COMP_CWORD -eq 1 ]; then
         COMPREPLY=($(compgen -W "$opts" -- ${COMP_WORDS[COMP_CWORD]}))
     fi
 }
-
 complete -F _boa boa

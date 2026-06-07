@@ -48,12 +48,12 @@ ff() {
     if [ -f "$selection" ]; then
       selection=$(dirname "$selection")
     fi
-    command -v zoxide >/dev/null 2>&1 && z "$selection" || cd "$selection"
+    cd "$selection"
     eval "$PROMPT_COMMAND"
   fi
 }
 bind -x '"\C-s": ff'
-bind -x '"\C-f": zi && eval "$PROMPT_COMMAND"'
+bind -x '"\C-f": zi; cd . && eval "$PROMPT_COMMAND"'
 
 fh_inline() {
   local cmd=$(history | sed -E 's/ *[0-9]+ *//' | fzf --header "HISTORY" --query "$READLINE_LINE" --tac --reverse +s --tiebreak=index --height 20)
@@ -68,7 +68,7 @@ load_history() {
   history -r
 }
 bind -x '"\C-h": load_history'
-#
-# if [[ "$PROMPT_COMMAND" != *"history -a"* ]]; then
-#     PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
-# fi
+
+if [[ "$PROMPT_COMMAND" != *"history -a"* ]]; then
+    PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+fi

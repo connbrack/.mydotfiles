@@ -23,6 +23,7 @@
     zellij
     lazygit
     fastfetch
+    dfu-programmer
   ];
 
   news.display = "silent";

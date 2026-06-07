@@ -1,37 +1,33 @@
 # vim: filetype=bash
 
-uv() {
-  if [[ "$1" == "-g" ]]; then
-    shift
-    command uv --directory ~/.uv "$@"
-  else
-    command uv "$@"
-  fi
-}
+# uv() {
+#   if [[ "$1" == "-g" ]]; then
+#     shift
+#     command uv --directory ~/.uv "$@"
+#   else
+#     command uv "$@"
+#   fi
+# }
 
 DEFAULT_VENV="$HOME/.uv/.venv"
-if [ -d $DEFAULT_VENV ]; then
-  function _auto_activate_venv() {
-    local dir="$PWD"
-    while [ "$dir" != "/" ]; do
-      if [ -f "$dir/.venv/bin/activate" ]; then
+_auto_activate_venv() {
+  local dir="$PWD"
+  while [ "$dir" != "/" ]; do
+    if [ -f "$dir/.venv/bin/activate" ]; then
+      if [ "$VIRTUAL_ENV" != "$dir/.venv" ]; then
         source "$dir/.venv/bin/activate"
-        return
       fi
-      dir=$(dirname "$dir")
-    done
-
-    if [ -f "$DEFAULT_VENV/bin/activate" ]; then
-      source "$DEFAULT_VENV/bin/activate"
+      return
     fi
-  }
+    dir=$(dirname "$dir")
+  done
+  source "$DEFAULT_VENV/bin/activate"
+}
 
-if [[ ":$PROMPT_COMMAND:" != *"_auto_activate_venv;"* ]]; then
-    PROMPT_COMMAND="_auto_activate_venv;$PROMPT_COMMAND"
-fi
+_venv_on_dir_change() {
+  [ "$PWD" != "$_LAST_PWD" ] && _auto_activate_venv
+  _LAST_PWD="$PWD"
+}
+PROMPT_COMMAND="_venv_on_dir_change;$PROMPT_COMMAND"
 
-  disable_auto_venv() {
-    PROMPT_COMMAND=$(echo "$PROMPT_COMMAND" | sed 's/_auto_activate_venv;*//g')
-    echo "Auto venv activation disabled."
-  }
-fi
+_auto_activate_venv

@@ -92,6 +92,10 @@ fi
 # this must be after starship my god
 [[ -s "$HOME/.local/share/blesh/" ]] && export VIRTUAL_ENV_DISABLE_PROMPT=1 && source -- $HOME/.local/share/blesh/ble.sh --attach=none
 
+if command -v zoxide &>/dev/null; then
+  eval "$(zoxide init bash --cmd cd)"
+fi
+
 stty -ixon
 export VISUAL=nvim;
 export EDITOR=nvim;
@@ -106,8 +110,8 @@ command -v go &>/dev/null && export PATH="$(go env GOPATH)/bin:$PATH"
 
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" --no-use
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
 
 export PNPM_HOME="$HOME/.local/share/pnpm"
@@ -127,12 +131,12 @@ fi
 
 # -------------------------- Extra files ---------------------------
 
-if [ -e "$HOME/.bash/source" ]; then
- for f in $HOME/.bash/source/*; do source $f; done
-fi
-
 if [ -e "$HOME/.bash/scripts" ]; then
   export PATH=$PATH:"$HOME/.bash/scripts"
+fi
+
+if [ -e "$HOME/.bash/source" ]; then
+ for f in $HOME/.bash/source/*; do source $f; done
 fi
 
 # -------------------------- Finally ---------------------------
