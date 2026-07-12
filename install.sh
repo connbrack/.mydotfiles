@@ -145,10 +145,11 @@ if [ $nixpac -eq 1 ]; then
   if command -v nix >/dev/null; then
     echo "nix is already installed."
   else
+    git clone https://github.com/connbrack/.mynix.git ~/.mynix
     curl -fsSL https://install.determinate.systems/nix | sh -s -- install --determinate --no-confirm
     . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
     nix profile add github:nix-community/home-manager
-    home-manager switch --flake $HOME/.mydotfiles/misc/home-manager --impure
+    home-manager switch --flake $HOME/.mynix/home-manager --impure
   fi
 fi
 
