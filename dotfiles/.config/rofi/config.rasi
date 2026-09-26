@@ -1,7 +1,7 @@
 configuration { 
 	display-drun: "apps"; 
-	drun-display-format: "{icon} {name}";
 	modi: "drun,run";
+    window-format: "{t}";
 	kb-accept: "";
 	kb-accept-custom: "";
 }

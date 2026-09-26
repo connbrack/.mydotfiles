@@ -37,10 +37,9 @@ ff() {
   selection=$(
     fd . $fd_opt | fzf -e \
       --reverse --height=20 \
-      --header 'SEARCH [C-f] C-h:home, C-d:dotfiles' \
-      --bind "ctrl-f:reload(fd . $fd_opt)" \
-      --bind "ctrl-h:reload(fd . ~ $fd_opt)" \
-      --bind "ctrl-d:reload(fd . ~/.mydotfiles $fd_opt --hidden )" \
+      --header 'SEARCH [C-s] C-h:hidden C-v:vim' \
+      --bind "ctrl-s:reload(fd . $fd_opt)" \
+      --bind "ctrl-h:reload(fd . $fd_opt --hidden)" \
       --bind "ctrl-v:execute(nvim {})+abort"
   )
 

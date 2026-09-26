@@ -72,10 +72,15 @@ else
 fi
 
 if [ "$skip_lines" = "true" ]; then
-  # Remove line breaks (\n) and replace them with spaces
-  sayit=$(echo "$sayit" | tr '\n' ' ')
+  # Convert CRLF/CR/LF into spaces
+  sayit=$(printf '%s' "$sayit" | tr '\r\n' '  ')
+  # Collapse consecutive whitespace into one space
+  sayit=$(printf '%s' "$sayit" | sed 's/[[:space:]]\+/ /g')
+  # Trim leading/trailing whitespace
+  sayit=$(printf '%s' "$sayit" | sed 's/^[[:space:]]*//; s/[[:space:]]*$//')
 fi
 
+printf '%s\n' "$sayit"
 
 # ---------------- read  -----------------
 

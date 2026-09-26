@@ -161,7 +161,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    ┌─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤├─────────┼─────────┼─────────┼─────────┼─────────┼─────────┐
    │         │         │         │         │         │         ││         │         │    ,    │    .    │    \    │         │
    └─────────┴─────────┴─────────┼─────────┼─────────┼─────────┤├─────────┼─────────┼─────────┼─────────┴─────────┴─────────┘
-                                 │   GUI   │ SPL_STB │   TAB   ││  ENTER  │   ||||  │   ALT   │  
+                                 │   GUI   │ SPECIAL │   TAB   ││  ENTER  │   ||||  │   ALT   │  
                                  └─────────┴─────────┴─────────┘└─────────┴─────────┴─────────┘ */ 
 
    [_NUMBERS] = LAYOUT(
@@ -169,7 +169,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
               KC_ESC,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,   XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  KC_BSPC, 
               CTL_1,    SFT_2,    ALT_3,    KC_4,      KC_5,     KC_6,     KC_7,     ALT_8,    SFT_9,     CTL_0, 
     XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,   XXXXXXX,  XXXXXXX,  KC_COMM,  KC_DOT,   KC_SLSH,  XXXXXXX,
-                                  KC_LGUI,  SPL_STB,  KC_TAB,    KC_ENT,   KC_TRNS,  KC_RALT
+                                  KC_LGUI,  SPECIAL,  KC_TAB,    KC_ENT,   KC_TRNS,  KC_RALT
 
  ),
  /*
@@ -265,18 +265,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       del_mods(MOD_BIT(KC_LCTL));
       if (timer_elapsed(ctl_exlm_timer) < TAPPING_TERM) {
         tap_code16(KC_EXLM);
-      }
-    }
-    return false;
-
-  case SPL_STB:
-    if (record->event.pressed) {
-      spl_stb_timer = timer_read();
-      layer_on(_SPECIAL);
-    } else {
-      layer_off(_SPECIAL);
-      if (timer_elapsed(spl_stb_timer) < TAPPING_TERM) {
-        tap_code16(S(KC_TAB));
       }
     }
     return false;

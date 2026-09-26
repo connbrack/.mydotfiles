@@ -1,0 +1,12 @@
+{
+    "KPlugin": {
+        "Id": "fakemaximize",
+        "Name": "Fake Maximize",
+        "Description": "Resize window to screen without maximizing",
+        "Version": "1.0",
+        "License": "GPL"
+    },
+    "X-Plasma-API": "javascript",
+    "X-Plasma-MainScript": "code/main.js",
+    "KPackageStructure": "KWin/Script"
+}

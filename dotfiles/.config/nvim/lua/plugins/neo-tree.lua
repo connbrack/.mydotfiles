@@ -29,6 +29,7 @@ return {
         }
       },
       filesystem = {
+        hijack_netrw_behavior = "disabled",
         window = {
           position = "left",
           width = 40,

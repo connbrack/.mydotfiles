@@ -100,6 +100,10 @@ stty -ixon
 export VISUAL=nvim;
 export EDITOR=nvim;
 
+# Unset password managers
+unset SSH_ASKPASS
+unset GIT_ASKPASS
+
 # -------------------------- Programs ---------------------------
 if [ -d "$HOME/.local/bin" ]; then
   export PATH="$HOME/.local/bin:$PATH"
@@ -127,6 +131,10 @@ fi
 
 if [ -d "$HOME/.qmk_firmware" ]; then
   export QMK_HOME="$HOME/.qmk_firmware"
+fi
+
+if [ command -v pay-respects &>/dev/null ]; then
+  eval "$(pay-respects bash)"
 fi
 
 # -------------------------- Extra files ---------------------------

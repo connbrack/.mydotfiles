@@ -41,7 +41,7 @@ return {
 				update_in_insert = false,
 			})
 
-			vim.keymap.set("n", "gl", vim.diagnostic.open_float, {})
+			vim.keymap.set("n", "gs", vim.diagnostic.open_float, {})
 			vim.keymap.set("n", "gn", vim.lsp.buf.rename, {})
 			vim.keymap.set("n", "gx", "<cmd>lsp restart<CR>", {})
 			vim.keymap.set("n", "gt", function()

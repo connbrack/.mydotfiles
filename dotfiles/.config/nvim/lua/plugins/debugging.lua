@@ -79,7 +79,7 @@ return {
             return vim.fn.split(input, " ", true)
           end,
           cwd = vim.fn.getcwd(),
-          justMyCode = true,
+          justMyCode = false,
           console = "integratedTerminal",
         },
         {

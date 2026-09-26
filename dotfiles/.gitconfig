@@ -3,8 +3,6 @@
 	name = Connor B
 [includeIf "gitdir:~/Documents/cerc/"]
     path = ~/.gitconfig-work
-[credential]
-	helper = store
 [init]
 	defaultBranch = main
 [push]
@@ -12,3 +10,10 @@
 [alias]
 	ffl = push --force-with-lease
 	lg = log --graph --pretty=format:'%C(yellow)%h%C(reset) %s %C(brightblack)%an (%cr)%C(reset)'
+[credential]
+	helper = store
+[core]
+	pager = delta
+[delta]
+	side-by-side = true
+	syntax-theme = "Catppuccin Mocha"

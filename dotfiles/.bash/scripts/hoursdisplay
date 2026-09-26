@@ -1,3 +1,8 @@
 #!/bin/bash
 
-result=$(/home/connor/.local/bin/hours --dbpath=/home/connor/Apps/hours/hours.db active | sed 's/.*#\(.*\)#.*/\1/'); [ -n "$result" ] && echo "◷ $result"
+result=$(~/go/bin/hours --dbpath=/home/connor/Apps/hours/hours.db active | sed 's/.*#\(.*\)#.*/\1/')
+if [ -n "$result" ]; then
+  echo "◷ $result"
+else
+  echo ""
+fi

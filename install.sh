@@ -237,11 +237,8 @@ if [ $vagrant -eq 1 ]; then
     if [ $packagemanager = "apt" ]; then
       echo "No install script implemented for apt"
     else
-      sudo dnf install -y @virtualization @vagrant libvirt-daemon-config-network
-      sudo systemctl enable --now virtqemud.socket
-      sudo systemctl enable --now virtnetworkd.socket
-      sudo systemctl enable --now virtstoraged.socket
-      sudo usermod -aG libvirt $USER
+      sudo dnf install -y vagrant-libvirt @vagrant @virtualization
+      sudo systemctl enable libvirtd
     fi
   fi
 fi
