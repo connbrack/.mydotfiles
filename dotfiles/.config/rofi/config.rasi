@@ -4,6 +4,7 @@ configuration {
     window-format: "{t}";
 	kb-accept: "";
 	kb-accept-custom: "";
+	kb-transpose-chars: "";
 }
 
 @theme "~/.config/rofi/theme.rasi"

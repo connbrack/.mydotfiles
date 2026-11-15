@@ -29,8 +29,8 @@ default_delete_paths=(
 
   #Python
   ".venv"
-  "__pycache__"
-  ".pytest_cache"
+  "**/__pycache__"
+  "**/.pytest_cache"
   "*.pyc"
   "*.pyo"
 
@@ -57,15 +57,18 @@ if [[ "$use_default_delete_list" == true ]]; then
   delete_paths=("${default_delete_paths[@]}" "${input_delete_paths[@]}")
 fi
 
+shopt -s globstar nullglob
 for path in "${delete_paths[@]}"; do
-  if [ -e $tmp_dir/$path ]; then
-    echo "Deleting $tmp_dir/$path ..."
-    rm -rf "$tmp_dir/$path"
-  fi
+  for match in "$tmp_dir"/$path; do
+    # nullglob skips plain names, so check they exist
+    [ -e "$match" ] || continue
+    echo "Deleting $match ..."
+    rm -rf "$match"
+  done
 done
 
 echo "Running rsync between $tmp_dir and $dst_dir ..."
-rsync -avz --delete "$tmp_dir/" "$dst_dir/"
+rsync -az --delete --human-readable --info=progress2 --no-inc-recursive --stats "$tmp_dir/" "$dst_dir/"
 
 echo "Removing $tmp_dir"
 rm -rf "$tmp_dir"

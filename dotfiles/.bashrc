@@ -6,7 +6,7 @@ esac
 
 
 # History
-HISTCONTROL=ignoreboth
+HISTCONTROL=ignoredups:erasedups
 shopt -s histappend
 HISTSIZE=20000
 HISTFILESIZE=40000
